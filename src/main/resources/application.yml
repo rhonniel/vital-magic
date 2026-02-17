@@ -3,8 +3,8 @@ spring:
     name: Vital Magic
   datasource:
     url: jdbc:mysql://localhost:3307/vitalmagic
-    username: appuser
-    password: apppass
+    username: vitaluser
+    password: vitalpass
   jpa:
     hibernate:
       ddl-auto: validate
