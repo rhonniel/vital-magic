@@ -31,3 +31,51 @@ build/
 
 ### VS Code ###
 .vscode/
+# =========================
+# Maven
+# =========================
+/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+
+
+# =========================
+# Spring Boot
+# =========================
+*.log
+logs/
+spring.log
+
+# Application local configs (NO secrets in git)
+application-local.yml
+application-local.properties
+application-dev.yml
+application-dev.properties
+flyway.conf
+.env
+
+# =========================
+# IDE - IntelliJ
+# =========================
+.idea/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Hibernate / Generated
+# =========================
+*.h2.db
+*.trace.db
+
+# =========================
+# Docker
+# =========================
+docker-data/
