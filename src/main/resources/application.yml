@@ -2,9 +2,9 @@ spring:
   application:
     name: Vital Magic
   datasource:
-    url: jdbc:mysql://localhost:3307/vitalmagic
-    username: vitaluser
-    password: vitalpass
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
   jpa:
     hibernate:
       ddl-auto: validate
