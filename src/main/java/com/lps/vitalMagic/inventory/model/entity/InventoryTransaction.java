@@ -21,7 +21,7 @@ public class InventoryTransaction {
     @Column(name ="source_id")
     private Long sourceId;
 
-    @Column(name="concept")
+    @Column
     @Enumerated(EnumType.STRING)
     private InventoryTransactionConcept concept;
 

@@ -1,5 +1,6 @@
 package com.lps.vitalMagic.inventory.model.entity;
 
+import com.lps.vitalMagic.core.entity.Auditory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,6 @@ public class Item {
     @Embedded
     private Auditory auditory;
 
-    @Column(name = "active")
+    @Column
     private boolean active;
 }

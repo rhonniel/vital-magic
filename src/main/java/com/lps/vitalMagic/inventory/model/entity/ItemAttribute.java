@@ -1,5 +1,6 @@
 package com.lps.vitalMagic.inventory.model.entity;
 
+import com.lps.vitalMagic.inventory.model.entity.embeddable.ItemAttributeId;
 import jakarta.persistence.*;
 
 
