@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.inventory.model.entity;
+package com.lps.vitalMagic.core.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
