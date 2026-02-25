@@ -13,11 +13,11 @@ public class SaleItem {
     @Column(name = "sale_id")
     private Long saleId;
 
-    @Column(name = "item_inventory_Id")
-    private Long itemInventoryId;
+    @Column(name = "product_id")
+    private Long productId;
 
-    @Column(name = "item_name")
-    private String itemName;
+    @Column(name = "product_name")
+    private String productName;
 
     @Column(name = "unit_price")
     private BigDecimal unitPrice;
