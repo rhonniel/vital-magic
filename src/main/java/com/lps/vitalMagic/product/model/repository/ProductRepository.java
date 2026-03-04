@@ -1,6 +1,5 @@
 package com.lps.vitalMagic.product.model.repository;
 
-import com.lps.vitalMagic.inventory.model.entity.Item;
 import com.lps.vitalMagic.product.model.entity.Product;
 import com.lps.vitalMagic.product.model.enums.ProductType;
 
