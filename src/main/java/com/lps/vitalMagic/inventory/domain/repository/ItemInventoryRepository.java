@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface ItemInventoryRepository {
     List<ItemInventory> findAllActive();
     Optional<ItemInventory> findById(Long Id);
-    List<ItemInventory> findAllItemInventoryWithLowStock();
+    List<ItemInventory> findItemsWithLowStock();
     ItemInventory save(ItemInventory itemInventory);
 }

@@ -9,7 +9,5 @@ import java.util.Optional;
 public interface ShakeRepository {
     Optional<Shake> findById(Long id);
     Shake save(Shake shake);
-    List<Shake> findAllAvailableShakes();
-    List<Shake> findShakeByType(ShakeType type);
 
 }
