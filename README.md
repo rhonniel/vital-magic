@@ -15,7 +15,7 @@ However, the system grows according to real needs.
 
 ### Evolution Strategy
 
-- **Stage 1 – Small Shop (MVP)**
+- **Stage 1 – Small Shop (MVP)**  ( 🟡 In Progress )
   - Layered monolith
   - Clear separation between main domain entities
   - Focus on business correctness
