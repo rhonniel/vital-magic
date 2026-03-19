@@ -1,6 +1,5 @@
 package com.lps.vitalMagic.product.domain.model.entity;
 
-import com.lps.vitalMagic.core.entity.Auditory;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import jakarta.persistence.*;
 
@@ -26,8 +25,6 @@ public class Product {
     @Column
     private BigDecimal price;
 
-    @Embedded
-    private Auditory auditory;
 
     @Column
     private boolean active;

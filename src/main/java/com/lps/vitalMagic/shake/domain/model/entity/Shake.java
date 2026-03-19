@@ -1,6 +1,5 @@
 package com.lps.vitalMagic.shake.domain.model.entity;
 
-import com.lps.vitalMagic.core.entity.Auditory;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeCategory;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeType;
 import jakarta.persistence.*;
@@ -31,9 +30,6 @@ public class Shake {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "shake_id")
     private List<ShakeIngredient> ingredients;
-
-    @Embedded
-    private Auditory auditory;
 
     @Column
     private boolean active;
