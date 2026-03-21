@@ -1,12 +1,14 @@
 package com.lps.vitalMagic.inventory.domain.model.entity;
 
-import com.lps.vitalMagic.core.entity.Auditory;
+import com.lps.vitalMagic.inventory.domain.exception.InvalidItemInventoryException;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "item_inventory")
+@Getter
 public class ItemInventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +30,23 @@ public class ItemInventory {
     @Column
     private boolean active;
 
-    @Embedded
-    private Auditory auditory;
+    private ItemInventory(Item item,int minStock){
+        if(minStock<0){
+            throw new InvalidItemInventoryException("Min stock should be more than zero");
+        }
+        this.item=item;
+        this.minStock=minStock;
+    }
 
 
+    public static ItemInventory create(Item item, int minStock) {
+        ItemInventory itemInventory = new ItemInventory(item,minStock);
+
+        itemInventory.unitCost=BigDecimal.ZERO;
+        itemInventory.currentStock=0;
+        itemInventory.active=true;
+
+        return itemInventory;
+
+    }
 }
