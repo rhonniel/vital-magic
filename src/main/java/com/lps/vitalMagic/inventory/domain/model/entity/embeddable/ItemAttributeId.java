@@ -2,12 +2,14 @@ package com.lps.vitalMagic.inventory.domain.model.entity.embeddable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode
+@AllArgsConstructor
 public class ItemAttributeId implements Serializable {
 
 
