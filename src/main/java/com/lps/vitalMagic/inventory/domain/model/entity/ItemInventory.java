@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "item_inventory")
@@ -16,7 +17,7 @@ public class ItemInventory {
 
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
-    private Item item;
+    private final Item item;
 
     @Column(name="unit_cost")
     private BigDecimal unitCost;
@@ -30,20 +31,27 @@ public class ItemInventory {
     @Column
     private boolean active;
 
-    private ItemInventory(Item item,int minStock){
+    private ItemInventory(Item item,int minStock,int currentStock,BigDecimal unitCost){
         if(minStock<0){
             throw new InvalidItemInventoryException("Min stock should be more than zero");
         }
-        this.item=item;
+
+        if(currentStock<0){
+            throw new InvalidItemInventoryException("Current stock should be more than zero");
+        }
+
+        Objects.requireNonNull(item);
+
+
+        this.item=Objects.requireNonNull(item);
         this.minStock=minStock;
+        this.currentStock=currentStock;
+        this.unitCost=Objects.requireNonNull(unitCost);
     }
 
 
     public static ItemInventory create(Item item, int minStock) {
-        ItemInventory itemInventory = new ItemInventory(item,minStock);
-
-        itemInventory.unitCost=BigDecimal.ZERO;
-        itemInventory.currentStock=0;
+        ItemInventory itemInventory = new ItemInventory(item,minStock,0,BigDecimal.ZERO);
         itemInventory.active=true;
 
         return itemInventory;
