@@ -5,19 +5,24 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
 @Table
-@Getter
+
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
     @Column
+    @Getter
     private String name;
     @Column
+    @Getter
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -25,14 +30,16 @@ public class Item {
     private List<ItemAttribute> attributes = new ArrayList<>();
 
     @Column
+    @Getter
     private boolean active;
 
     private Item(String name, String description, List<ItemAttribute> attributes){
+        Objects.requireNonNull(attributes);
         if(attributes.isEmpty()){
             throw new  InvalidItemException ("Item should have a lest one attribute");
         }
-        this.name=name;
-        this.description=description;
+        this.name=requireNonBlank(name,"name");
+        this.description=requireNonBlank(description,"description");
 
         for(ItemAttribute attribute:attributes){
             addAttribute(attribute);
@@ -54,5 +61,17 @@ public class Item {
         attr.assignToItem(this);
         this.attributes.add(attr);
     }
+
+    private static String requireNonBlank(String value, String field) {
+        if (value == null || value.isBlank()) {
+            throw new InvalidItemException(field + " cannot be null or blank");
+        }
+        return value.trim();
+    }
+
+    public List<ItemAttribute> getAttributes(){
+        return Collections.unmodifiableList(attributes);
+    }
+
 
 }

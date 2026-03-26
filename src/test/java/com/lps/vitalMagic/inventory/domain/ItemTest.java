@@ -1,11 +1,13 @@
 package com.lps.vitalMagic.inventory.domain;
 
-import com.lps.vitalMagic.inventory.domain.exception.InvalidAttributeException;
 import com.lps.vitalMagic.inventory.domain.exception.InvalidItemException;
 import com.lps.vitalMagic.inventory.domain.model.entity.Attribute;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemAttribute;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,32 @@ public class ItemTest {
     }
 
 
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void shouldRejectInvalidName(String name) {
+        List<ItemAttribute> attributes =new ArrayList<>();
+        Attribute strength = new Attribute(1L, "strength","test","STR");
+        Attribute speed = new Attribute(2L, "speed","test","SPD");
+        attributes.add(ItemAttribute.create(strength,5));
+        attributes.add(ItemAttribute.create(speed,7));
+
+        assertThrows(InvalidItemException.class,
+                () -> Item.create(name, "desc", attributes));
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void shouldRejectInvalidDescription(String description) {
+        List<ItemAttribute> attributes =new ArrayList<>();
+        Attribute strength = new Attribute(1L, "strength","test","STR");
+        Attribute speed = new Attribute(2L, "speed","test","SPD");
+        attributes.add(ItemAttribute.create(strength,5));
+        attributes.add(ItemAttribute.create(speed,7));
+
+        assertThrows(InvalidItemException.class,
+                () -> Item.create("name", description, attributes));
+    }
 
 
     @Test
