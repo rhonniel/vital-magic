@@ -27,15 +27,14 @@ public class Sale {
     private BigDecimal totalAmount;
 
     private Sale(List<SaleItem> items,BigDecimal totalAmount) {
-        if(items==null){
-            throw new InvalidSaleException("Sale Items shouldn't be null");
-        }
+        Objects.requireNonNull(items);
 
         if(items.isEmpty()){
             throw new InvalidSaleException("Sale Items shouldn't be empty");
         }
-
-        this.items=items;
+        for(SaleItem saleItem:items){
+            this.items.add(Objects.requireNonNull(saleItem));
+        }
         this.totalAmount = Objects.requireNonNull(totalAmount);
 
     }
