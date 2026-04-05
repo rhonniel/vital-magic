@@ -20,7 +20,7 @@ public class Sale {
 
     @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
     @JoinColumn(name = "sale_id")
-    private List<SaleItem> items;
+    private List<SaleItem> items =new ArrayList<>();
 
     @Column(name = "total_amount")
     @Getter
