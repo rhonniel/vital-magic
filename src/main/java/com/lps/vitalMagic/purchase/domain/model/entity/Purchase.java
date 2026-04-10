@@ -2,6 +2,7 @@ package com.lps.vitalMagic.purchase.domain.model.entity;
 
 
 import com.lps.vitalMagic.purchase.domain.exception.InvalidPurchaseException;
+import com.lps.vitalMagic.purchase.domain.model.input.PurchaseItemInput;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -26,22 +27,37 @@ public class Purchase {
     @Getter
     private BigDecimal totalAmount;
 
-    public Purchase(List<PurchaseItem> items, BigDecimal totalAmount) {
+    public Purchase() {
+    }
+
+    public static Purchase create(List<PurchaseItemInput> items){
+
+        Purchase purchase= new Purchase();
+
         Objects.requireNonNull(items);
 
         if(items.isEmpty()){
-           throw  new InvalidPurchaseException("Purchase should have least one item");
+            throw  new InvalidPurchaseException("Purchase should have least one item");
         }
 
-        for(PurchaseItem purchaseItem:items){
-            this.items.add(Objects.requireNonNull(purchaseItem));
+        for(PurchaseItemInput input:items){
+            Objects.requireNonNull(input);
+            purchase.items.add(new PurchaseItem(purchase,input.itemSnapshot(),input.quantity()));
         }
 
-        this.totalAmount=Objects.requireNonNull(totalAmount);;
+        purchase.calculateTotal();
+
+        return purchase;
     }
 
-    public static Purchase create(List<PurchaseItem> items, BigDecimal totalAmount){
-        return new Purchase(items,totalAmount);
+    private void calculateTotal() {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (PurchaseItem item : items) {
+            total = total.add(item.getSubtotal());
+        }
+
+        this.totalAmount = total;
     }
 
 
