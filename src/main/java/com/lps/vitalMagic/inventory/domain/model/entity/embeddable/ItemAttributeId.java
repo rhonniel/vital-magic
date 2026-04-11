@@ -4,12 +4,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode
 @AllArgsConstructor
+@Getter
 public class ItemAttributeId implements Serializable {
 
 
@@ -18,7 +20,5 @@ public class ItemAttributeId implements Serializable {
 
     @Column(name = "attribute_id")
     private Long attributeId;
-
-
 
 }

@@ -1,13 +1,11 @@
 package com.lps.vitalMagic.inventory.domain;
 
 import com.lps.vitalMagic.inventory.domain.exception.InvalidItemInventoryException;
-import com.lps.vitalMagic.inventory.domain.model.entity.Attribute;
-import com.lps.vitalMagic.inventory.domain.model.entity.Item;
-import com.lps.vitalMagic.inventory.domain.model.entity.ItemAttribute;
-import com.lps.vitalMagic.inventory.domain.model.entity.ItemInventory;
+import com.lps.vitalMagic.inventory.domain.model.entity.*;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,14 +36,9 @@ public class ItemInventoryTest {
 
 
     private Item createValidItem() {
-        Attribute strength = new Attribute(1L, "strength","test","STR");
-        Attribute speed = new Attribute(2L, "speed","test","SPD");
-
-        List<ItemAttribute> attributes = List.of(
-                ItemAttribute.create(strength, 5),
-                ItemAttribute.create(speed, 7)
-        );
-
+        List<AttributeValue> attributes =new ArrayList<>();
+        attributes.add(new AttributeValue(1L,3));
+        attributes.add(new AttributeValue(2L,5));
         return Item.create("test", "test descri", attributes);
     }
 }

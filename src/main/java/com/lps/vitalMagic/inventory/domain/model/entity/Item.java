@@ -33,33 +33,31 @@ public class Item {
     @Getter
     private boolean active;
 
-    private Item(String name, String description, List<ItemAttribute> attributes){
+    private Item(){
+    }
+
+    public static Item create(String name, String description, List<AttributeValue> attributes) {
         Objects.requireNonNull(attributes);
         if(attributes.isEmpty()){
             throw new  InvalidItemException ("Item should have a lest one attribute");
         }
-        this.name=requireNonBlank(name,"name");
-        this.description=requireNonBlank(description,"description");
 
-        for(ItemAttribute attribute:attributes){
-            addAttribute(attribute);
+        Item item= new Item();
+        item.name=requireNonBlank(name,"name");
+        item.description=requireNonBlank(description,"description");
+        item.active=true;
+
+        for(AttributeValue attribute:attributes){
+            item.addAttribute(attribute);
         }
 
-    }
-
-    public static Item create(String name, String description, List<ItemAttribute> attributes) {
-        Item item= new Item(name,description,attributes);
-        item.active=true;
 
         return item;
     }
 
-    public void addAttribute(ItemAttribute attr) {
-        if (attr == null) {
-            throw new InvalidItemException("Item cannot have ItemAttribute with null value");
-        }
-        attr.assignToItem(this);
-        this.attributes.add(attr);
+    public void addAttribute(AttributeValue attr) {
+        Objects.requireNonNull(attr);
+        this.attributes.add(new ItemAttribute(attr.attributeId(),this,attr.value()));
     }
 
     private static String requireNonBlank(String value, String field) {

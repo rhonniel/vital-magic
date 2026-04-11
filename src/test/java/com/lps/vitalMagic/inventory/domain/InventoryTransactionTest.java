@@ -6,6 +6,7 @@ import com.lps.vitalMagic.inventory.domain.model.enums.InventoryTransactionType;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -74,13 +75,10 @@ public class InventoryTransactionTest {
 
     private ItemInventory createValidItemInventory() {
         int minStock=77;
-        Attribute strength = new Attribute(1L, "strength","test","STR");
-        Attribute speed = new Attribute(2L, "speed","test","SPD");
 
-        List<ItemAttribute> attributes = List.of(
-                ItemAttribute.create(strength, 5),
-                ItemAttribute.create(speed, 7)
-        );
+        List<AttributeValue> attributes =new ArrayList<>();
+        attributes.add(new AttributeValue(1L,3));
+        attributes.add(new AttributeValue(2L,5));
 
 
         return  ItemInventory.create(Item.create("test", "test descri", attributes),minStock);

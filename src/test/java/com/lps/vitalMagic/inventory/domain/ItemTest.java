@@ -1,7 +1,9 @@
 package com.lps.vitalMagic.inventory.domain;
 
+import com.lps.vitalMagic.inventory.domain.exception.InvalidAttributeException;
 import com.lps.vitalMagic.inventory.domain.exception.InvalidItemException;
 import com.lps.vitalMagic.inventory.domain.model.entity.Attribute;
+import com.lps.vitalMagic.inventory.domain.model.entity.AttributeValue;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemAttribute;
 import org.junit.jupiter.api.Test;
@@ -21,11 +23,9 @@ public class ItemTest {
     public void createValidItem() {
         String name = "test";
         String description = "test descri";
-        List<ItemAttribute> attributes =new ArrayList<>();
-        Attribute strength = new Attribute(1L, "strength","test","STR");
-        Attribute speed = new Attribute(2L, "speed","test","SPD");
-        attributes.add(ItemAttribute.create(strength,5));
-        attributes.add(ItemAttribute.create(speed,7));
+        List<AttributeValue> attributes =new ArrayList<>();
+        attributes.add(new AttributeValue(1L,3));
+        attributes.add(new AttributeValue(2L,5));
 
         Item newItem= Item.create(name,description,attributes);
 
@@ -41,11 +41,10 @@ public class ItemTest {
     @ParameterizedTest
     @NullAndEmptySource
     void shouldRejectInvalidName(String name) {
-        List<ItemAttribute> attributes =new ArrayList<>();
-        Attribute strength = new Attribute(1L, "strength","test","STR");
-        Attribute speed = new Attribute(2L, "speed","test","SPD");
-        attributes.add(ItemAttribute.create(strength,5));
-        attributes.add(ItemAttribute.create(speed,7));
+        List<AttributeValue> attributes =new ArrayList<>();
+        attributes.add(new AttributeValue(1L,3));
+        attributes.add(new AttributeValue(2L,5));
+
 
         assertThrows(InvalidItemException.class,
                 () -> Item.create(name, "desc", attributes));
@@ -54,32 +53,12 @@ public class ItemTest {
     @ParameterizedTest
     @NullAndEmptySource
     void shouldRejectInvalidDescription(String description) {
-        List<ItemAttribute> attributes =new ArrayList<>();
-        Attribute strength = new Attribute(1L, "strength","test","STR");
-        Attribute speed = new Attribute(2L, "speed","test","SPD");
-        attributes.add(ItemAttribute.create(strength,5));
-        attributes.add(ItemAttribute.create(speed,7));
+        List<AttributeValue> attributes =new ArrayList<>();
+        attributes.add(new AttributeValue(1L,3));
+        attributes.add(new AttributeValue(2L,5));
 
         assertThrows(InvalidItemException.class,
                 () -> Item.create("name", description, attributes));
-    }
-
-
-    @Test
-    public void shouldNotAllowAddItemAttributeNull() {
-        String name = "test";
-        String description = "test descri";
-        List<ItemAttribute> attributes =new ArrayList<>();
-        Attribute strength = new Attribute(1L, "strength","test","STR");
-        Attribute speed = new Attribute(2L, "speed","test","SPD");
-        attributes.add(ItemAttribute.create(strength,5));
-        attributes.add(ItemAttribute.create(speed,7));
-
-        Item newItem= Item.create(name,description,attributes);
-
-
-        assertThrows(InvalidItemException.class,()-> newItem.addAttribute(null));
-
     }
 
 
@@ -88,8 +67,27 @@ public class ItemTest {
     public void shouldNotAllowItemWithoutAttributes() {
         String name = "test";
         String description = "test descri";
-        List<ItemAttribute> attributes =new ArrayList<>();
+        List<AttributeValue> attributes =new ArrayList<>();
+
         assertThrows(InvalidItemException.class,()-> Item.create(name,description,attributes));
     }
+
+
+
+    @Test
+    public void shouldAttributeItemNotAllowValueLessThanOne(){
+
+        String name = "test";
+        String description = "test descri";
+        List<AttributeValue> attributes =new ArrayList<>();
+        attributes.add(new AttributeValue(1L,0));
+        attributes.add(new AttributeValue(2L,-2));
+
+
+        assertThrows(InvalidItemException.class,()->Item.create(name,description,attributes));
+
+    }
+
+
 
 }

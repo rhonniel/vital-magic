@@ -2,9 +2,12 @@ package com.lps.vitalMagic.inventory.domain.model.entity;
 
 import com.lps.vitalMagic.inventory.domain.exception.DomainException;
 import com.lps.vitalMagic.inventory.domain.exception.InvalidAttributeException;
+import com.lps.vitalMagic.inventory.domain.exception.InvalidItemException;
 import com.lps.vitalMagic.inventory.domain.model.entity.embeddable.ItemAttributeId;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.Objects;
 
 
 @Entity
@@ -15,10 +18,6 @@ public class ItemAttribute {
     private ItemAttributeId id;
 
     @ManyToOne
-    @MapsId("attributeId")
-    private Attribute attribute;
-
-    @ManyToOne
     @MapsId("itemId")
     private Item item;
 
@@ -27,21 +26,17 @@ public class ItemAttribute {
     private int value;
 
 
-    private ItemAttribute(Attribute attribute, int value) {
-        if (attribute == null) {
-            throw new InvalidAttributeException("Attribute is required");
-        }
+     ItemAttribute(Long attributeId, Item item,int value) {
+
         if (value <= 0) {
-            throw new InvalidAttributeException("Value must be positive");
+            throw new InvalidItemException("Attribute Value must be more than zero");
         }
 
-        this.attribute = attribute;
         this.value = value;
+        this.id= new ItemAttributeId(null,attributeId);
+        this.item= Objects.requireNonNull(item);
     }
 
-    public static ItemAttribute create(Attribute attribute, int value) {
-        return new ItemAttribute(attribute, value);
-    }
 
     void assignToItem(Item item) {
         if (item == null) {

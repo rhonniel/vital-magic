@@ -1,13 +1,15 @@
 package com.lps.vitalMagic.sales.domain.model.entity;
 
-import com.lps.vitalMagic.sales.domain.exception.InvalidSaleItemException;
+import com.lps.vitalMagic.sales.domain.exception.InvalidSaleException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Embeddable
+@Getter
 public class ProductSnapshot {
 
     @Column(name = "product_id")
@@ -25,11 +27,11 @@ public class ProductSnapshot {
         Objects.requireNonNull(unitPrice);
 
         if (productName == null || productName.isBlank()){
-            throw new InvalidSaleItemException("productName is required");
+            throw new InvalidSaleException("productName is required");
         }
 
         if (unitPrice.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InvalidSaleItemException("Unit price must be positive");
+            throw new InvalidSaleException("Unit price must be positive");
         }
         this.productId = Objects.requireNonNull(productId);
         this.productName = productName;
