@@ -4,7 +4,7 @@ package com.lps.vitalMagic.sale.domain;
 import com.lps.vitalMagic.sales.domain.exception.InvalidSaleException;
 import com.lps.vitalMagic.sales.domain.model.entity.ProductSnapshot;
 import com.lps.vitalMagic.sales.domain.model.entity.Sale;
-import com.lps.vitalMagic.sales.domain.model.entity.SaleItem;
+import com.lps.vitalMagic.sales.domain.model.input.SaleItemInput;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -19,39 +19,56 @@ public class SaleTest {
     @Test
     public void createValidSale(){
 
-        BigDecimal total= new BigDecimal("777.77");
-        List<SaleItem> items=getValidSaleItem();
-        Sale sale= Sale.create(items,total);
+        List<SaleItemInput> items =new ArrayList<>();
+
+        ProductSnapshot productSnapshot= new ProductSnapshot(7L,"shake test", new BigDecimal("777.77"));
+        SaleItemInput saleItem= new SaleItemInput(productSnapshot,2);
+        items.add(saleItem);
+        Sale sale= Sale.create(items);
 
 
         assertNotNull(sale);
         assertEquals(items.size(),sale.getItems().size());
-        assertEquals(total,sale.getTotalAmount());
 
     }
 
     @Test
     public void shouldSaleHaveALeastOneSaleItem(){
 
-        BigDecimal total= new BigDecimal("777.77");
-        List<SaleItem> items= new ArrayList<>();
+        List<SaleItemInput> items= new ArrayList<>();
 
-        assertThrows(InvalidSaleException.class,()->Sale.create(items,total));
+        assertThrows(InvalidSaleException.class,()->Sale.create(items));
 
     }
 
 
-    public List<SaleItem> getValidSaleItem(){
-        List<SaleItem> items =new ArrayList<>();
+
+
+
+    @Test
+    public void shouldSaleItemQuantityBeMoreThanZero(){
+        List<SaleItemInput> items =new ArrayList<>();
 
         ProductSnapshot productSnapshot= new ProductSnapshot(7L,"shake test", new BigDecimal("777.77"));
-        BigDecimal subTotal = new BigDecimal("777.77");
-        SaleItem saleItem= SaleItem.create(productSnapshot,2,subTotal);
+        SaleItemInput saleItem= new SaleItemInput(productSnapshot,0);
         items.add(saleItem);
 
-        return items;
+        assertThrows(InvalidSaleException.class,()->Sale.create(items));
 
     }
+
+
+    @Test
+    public void shouldSaleItemPriceBeMoreThanZero(){
+        Long productId= 7L;
+        String productName="shake test";
+        BigDecimal price = BigDecimal.ZERO;
+
+        assertThrows(InvalidSaleException.class,()-> new ProductSnapshot(productId,productName,price));
+
+    }
+
+
 
 
 }

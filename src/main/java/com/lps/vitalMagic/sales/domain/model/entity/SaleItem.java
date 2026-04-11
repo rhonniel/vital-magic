@@ -1,13 +1,11 @@
 package com.lps.vitalMagic.sales.domain.model.entity;
 
-import com.lps.vitalMagic.inventory.domain.exception.InvalidAttributeException;
-import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.sales.domain.exception.InvalidSaleException;
-import com.lps.vitalMagic.sales.domain.exception.InvalidSaleItemException;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 @Entity
@@ -30,19 +28,19 @@ public class SaleItem {
     @Column
     private BigDecimal subtotal;
 
-    private SaleItem(ProductSnapshot productSnapshot, int quantity, BigDecimal subtotal) {
+    SaleItem(ProductSnapshot productSnapshot, int quantity) {
 
         if(quantity<=0){
-            throw new InvalidSaleItemException("Sale item quantity should be more than zero");
+            throw new InvalidSaleException("Sale item quantity should be more than zero");
         }
 
         this.productSnapshot= Objects.requireNonNull(productSnapshot);
         this.quantity = quantity;
-        this.subtotal =  Objects.requireNonNull(subtotal);
+        calculateSubtotal();
     }
 
-    public static SaleItem create(ProductSnapshot productSnapshot,int quantity, BigDecimal subtotal){
-       return new SaleItem(productSnapshot,quantity,subtotal);
+    private void calculateSubtotal(){
+        this.subtotal=productSnapshot.getUnitPrice().multiply(BigDecimal.valueOf(quantity)).setScale(2, RoundingMode.HALF_UP);
     }
 
 
