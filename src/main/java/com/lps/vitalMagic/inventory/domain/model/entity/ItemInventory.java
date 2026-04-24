@@ -1,37 +1,31 @@
 package com.lps.vitalMagic.inventory.domain.model.entity;
 
 import com.lps.vitalMagic.inventory.domain.exception.InvalidItemInventoryException;
-import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity
-@Table(name = "item_inventory")
 @Getter
 public class ItemInventory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "item_id", nullable = false)
-    private final Item item;
 
-    @Column(name="unit_cost")
+    private Long itemId;
+
     private BigDecimal unitCost;
 
-    @Column(name = "min_stock")
+
     private int minStock;
 
-    @Column(name="current_stock")
+
     private int currentStock;
 
-    @Column
+
     private boolean active;
 
-    private ItemInventory(Item item,int minStock,int currentStock,BigDecimal unitCost){
+    private ItemInventory(Long itemId,int minStock,int currentStock,BigDecimal unitCost){
         if(minStock<0){
             throw new InvalidItemInventoryException("Min stock should be more than zero");
         }
@@ -40,21 +34,36 @@ public class ItemInventory {
             throw new InvalidItemInventoryException("Current stock should be more than zero");
         }
 
-        Objects.requireNonNull(item);
+        Objects.requireNonNull(itemId);
 
 
-        this.item=Objects.requireNonNull(item);
+        this.itemId=Objects.requireNonNull(itemId);
         this.minStock=minStock;
         this.currentStock=currentStock;
         this.unitCost=Objects.requireNonNull(unitCost);
     }
 
+    private ItemInventory() {
+    }
 
-    public static ItemInventory create(Item item, int minStock) {
-        ItemInventory itemInventory = new ItemInventory(item,minStock,0,BigDecimal.ZERO);
+    public static ItemInventory create(Long itemId, int minStock) {
+        ItemInventory itemInventory = new ItemInventory(itemId,minStock,0,BigDecimal.ZERO);
         itemInventory.active=true;
 
         return itemInventory;
+
+    }
+
+    public static ItemInventory from(Long id,Long itemId,int minStock,int currentStock,BigDecimal unitCost){
+       ItemInventory itemInventory= new ItemInventory();
+
+       itemInventory.id=id;
+       itemInventory.itemId=itemId;
+       itemInventory.minStock=minStock;
+       itemInventory.currentStock=currentStock;
+       itemInventory.unitCost=unitCost;
+
+       return itemInventory;
 
     }
 }

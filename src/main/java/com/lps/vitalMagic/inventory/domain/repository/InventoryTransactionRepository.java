@@ -9,8 +9,7 @@ import java.util.Optional;
 
 public interface InventoryTransactionRepository {
     List<InventoryTransaction> findAllUnprocessedTransactions();
-    List<InventoryTransaction> findByType(InventoryTransactionType type);
-    List<InventoryTransaction> findByOperation(InventoryTransactionOperation operation);
+    List<InventoryTransaction> findAll();
     Optional<InventoryTransaction> findById(Long id);
     InventoryTransaction save(InventoryTransaction  inventoryTransaction);
 

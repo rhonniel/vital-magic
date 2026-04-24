@@ -1,11 +1,8 @@
 package com.lps.vitalMagic.inventory.domain;
 
-import com.lps.vitalMagic.inventory.domain.exception.InvalidAttributeException;
 import com.lps.vitalMagic.inventory.domain.exception.InvalidItemException;
-import com.lps.vitalMagic.inventory.domain.model.entity.Attribute;
-import com.lps.vitalMagic.inventory.domain.model.entity.AttributeValue;
+import com.lps.vitalMagic.inventory.domain.model.input.AttributeValue;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
-import com.lps.vitalMagic.inventory.domain.model.entity.ItemAttribute;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;

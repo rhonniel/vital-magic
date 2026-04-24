@@ -1,7 +1,7 @@
 package com.lps.vitalMagic.inventory.domain.model.entity;
 
 import com.lps.vitalMagic.inventory.domain.exception.InvalidItemException;
-import jakarta.persistence.*;
+import com.lps.vitalMagic.inventory.domain.model.input.AttributeValue;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,26 +10,21 @@ import java.util.List;
 import java.util.Objects;
 
 
-@Entity
-@Table
-
 public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Getter
     private Long id;
-    @Column
+
     @Getter
     private String name;
-    @Column
+
     @Getter
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "item_id")
+
     private List<ItemAttribute> attributes = new ArrayList<>();
 
-    @Column
+
     @Getter
     private boolean active;
 
@@ -55,9 +50,20 @@ public class Item {
         return item;
     }
 
+    public static Item from(Long id, String name, String description, List<ItemAttribute> attributes, Boolean active){
+        Item item = new Item();
+        item.id=id;
+        item.name=name;
+        item.description=description;
+        item.attributes = new ArrayList<>(attributes);
+        item.active=active;
+
+        return  item;
+    }
+
     public void addAttribute(AttributeValue attr) {
         Objects.requireNonNull(attr);
-        this.attributes.add(new ItemAttribute(attr.attributeId(),this,attr.value()));
+        this.attributes.add(new ItemAttribute(attr.attributeId(),attr.value()));
     }
 
     private static String requireNonBlank(String value, String field) {

@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class InventoryTransactionTest {
     @Test
     public void createValidSaleInventoryTransaction() {
-
+        Long itemInventoryId=77L;
         Long saleId=7777L;
         int quantity=7;
 
-        InventoryTransaction sale= InventoryTransaction.createSale(createValidItemInventory(),saleId,quantity);
+        InventoryTransaction sale= InventoryTransaction.createSale(itemInventoryId,saleId,quantity);
 
 
         assertNotNull(sale);
@@ -31,11 +31,11 @@ public class InventoryTransactionTest {
 
     @Test
     public  void shouldInventoryTransactionQuantityBePositive(){
-
+        Long itemInventoryId=77L;
         Long saleId=7777L;
         int quantity=-7;
 
-        assertThrows(InventoryTransactionException.class,()-> InventoryTransaction.createSale(createValidItemInventory(),saleId,quantity));
+        assertThrows(InventoryTransactionException.class,()-> InventoryTransaction.createSale(itemInventoryId,saleId,quantity));
 
     }
 
@@ -44,12 +44,12 @@ public class InventoryTransactionTest {
 
     @Test
     public void createValidPurchaseInventoryTransaction() {
-
+        Long itemInventoryId=77L;
         Long purchaseId=7777L;
         int quantity=7;
         BigDecimal unitCost= new BigDecimal("777.77");
 
-        InventoryTransaction purchase= InventoryTransaction.createPurchase(createValidItemInventory(),purchaseId,quantity,unitCost);
+        InventoryTransaction purchase= InventoryTransaction.createPurchase(itemInventoryId,purchaseId,quantity,unitCost);
 
 
         assertNotNull(purchase);
@@ -62,25 +62,14 @@ public class InventoryTransactionTest {
 
     @Test
     public  void shouldInventoryTransactionUnitCostBePositive(){
-
+        Long itemInventoryId=77L;
         Long purchaseId=7777L;
         int quantity=7;
         BigDecimal unitCost= new BigDecimal("-777.77");
 
-        assertThrows(InventoryTransactionException.class,()-> InventoryTransaction.createPurchase(createValidItemInventory(),purchaseId,quantity,unitCost));
+        assertThrows(InventoryTransactionException.class,()-> InventoryTransaction.createPurchase(itemInventoryId,purchaseId,quantity,unitCost));
 
     }
 
 
-
-    private ItemInventory createValidItemInventory() {
-        int minStock=77;
-
-        List<AttributeValue> attributes =new ArrayList<>();
-        attributes.add(new AttributeValue(1L,3));
-        attributes.add(new AttributeValue(2L,5));
-
-
-        return  ItemInventory.create(Item.create("test", "test descri", attributes),minStock);
-    }
 }

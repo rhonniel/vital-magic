@@ -4,21 +4,15 @@ import com.lps.vitalMagic.inventory.domain.exception.DomainException;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-
-@Entity
-@Table
 @Getter
 public class Attribute {
-    @Id
+
     private Long id;
 
-    @Column
     private String name;
 
-    @Column
     private String description;
 
-    @Column
     private String abbr;
 
     public Attribute(Long id, String name, String description, String abbr) {
