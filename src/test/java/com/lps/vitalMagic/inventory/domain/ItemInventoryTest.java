@@ -2,6 +2,7 @@ package com.lps.vitalMagic.inventory.domain;
 
 import com.lps.vitalMagic.inventory.domain.exception.InvalidItemInventoryException;
 import com.lps.vitalMagic.inventory.domain.model.entity.*;
+import com.lps.vitalMagic.inventory.domain.model.input.AttributeValue;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -15,9 +16,10 @@ public class ItemInventoryTest {
     @Test
     public void createValidItemInventory() {
         int minStock=77;
+        Long itemId= 55L;
 
 
-        ItemInventory newItem=ItemInventory.create(createValidItem(),minStock);
+        ItemInventory newItem=ItemInventory.create(itemId,minStock);
 
         assertNotNull(newItem);
         assertTrue(newItem.isActive());
@@ -30,7 +32,7 @@ public class ItemInventoryTest {
     @Test
     public void shouldNotAllowMinStockLessThanZero(){
 
-        assertThrows(InvalidItemInventoryException.class,()-> ItemInventory.create(createValidItem(),-1));
+        assertThrows(InvalidItemInventoryException.class,()-> ItemInventory.create(4L,-1));
 
     }
 
