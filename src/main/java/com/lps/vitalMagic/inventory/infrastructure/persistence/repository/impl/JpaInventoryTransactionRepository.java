@@ -14,32 +14,31 @@ import java.util.Optional;
 public class JpaInventoryTransactionRepository implements InventoryTransactionRepository {
 
     private final InventoryTransactionJpaRepository jpaRepository;
-    private final InventoryTransactionMapper mapper;
 
 
-    public JpaInventoryTransactionRepository(InventoryTransactionJpaRepository jpaRepository, InventoryTransactionMapper mapper) {
+
+    public JpaInventoryTransactionRepository(InventoryTransactionJpaRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
-        this.mapper = mapper;
     }
 
     @Override
     public List<InventoryTransaction> findAllUnprocessedTransactions() {
-        return jpaRepository.findAllUnprocessedTransactions().stream().map(mapper::toDomain).toList();
+        return jpaRepository.findAllUnprocessedTransactions().stream().map(InventoryTransactionMapper::toDomain).toList();
     }
 
     @Override
     public List<InventoryTransaction> findAll() {
-        return jpaRepository.findAll().stream().map(mapper::toDomain).toList();
+        return jpaRepository.findAll().stream().map(InventoryTransactionMapper::toDomain).toList();
     }
 
     @Override
     public Optional<InventoryTransaction> findById(Long id) {
-        return jpaRepository.findById(id).map(mapper::toDomain);
+        return jpaRepository.findById(id).map(InventoryTransactionMapper::toDomain);
     }
 
     @Override
     public InventoryTransaction save(InventoryTransaction inventoryTransaction) {
-        InventoryTransactionEntity entity= jpaRepository.save(mapper.toEntity(inventoryTransaction));
-        return mapper.toDomain(entity);
+        InventoryTransactionEntity entity= jpaRepository.save(InventoryTransactionMapper.toEntity(inventoryTransaction));
+        return InventoryTransactionMapper.toDomain(entity);
     }
 }

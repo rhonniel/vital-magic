@@ -14,27 +14,27 @@ import java.util.Optional;
 public class JpaItemRepository implements ItemRepository {
 
     private final ItemJpaRepository jpaRepo;
-    private final ItemMapper mapper;
+
 
     public JpaItemRepository(
             ItemJpaRepository jpaRepo,
             ItemMapper mapper) {
         this.jpaRepo = jpaRepo;
-        this.mapper = mapper;
+
     }
     @Override
     public Optional<Item> findById(Long id) {
         return jpaRepo.findById(id)
-                .map(mapper::toDomain);
+                .map(ItemMapper::toDomain);
     }
 
     @Override
     public Item save(Item item) {
-        ItemEntity entity = mapper.toEntity(item);
+        ItemEntity entity = ItemMapper.toEntity(item);
 
         ItemEntity savedEntity = jpaRepo.save(entity);
 
-        return mapper.toDomain(savedEntity);
+        return ItemMapper.toDomain(savedEntity);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class JpaItemRepository implements ItemRepository {
 
         return jpaRepo.findByActiveTrue()
                 .stream()
-                .map(mapper::toDomain)
+                .map(ItemMapper::toDomain)
                 .toList();
     }
 }

@@ -12,11 +12,9 @@ import java.util.Optional;
 @Repository
 public class JpaAttributeRepository implements AttributeRepository {
 
-    private final AttributeMapper mapper;
     private final AttributeJpaRepository jpaRepository;
 
-    public JpaAttributeRepository(AttributeMapper mapper, AttributeJpaRepository jpaRepository) {
-        this.mapper = mapper;
+    public JpaAttributeRepository( AttributeJpaRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
     }
 
@@ -24,12 +22,12 @@ public class JpaAttributeRepository implements AttributeRepository {
     public List<Attribute> findAll() {
         return jpaRepository.findAll()
                 .stream()
-                .map(mapper::toDomain)
+                .map(AttributeMapper::toDomain)
                 .toList();
     }
 
     @Override
     public Optional<Attribute> findById(Long id) {
-        return jpaRepository.findById(id).map(mapper::toDomain);
+        return jpaRepository.findById(id).map(AttributeMapper::toDomain);
     }
 }
