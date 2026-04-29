@@ -13,11 +13,10 @@ import java.util.Optional;
 @Repository
 public class JpaItemInventoryRepository implements ItemInventoryRepository {
 
-    private final ItemInventoryMapper mapper;
+
     private final ItemInventoryJpaRepository jpaRepository;
 
-    public JpaItemInventoryRepository(ItemInventoryMapper mapper, ItemInventoryJpaRepository jpaRepository) {
-        this.mapper = mapper;
+    public JpaItemInventoryRepository( ItemInventoryJpaRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
     }
 
@@ -25,7 +24,7 @@ public class JpaItemInventoryRepository implements ItemInventoryRepository {
     public List<ItemInventory> findAllActive() {
         return jpaRepository.findByActiveTrue()
                 .stream()
-                .map(mapper::toDomain)
+                .map(ItemInventoryMapper::toDomain)
                 .toList();
     }
 
@@ -33,23 +32,23 @@ public class JpaItemInventoryRepository implements ItemInventoryRepository {
     public Optional<ItemInventory> findById(Long id) {
 
         return  jpaRepository.findById(id)
-                .map(mapper::toDomain);
+                .map(ItemInventoryMapper::toDomain);
     }
 
     @Override
     public List<ItemInventory> findItemsWithLowStock() {
         return jpaRepository.findItemsWithLowStock()
                 .stream()
-                .map(mapper::toDomain)
+                .map(ItemInventoryMapper::toDomain)
                 .toList();
     }
 
     @Override
     public ItemInventory save(ItemInventory itemInventory) {
-        ItemInventoryEntity entity = mapper.toEntity(itemInventory);
+        ItemInventoryEntity entity = ItemInventoryMapper.toEntity(itemInventory);
 
         ItemInventoryEntity savedEntity = jpaRepository.save(entity);
 
-        return mapper.toDomain(savedEntity);
+        return ItemInventoryMapper.toDomain(savedEntity);
     }
 }
