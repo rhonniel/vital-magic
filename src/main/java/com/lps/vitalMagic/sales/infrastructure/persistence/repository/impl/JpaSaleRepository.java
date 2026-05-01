@@ -5,9 +5,10 @@ import com.lps.vitalMagic.sales.domain.repository.SaleRepository;
 import com.lps.vitalMagic.sales.infrastructure.persistence.entity.SaleEntity;
 import com.lps.vitalMagic.sales.infrastructure.persistence.mapper.SaleMapper;
 import com.lps.vitalMagic.sales.infrastructure.persistence.repository.SaleJpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+@Repository
 public class JpaSaleRepository implements SaleRepository {
 
     private final SaleJpaRepository jpaRepository;

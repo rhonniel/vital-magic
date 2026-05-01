@@ -4,7 +4,6 @@ package com.lps.vitalMagic.purchase.domain;
 import com.lps.vitalMagic.purchase.domain.exception.InvalidPurchaseException;
 import com.lps.vitalMagic.purchase.domain.model.entity.ItemSnapshot;
 import com.lps.vitalMagic.purchase.domain.model.entity.Purchase;
-import com.lps.vitalMagic.purchase.domain.model.entity.PurchaseItem;
 import com.lps.vitalMagic.purchase.domain.model.input.PurchaseItemInput;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +33,7 @@ public class PurchaseTest {
 
         List<PurchaseItemInput> items= new ArrayList<>();
 
-        assertThrows(InvalidPurchaseException.class,()->Purchase.create(items));
+        assertThrows(InvalidPurchaseException.class,()-> Purchase.create(items));
 
     }
 
