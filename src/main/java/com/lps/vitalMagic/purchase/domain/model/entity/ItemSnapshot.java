@@ -1,25 +1,15 @@
 package com.lps.vitalMagic.purchase.domain.model.entity;
 
 import com.lps.vitalMagic.purchase.domain.exception.InvalidPurchaseException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Embeddable
-@Getter
-public class ItemSnapshot {
-    @Column(name = "product_id")
-    private Long productId;
 
-    @Column(name = "product_name")
-    private String productName;
-
-    @Column(name = "unit_cost")
-    private BigDecimal unitCost;
-
+public record ItemSnapshot(
+        Long productId,
+        String productName,
+        BigDecimal unitCost) {
 
     public ItemSnapshot(Long productId, String productName, BigDecimal unitCost) {
 

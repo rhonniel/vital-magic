@@ -3,7 +3,6 @@ package com.lps.vitalMagic.purchase.domain.model.entity;
 
 import com.lps.vitalMagic.purchase.domain.exception.InvalidPurchaseException;
 import com.lps.vitalMagic.purchase.domain.model.input.PurchaseItemInput;
-import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -12,22 +11,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table
+
 public class Purchase {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
-    @JoinColumn(name = "purchase_id")
+
     private List<PurchaseItem> items= new ArrayList<>();
 
-    @Column(name = "total_amount")
+
     @Getter
     private BigDecimal totalAmount;
 
-    public Purchase() {
+    private Purchase() {
     }
 
     public static Purchase create(List<PurchaseItemInput> items){
@@ -42,11 +38,19 @@ public class Purchase {
 
         for(PurchaseItemInput input:items){
             Objects.requireNonNull(input);
-            purchase.items.add(new PurchaseItem(purchase,input.itemSnapshot(),input.quantity()));
+            purchase.items.add(new PurchaseItem(purchase.id,input.itemSnapshot(),input.quantity()));
         }
 
         purchase.calculateTotal();
 
+        return purchase;
+    }
+
+    public static Purchase from(Long id, List<PurchaseItem> items, BigDecimal totalAmount) {
+        Purchase purchase= new Purchase();
+        purchase.id=id;
+        purchase.items=items;
+        purchase.totalAmount=totalAmount;
         return purchase;
     }
 

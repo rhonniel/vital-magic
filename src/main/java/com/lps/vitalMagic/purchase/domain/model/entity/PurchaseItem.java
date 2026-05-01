@@ -1,49 +1,56 @@
 package com.lps.vitalMagic.purchase.domain.model.entity;
 
 import com.lps.vitalMagic.purchase.domain.exception.InvalidPurchaseException;
-import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-@Entity
-@Table(name ="purchase_item")
+
 @Getter
 public class PurchaseItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @ManyToOne
-    @MapsId("purchaseId")
-    private Purchase purchase;
 
-    @Embedded
-    private final ItemSnapshot item;
+    private Long purchaseId;
 
-    @Column
+
+    private  ItemSnapshot item;
+
+
     private int quantity;
 
 
-    @Column
+
     private BigDecimal subtotal;
 
-     PurchaseItem(Purchase purchase, ItemSnapshot item, int quantity) {
+     PurchaseItem(Long purchaseId, ItemSnapshot item, int quantity) {
 
         if(quantity<=0){
             throw new InvalidPurchaseException("Purchase item quantity should be more than zero");
         }
 
-        this.purchase=Objects.requireNonNull(purchase);
+        this.purchaseId=purchaseId;
         this.item= Objects.requireNonNull(item);
         this.quantity = quantity;
         calculateSubtotal();
     }
 
+    private PurchaseItem(){}
+
+    public static PurchaseItem from(Long id, Long purchaseId, Long productId, String productName, BigDecimal unitCost, int quantity, BigDecimal subtotal) {
+      PurchaseItem purchaseItem = new PurchaseItem();
+      purchaseItem.id=id;
+      purchaseItem.purchaseId=purchaseId;
+      purchaseItem.item= new ItemSnapshot(productId,productName,unitCost); // TODO se re usan validaciones de dominio costructir en record?
+
+      return purchaseItem;
+     }
+
     private void calculateSubtotal(){
-         this.subtotal=item.getUnitCost().multiply(BigDecimal.valueOf(quantity)).setScale(2, RoundingMode.HALF_UP);
+         this.subtotal=item.unitCost().multiply(BigDecimal.valueOf(quantity)).setScale(2, RoundingMode.HALF_UP);
     }
 
 }
