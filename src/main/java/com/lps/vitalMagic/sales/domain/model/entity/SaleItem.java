@@ -1,31 +1,28 @@
 package com.lps.vitalMagic.sales.domain.model.entity;
 
 import com.lps.vitalMagic.sales.domain.exception.InvalidSaleException;
-import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-@Entity
-@Table(name = "sale_item")
+
 @Getter
 public class SaleItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @Column(name = "sale_id")
+
     private Long saleId;
 
-    @Embedded
-    private final ProductSnapshot productSnapshot;
 
-    @Column
+    private  ProductSnapshot productSnapshot;
+
+
     private int quantity;
 
-    @Column
+
     private BigDecimal subtotal;
 
     SaleItem(ProductSnapshot productSnapshot, int quantity) {
@@ -37,6 +34,19 @@ public class SaleItem {
         this.productSnapshot= Objects.requireNonNull(productSnapshot);
         this.quantity = quantity;
         calculateSubtotal();
+    }
+
+    private SaleItem (){}
+
+    public static SaleItem from(Long id, Long saleId, Long productId, String productName, BigDecimal unitPrice, int quantity, BigDecimal subtotal) {
+        SaleItem item = new SaleItem();
+        item.id=id;
+        item.saleId=saleId;
+        item.productSnapshot =  new ProductSnapshot(productId,productName,unitPrice);
+        item.quantity=quantity;
+        item.subtotal=subtotal;
+        return item;
+
     }
 
     private void calculateSubtotal(){

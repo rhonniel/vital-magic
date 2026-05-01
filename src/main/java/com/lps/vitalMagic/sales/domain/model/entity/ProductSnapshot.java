@@ -1,24 +1,21 @@
 package com.lps.vitalMagic.sales.domain.model.entity;
 
 import com.lps.vitalMagic.sales.domain.exception.InvalidSaleException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Embeddable
+
 @Getter
 public class ProductSnapshot {
 
-    @Column(name = "product_id")
+
     private Long productId;
 
-    @Column(name = "product_name")
+
     private String productName;
 
-    @Column(name = "unit_price")
     private BigDecimal unitPrice;
 
 
