@@ -10,9 +10,11 @@ import lombok.Getter;
 public class ItemAttributeEntity {
 
     @Column(name = "item_id")
+    @Id
     private Long itemId;
 
     @Column(name = "attribute_id")
+    @Id
     private Long attributeId;
 
     @Getter

@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "shake")
 @Getter
 public class ShakeEntity {
     @Id

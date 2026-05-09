@@ -9,10 +9,16 @@ import lombok.Getter;
 @Getter
 public class ShakeIngredientEntity {
 
-    @Column
+    @Id
+    @Column(name = "item_id")
     private Long itemId;
 
-    @Column
+    @Id
+    @Column(
+            name = "shake_id",
+            insertable = false,
+            updatable = false
+    )
     private Long shakeId;
 
 

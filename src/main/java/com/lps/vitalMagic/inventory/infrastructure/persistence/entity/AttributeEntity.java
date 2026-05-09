@@ -8,7 +8,7 @@ import lombok.Getter;
 
 
 @Entity
-@Table
+@Table(name = "attribute")
 @Getter
 public class AttributeEntity {
     @Id
