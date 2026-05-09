@@ -12,7 +12,7 @@ public class PurchaseItemMapper {
 
     public static PurchaseItem toDomain(PurchaseItemEntity purchaseItemEntity) {
         return PurchaseItem.from(purchaseItemEntity.getId(),purchaseItemEntity.getPurchaseId(),
-                purchaseItemEntity.getProductId(),purchaseItemEntity.getProductName(),
+                purchaseItemEntity.getItemId(),purchaseItemEntity.getItemName(),
                 purchaseItemEntity.getUnitCost(),purchaseItemEntity.getQuantity(),purchaseItemEntity.getSubtotal());
     }
 }

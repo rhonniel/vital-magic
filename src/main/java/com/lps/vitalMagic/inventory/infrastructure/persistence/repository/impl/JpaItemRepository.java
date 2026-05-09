@@ -15,13 +15,10 @@ public class JpaItemRepository implements ItemRepository {
 
     private final ItemJpaRepository jpaRepo;
 
-
-    public JpaItemRepository(
-            ItemJpaRepository jpaRepo,
-            ItemMapper mapper) {
+    public JpaItemRepository(ItemJpaRepository jpaRepo) {
         this.jpaRepo = jpaRepo;
-
     }
+
     @Override
     public Optional<Item> findById(Long id) {
         return jpaRepo.findById(id)

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "purchase")
 @Getter
 public class PurchaseEntity {
     @Id
