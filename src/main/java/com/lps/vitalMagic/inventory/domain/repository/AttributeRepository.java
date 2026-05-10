@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface AttributeRepository {
     List<Attribute> findAll();
     Optional<Attribute> findById(Long id);
+    boolean existsById(Long id);
 }
