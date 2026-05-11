@@ -30,4 +30,9 @@ public class JpaAttributeRepository implements AttributeRepository {
     public Optional<Attribute> findById(Long id) {
         return jpaRepository.findById(id).map(AttributeMapper::toDomain);
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return jpaRepository.existsById(id);
+    }
 }
