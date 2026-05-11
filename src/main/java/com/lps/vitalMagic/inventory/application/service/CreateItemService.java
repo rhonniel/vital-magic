@@ -39,7 +39,9 @@ public class CreateItemService implements CreateItemUseCase {
 
         for(CreateItemAttributeCommand attribute:command.attributes()){
             if (!attributeRepository.existsById(attribute.attributeId())) {
-                throw new EntityNotFoundException("Attribute not found");
+                throw new EntityNotFoundException(
+                        "Attribute with id %d not found".formatted(attribute.attributeId())
+                );
             }
             attributeValues.add(new AttributeValue(attribute.attributeId(),attribute.value()));
         }
