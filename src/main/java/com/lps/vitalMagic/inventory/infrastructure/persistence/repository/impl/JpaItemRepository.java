@@ -1,10 +1,12 @@
 package com.lps.vitalMagic.inventory.infrastructure.persistence.repository.impl;
 
+import com.lps.vitalMagic.inventory.application.query.SearchItemsQuery;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.mapper.ItemMapper;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.repository.ItemJpaRepository;
+import com.lps.vitalMagic.inventory.infrastructure.persistence.specification.ItemSpecifications;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -35,11 +37,14 @@ public class JpaItemRepository implements ItemRepository {
     }
 
     @Override
-    public List<Item> findAllAvailableItems() {
-
-        return jpaRepo.findByActiveTrue()
+    public List<Item> searchAvailableItems(SearchItemsQuery query) {
+        return jpaRepo.findAll(
+                        ItemSpecifications.withFilters(query)
+                )
                 .stream()
                 .map(ItemMapper::toDomain)
                 .toList();
     }
+
+
 }
