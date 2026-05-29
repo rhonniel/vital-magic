@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.shake.application.command;
 
-public record CreateShakeIngredient(
+public record CreateShakeIngredientCommand(
         Long ingredientId,
         int quantity
 ) {

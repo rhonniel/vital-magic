@@ -12,6 +12,7 @@ import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -41,19 +42,33 @@ class CreateItemServiceTest {
     void createItemSuccessfully() {
 
         CreateItemCommand command =  buildCommand();
-        Item savedItem = buildSavedItem();
+        Item persisted = buildSavedItem();
 
         when(attributeRepository.existsById(anyLong()))
                 .thenReturn(true);
 
-        when(itemRepository.save(any())).thenReturn(savedItem);
+        when(itemRepository.save(any())).thenReturn(persisted);
+
+
+
 
         Long itemId = service.execute(command);
+        ArgumentCaptor<Item> itemCaptor = ArgumentCaptor.forClass(Item.class);
+        ArgumentCaptor<ItemInventory> inventoryCaptor = ArgumentCaptor.forClass(ItemInventory.class);
 
-        assertEquals(itemId,savedItem.getId());
 
+        verify(itemRepository).save(itemCaptor.capture());
+        verify(itemInventoryRepository).save(inventoryCaptor.capture());
+
+        Item savedItem = itemCaptor.getValue();
+        ItemInventory savedInventory = inventoryCaptor.getValue();
         verify(itemRepository).save(any(Item.class));
         verify(itemInventoryRepository).save(any(ItemInventory.class));
+
+        assertEquals(persisted.getId(),itemId);
+        assertEquals(command.attributes().size(), savedItem.getAttributes().size());
+        assertEquals(command.minStock(), savedInventory.getMinStock());
+
     }
 
     @Test
