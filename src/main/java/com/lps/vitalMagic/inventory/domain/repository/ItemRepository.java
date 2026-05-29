@@ -11,4 +11,6 @@ public interface ItemRepository {
     Optional<Item> findById(Long id);
     Item save(Item item);
     List<Item> searchAvailableItems(SearchItemsQuery query);
+
+    boolean existsById(Long id);
 }

@@ -46,5 +46,10 @@ public class JpaItemRepository implements ItemRepository {
                 .toList();
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return jpaRepo.existsById(id);
+    }
+
 
 }

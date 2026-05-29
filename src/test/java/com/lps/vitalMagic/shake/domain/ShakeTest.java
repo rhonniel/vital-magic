@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.shake;
+package com.lps.vitalMagic.shake.domain;
 
 import com.lps.vitalMagic.shake.domain.model.input.IngredientQuantityInput;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;

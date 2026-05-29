@@ -8,6 +8,6 @@ public record CreateStandardShakeCommand(
         String name,
         String description,
         ShakeCategory shakeCategory,
-        List<CreateShakeIngredient> ingredients
+        List<CreateShakeIngredientCommand> ingredients
 ) {
 }
