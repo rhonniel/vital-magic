@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class JpaItemRepository implements ItemRepository {
@@ -49,6 +50,11 @@ public class JpaItemRepository implements ItemRepository {
     @Override
     public boolean existsById(Long id) {
         return jpaRepo.existsById(id);
+    }
+
+    @Override
+    public List<Item> findAllById(Set<Long> itemIds) {
+        return jpaRepo.findAllById(itemIds).stream().map(ItemMapper::toDomain).toList();
     }
 
 

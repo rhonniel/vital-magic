@@ -5,7 +5,6 @@ import com.lps.vitalMagic.shake.application.command.CreateShakeIngredientCommand
 import com.lps.vitalMagic.shake.application.command.CreateStandardShakeCommand;
 import com.lps.vitalMagic.shake.application.service.CreateStandardShakeService;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
-import com.lps.vitalMagic.shake.domain.model.entity.ShakeIngredient;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeCategory;
 
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeType;
@@ -78,9 +77,8 @@ public class CreateStandardShakeServiceTest {
     @Test
     public void whenIngredientDoesNotExistThrowsException(){
         List<CreateShakeIngredientCommand> ingredientCommands= new ArrayList<>();
-        ingredientCommands.add(new CreateShakeIngredientCommand(1L,2));
         ingredientCommands.add(new CreateShakeIngredientCommand(2L,1));
-        ingredientCommands.add(new CreateShakeIngredientCommand(3L,1));
+
 
         CreateStandardShakeCommand shakeCommand= new CreateStandardShakeCommand("BatiOmega",
                 "Batida con el poder cantar merengue con voz grave", ShakeCategory.RARE,ingredientCommands);

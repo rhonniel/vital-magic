@@ -5,6 +5,7 @@ import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface ItemRepository {
@@ -13,4 +14,6 @@ public interface ItemRepository {
     List<Item> searchAvailableItems(SearchItemsQuery query);
 
     boolean existsById(Long id);
+
+    List<Item> findAllById(Set<Long> itemIds);
 }
