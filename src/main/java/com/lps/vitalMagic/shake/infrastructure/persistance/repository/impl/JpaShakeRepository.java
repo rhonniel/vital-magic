@@ -1,12 +1,15 @@
 package com.lps.vitalMagic.shake.infrastructure.persistance.repository.impl;
 
+import com.lps.vitalMagic.shake.application.query.SearchShakeQuery;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
 import com.lps.vitalMagic.shake.domain.repository.ShakeRepository;
 import com.lps.vitalMagic.shake.infrastructure.persistance.entity.ShakeEntity;
 import com.lps.vitalMagic.shake.infrastructure.persistance.mapper.ShakeMapper;
 import com.lps.vitalMagic.shake.infrastructure.persistance.repository.ShakeEntityJpaRepository;
+import com.lps.vitalMagic.shake.infrastructure.persistance.specification.ShakeSpecifications;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,5 +30,15 @@ public class JpaShakeRepository implements ShakeRepository {
     public Shake save(Shake shake) {
         ShakeEntity entity= jpaRepository.save(ShakeMapper.toEntity(shake));
         return ShakeMapper.toDomain(entity);
+    }
+
+    @Override
+    public List<Shake> searchAvailableShakes(SearchShakeQuery query) {
+        return jpaRepository.findAll(
+                        ShakeSpecifications.withFilters(query)
+                )
+                .stream()
+                .map(ShakeMapper::toDomain)
+                .toList();
     }
 }
