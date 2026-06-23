@@ -10,4 +10,6 @@ public interface ItemInventoryRepository {
     Optional<ItemInventory> findById(Long Id);
     List<ItemInventory> findItemsWithLowStock();
     ItemInventory save(ItemInventory itemInventory);
+
+    Optional<ItemInventory> findByActiveTrueAndItemId(Long itemId);
 }

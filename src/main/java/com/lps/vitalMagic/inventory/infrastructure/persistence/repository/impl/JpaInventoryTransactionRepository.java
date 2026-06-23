@@ -41,4 +41,9 @@ public class JpaInventoryTransactionRepository implements InventoryTransactionRe
         InventoryTransactionEntity entity= jpaRepository.save(InventoryTransactionMapper.toEntity(inventoryTransaction));
         return InventoryTransactionMapper.toDomain(entity);
     }
+
+    @Override
+    public Integer findTotalUnprocessedStocksByItemId(Long id) {
+        return jpaRepository.findTotalUnprocessedStocksByItemId(id);
+    }
 }

@@ -62,8 +62,7 @@ class CreateItemServiceTest {
 
         Item savedItem = itemCaptor.getValue();
         ItemInventory savedInventory = inventoryCaptor.getValue();
-        verify(itemRepository).save(any(Item.class));
-        verify(itemInventoryRepository).save(any(ItemInventory.class));
+
 
         assertEquals(persisted.getId(),itemId);
         assertEquals(command.attributes().size(), savedItem.getAttributes().size());

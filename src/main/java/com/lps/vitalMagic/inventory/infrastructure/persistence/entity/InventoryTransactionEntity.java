@@ -15,8 +15,8 @@ public class InventoryTransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "item_inventory_id")
-    private Long itemInventoryId;
+    @Column(name = "item_id")
+    private Long itemId;
 
     @Column(name ="source_id")
     private Long sourceId;
@@ -36,10 +36,10 @@ public class InventoryTransactionEntity {
 
     protected InventoryTransactionEntity() {}
 
-    public InventoryTransactionEntity(Long id, Long itemInventoryId, Long sourceId, InventoryTransactionType type,
+    public InventoryTransactionEntity(Long id, Long itemId, Long sourceId, InventoryTransactionType type,
                                       int quantity, BigDecimal unitCost, LocalDateTime processAt) {
         this.id = id;
-        this.itemInventoryId = itemInventoryId;
+        this.itemId = itemId;
         this.sourceId = sourceId;
         this.type = type;
         this.quantity = quantity;
