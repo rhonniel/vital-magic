@@ -1,10 +1,15 @@
 package com.lps.vitalMagic.sale.aplication;
 
 import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;
+import com.lps.vitalMagic.inventory.domain.service.RegisterSaleTransactionService;
+import com.lps.vitalMagic.product.domain.ProductCompositionServiceTest;
+import com.lps.vitalMagic.product.domain.model.data.Composition;
+import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.product.domain.repository.ProductRepository;
 import com.lps.vitalMagic.product.domain.service.ProductAvailabilityService;
+import com.lps.vitalMagic.product.domain.service.ProductCompositionService;
 import com.lps.vitalMagic.sales.application.command.CreateSaleCommand;
 import com.lps.vitalMagic.sales.application.command.CreateSaleItemCommand;
 import com.lps.vitalMagic.sales.application.service.RegisterSaleService;
@@ -35,14 +40,17 @@ public class RegisterSaleServiceTest {
     @Mock
     public SaleRepository saleRepository;
 
-
     @Mock
     public ProductRepository productRepository;
-
 
     @Mock
     public ProductAvailabilityService productAvailabilityService;
 
+    @Mock
+    public ProductCompositionService productCompositionService;
+
+    @Mock
+    public RegisterSaleTransactionService saleTransactionService;
 
 
 
@@ -64,8 +72,27 @@ public class RegisterSaleServiceTest {
         Product product = Product.from(itemCommands.get(0).productId(),7L,
                 ProductType.SHAKE,"Batida zapote criptoniano",new BigDecimal("750.50"),true);
 
+        // Ajusta construccion de este objeto que composision agrege su item
+        List<IngredientComposition> ingredientCompositions= new ArrayList<>();
+        Composition composition= new Composition(ingredientCompositions);
+        composition.items().add(new IngredientComposition(1L,6));
+        composition.items().add(new IngredientComposition(2L,3));
+        composition.items().add(new IngredientComposition(3L,6));
+
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         when(productAvailabilityService.checkAvailability(product,3)).thenReturn(Boolean.TRUE);
+        when(productCompositionService.getComposition(product,3)).thenReturn(composition);
+        when(saleRepository.save(any()))
+                .thenAnswer(invocation -> {
+                    Sale sale = invocation.getArgument(0);
+
+                    return Sale.from(
+                            1L,
+                            sale.getItems(),
+                            sale.getTotalAmount()
+                    );
+                });
+
 
 
 
@@ -76,9 +103,15 @@ public class RegisterSaleServiceTest {
 
 
 
-
         verify(saleRepository).save(saleCaptor.capture());
-        Sale sale= saleCaptor.capture();
+
+        verify(saleTransactionService).registerInventoryTransaction(1L,1L,6);
+        verify(saleTransactionService).registerInventoryTransaction(1L,2L,3);
+        verify(saleTransactionService).registerInventoryTransaction(1L,3L,6);
+
+
+
+        Sale sale = saleCaptor.getValue();
         assertEquals(1L,result);
         assertEquals(0, sale.getTotalAmount().compareTo(totalExpected));
         assertEquals(itemCommands.size(), sale.getItems().size());

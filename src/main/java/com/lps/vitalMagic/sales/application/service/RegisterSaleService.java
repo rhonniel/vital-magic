@@ -1,12 +1,76 @@
 package com.lps.vitalMagic.sales.application.service;
 
+import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;
+import com.lps.vitalMagic.inventory.domain.service.RegisterSaleTransactionService;
+import com.lps.vitalMagic.product.domain.model.data.Composition;
+import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
+import com.lps.vitalMagic.product.domain.model.entity.Product;
+import com.lps.vitalMagic.product.domain.repository.ProductRepository;
+import com.lps.vitalMagic.product.domain.service.ProductAvailabilityService;
+import com.lps.vitalMagic.product.domain.service.ProductCompositionService;
 import com.lps.vitalMagic.sales.application.command.CreateSaleCommand;
+import com.lps.vitalMagic.sales.application.command.CreateSaleItemCommand;
 import com.lps.vitalMagic.sales.application.usecase.RegisterSaleUseCase;
+import com.lps.vitalMagic.sales.domain.exception.SaleDomainException;
+import com.lps.vitalMagic.sales.domain.model.entity.ProductSnapshot;
+import com.lps.vitalMagic.sales.domain.model.entity.Sale;
+import com.lps.vitalMagic.sales.domain.model.entity.SaleItem;
+import com.lps.vitalMagic.sales.domain.model.input.SaleItemInput;
+import com.lps.vitalMagic.sales.domain.repository.SaleRepository;
+import jakarta.persistence.EntityNotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterSaleService implements RegisterSaleUseCase {
 
+    public final SaleRepository saleRepository;
+    public final ProductRepository productRepository;
+    public final ProductAvailabilityService productAvailabilityService;
+    public final ProductCompositionService productCompositionService;
+    public final RegisterSaleTransactionService saleTransactionService;
+
+  // TODO tiene sentido buscar cargando la instancia via spring lso servicios que son clases normales y no interfaces?
+    public RegisterSaleService(SaleRepository saleRepository, ProductRepository productRepository,
+                               ProductAvailabilityService productAvailabilityService,
+                               ProductCompositionService productCompositionService,
+                               RegisterSaleTransactionService saleTransactionService) {
+        this.saleRepository = saleRepository;
+        this.productRepository = productRepository;
+        this.productAvailabilityService = productAvailabilityService;
+        this.productCompositionService = productCompositionService;
+        this.saleTransactionService = saleTransactionService;
+    }
+
     @Override
     public Long execute(CreateSaleCommand command) {
-        return 0L;
+        List<SaleItemInput> saleItemInputs = new ArrayList<>();
+        List<Composition> compositions= new ArrayList<>();
+
+        for(CreateSaleItemCommand itemCommand:command.items()){
+            Product product = productRepository.findById(itemCommand.productId())
+                    .orElseThrow((EntityNotFoundException::new));
+
+            if(!productAvailabilityService.checkAvailability(product, itemCommand.quantity())){
+               throw new SaleDomainException("Product don't have enough stocks");
+            }
+            compositions.add(productCompositionService.getComposition(product, itemCommand.quantity()));
+            saleItemInputs.add(new SaleItemInput(
+                    new ProductSnapshot(product.getId(),product.getName(),product.getPrice()), itemCommand.quantity()));
+
+        }
+
+        Sale sale= Sale.create(saleItemInputs);
+
+        sale=saleRepository.save(sale);
+
+        for (Composition composition:compositions){
+            for (IngredientComposition ingredientComposition: composition.items()){
+                saleTransactionService.registerInventoryTransaction(sale.getId(), ingredientComposition.itemId(), ingredientComposition.quantity());
+            }
+
+        }
+
+        return sale.getId();
     }
 }
