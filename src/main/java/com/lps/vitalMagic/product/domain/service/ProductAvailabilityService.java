@@ -1,6 +1,9 @@
 package com.lps.vitalMagic.product.domain.service;
 
 import com.lps.vitalMagic.inventory.domain.service.ItemCurrentStockService;
+import com.lps.vitalMagic.product.domain.model.data.Composition;
+import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
+import com.lps.vitalMagic.product.domain.model.data.ProductComposition;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
@@ -55,4 +58,15 @@ public class ProductAvailabilityService {
         return currentStock >= quantity;
     }
 
+    public boolean checkAvailability(Composition composition) {
+
+        for(IngredientComposition ingredient:composition.items()){
+            Integer currentStock= itemCurrentStockService.getCurrentStock(ingredient.itemId());
+            Integer newConsume= ingredient.quantity();
+            if (currentStock<newConsume){
+                return false;
+            }
+        }
+        return true;
+    }
 }

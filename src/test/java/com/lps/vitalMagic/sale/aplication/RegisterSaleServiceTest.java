@@ -1,10 +1,9 @@
 package com.lps.vitalMagic.sale.aplication;
 
-import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;
 import com.lps.vitalMagic.inventory.domain.service.RegisterSaleTransactionService;
-import com.lps.vitalMagic.product.domain.ProductCompositionServiceTest;
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
+import com.lps.vitalMagic.product.domain.model.data.ProductComposition;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.product.domain.repository.ProductRepository;
@@ -40,8 +39,6 @@ public class RegisterSaleServiceTest {
     @Mock
     public SaleRepository saleRepository;
 
-    @Mock
-    public ProductRepository productRepository;
 
     @Mock
     public ProductAvailabilityService productAvailabilityService;
@@ -79,9 +76,10 @@ public class RegisterSaleServiceTest {
         composition.items().add(new IngredientComposition(2L,3));
         composition.items().add(new IngredientComposition(3L,6));
 
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
-        when(productAvailabilityService.checkAvailability(product,3)).thenReturn(Boolean.TRUE);
-        when(productCompositionService.getComposition(product,3)).thenReturn(composition);
+        ProductComposition productComposition =new ProductComposition(product,composition);
+
+        when(productCompositionService.getProductComposition(1L,3)).thenReturn(productComposition);
+        when(productAvailabilityService.checkAvailability(composition)).thenReturn(Boolean.TRUE);
         when(saleRepository.save(any()))
                 .thenAnswer(invocation -> {
                     Sale sale = invocation.getArgument(0);

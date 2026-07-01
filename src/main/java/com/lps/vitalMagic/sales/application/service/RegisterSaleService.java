@@ -1,9 +1,9 @@
 package com.lps.vitalMagic.sales.application.service;
 
-import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;
 import com.lps.vitalMagic.inventory.domain.service.RegisterSaleTransactionService;
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
+import com.lps.vitalMagic.product.domain.model.data.ProductComposition;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
 import com.lps.vitalMagic.product.domain.repository.ProductRepository;
 import com.lps.vitalMagic.product.domain.service.ProductAvailabilityService;
@@ -14,7 +14,6 @@ import com.lps.vitalMagic.sales.application.usecase.RegisterSaleUseCase;
 import com.lps.vitalMagic.sales.domain.exception.SaleDomainException;
 import com.lps.vitalMagic.sales.domain.model.entity.ProductSnapshot;
 import com.lps.vitalMagic.sales.domain.model.entity.Sale;
-import com.lps.vitalMagic.sales.domain.model.entity.SaleItem;
 import com.lps.vitalMagic.sales.domain.model.input.SaleItemInput;
 import com.lps.vitalMagic.sales.domain.repository.SaleRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,7 +24,6 @@ import java.util.List;
 public class RegisterSaleService implements RegisterSaleUseCase {
 
     public final SaleRepository saleRepository;
-    public final ProductRepository productRepository;
     public final ProductAvailabilityService productAvailabilityService;
     public final ProductCompositionService productCompositionService;
     public final RegisterSaleTransactionService saleTransactionService;
@@ -36,7 +34,6 @@ public class RegisterSaleService implements RegisterSaleUseCase {
                                ProductCompositionService productCompositionService,
                                RegisterSaleTransactionService saleTransactionService) {
         this.saleRepository = saleRepository;
-        this.productRepository = productRepository;
         this.productAvailabilityService = productAvailabilityService;
         this.productCompositionService = productCompositionService;
         this.saleTransactionService = saleTransactionService;
@@ -48,15 +45,17 @@ public class RegisterSaleService implements RegisterSaleUseCase {
         List<Composition> compositions= new ArrayList<>();
 
         for(CreateSaleItemCommand itemCommand:command.items()){
-            Product product = productRepository.findById(itemCommand.productId())
-                    .orElseThrow((EntityNotFoundException::new));
+            ProductComposition productComposition = productCompositionService.getProductComposition(itemCommand.productId(), itemCommand.quantity());
 
-            if(!productAvailabilityService.checkAvailability(product, itemCommand.quantity())){
+            if(!productAvailabilityService.checkAvailability(productComposition.composition())){
                throw new SaleDomainException("Product don't have enough stocks");
             }
-            compositions.add(productCompositionService.getComposition(product, itemCommand.quantity()));
+
             saleItemInputs.add(new SaleItemInput(
-                    new ProductSnapshot(product.getId(),product.getName(),product.getPrice()), itemCommand.quantity()));
+                    new ProductSnapshot(productComposition.product().getId(),productComposition.product().getName(),
+                            productComposition.product().getPrice()), itemCommand.quantity()));
+
+            compositions.add(productComposition.composition());
 
         }
 

@@ -2,8 +2,10 @@ package com.lps.vitalMagic.product.domain.service;
 
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
+import com.lps.vitalMagic.product.domain.model.data.ProductComposition;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
+import com.lps.vitalMagic.product.domain.repository.ProductRepository;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
 import com.lps.vitalMagic.shake.domain.model.entity.ShakeIngredient;
 import com.lps.vitalMagic.shake.domain.repository.ShakeRepository;
@@ -17,9 +19,11 @@ import java.util.List;
 public class ProductCompositionService {
 
     private final ShakeRepository shakeRepository;
+    private final ProductRepository productRepository;
 
-    public ProductCompositionService(ShakeRepository shakeRepository) {
+    public ProductCompositionService(ShakeRepository shakeRepository, ProductRepository productRepository) {
         this.shakeRepository = shakeRepository;
+        this.productRepository = productRepository;
     }
 
     public Composition getComposition(Product product, int quantity){
@@ -38,6 +42,12 @@ public class ProductCompositionService {
         return composition;
 
 
+    }
+
+    public ProductComposition getProductComposition(Long productId, int quantity){
+        Product product =productRepository.findById(productId).orElseThrow((EntityNotFoundException::new));
+        Composition composition= getComposition(product,quantity);
+        return  new ProductComposition(product,composition);
     }
 
 
