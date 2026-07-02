@@ -10,6 +10,7 @@ public class SearchSaleService implements SearchSaleUseCase
 {
     @Override
     public List<SaleView> execute(SearchSaleQuery query) {
+
         return List.of();
     }
 }

@@ -14,7 +14,7 @@ public class InventoryTransaction {
 
     private Long id;
 
-    private Long itemInventoryId;
+    private Long itemId;
 
 
     private Long sourceId;
@@ -33,37 +33,37 @@ public class InventoryTransaction {
     private InventoryTransaction() {
     }
 
-    private InventoryTransaction(Long itemInventoryId, Long sourceId, int quantity, InventoryTransactionType type, BigDecimal unitCost){
+    private InventoryTransaction(Long itemId, Long sourceId, int quantity, InventoryTransactionType type, BigDecimal unitCost){
         if(quantity<=0){
             throw new InventoryTransactionException("InventoryTransaction quantity should be positive");
         }
 
-        this.itemInventoryId=Objects.requireNonNull(itemInventoryId);
+        this.itemId=Objects.requireNonNull(itemId);
         this.sourceId=Objects.requireNonNull(sourceId);
         this.quantity=quantity;
         this.type=type;
         this.unitCost=unitCost;
     }
 
-    public static InventoryTransaction createSale(Long itemInventoryId, Long saleId, int quantity) {
-        return new InventoryTransaction(itemInventoryId,saleId,quantity,InventoryTransactionType.SALE, null);
+    public static InventoryTransaction createSale(Long itemId, Long saleId, int quantity) {
+        return new InventoryTransaction(itemId,saleId,quantity,InventoryTransactionType.SALE, null);
     }
 
-    public static InventoryTransaction createPurchase(Long itemInventoryId, Long purchaseId, int quantity, BigDecimal unitCost) {
+    public static InventoryTransaction createPurchase(Long itemId, Long purchaseId, int quantity, BigDecimal unitCost) {
 
         Objects.requireNonNull(unitCost);
         if(unitCost.compareTo(BigDecimal.ZERO)<=0){
             throw new InventoryTransactionException("InventoryTransaction unitCost should be positive");
         }
 
-        return new InventoryTransaction(itemInventoryId,purchaseId,quantity,InventoryTransactionType.PURCHASE,unitCost);
+        return new InventoryTransaction(itemId,purchaseId,quantity,InventoryTransactionType.PURCHASE,unitCost);
 
     }
 
-    public static InventoryTransaction from(Long id,Long itemInventoryId, Long sourceId, int quantity, InventoryTransactionType type,BigDecimal unitCost, LocalDateTime processAt){
+    public static InventoryTransaction from(Long id,Long itemId, Long sourceId, int quantity, InventoryTransactionType type,BigDecimal unitCost, LocalDateTime processAt){
         InventoryTransaction inventoryTransaction= new InventoryTransaction();
         inventoryTransaction.id=id;
-        inventoryTransaction.itemInventoryId=itemInventoryId;
+        inventoryTransaction.itemId=itemId;
         inventoryTransaction.type=type;
         inventoryTransaction.unitCost=unitCost;
         inventoryTransaction.quantity=quantity;

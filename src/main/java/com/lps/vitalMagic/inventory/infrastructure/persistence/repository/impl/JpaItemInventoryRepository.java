@@ -51,4 +51,11 @@ public class JpaItemInventoryRepository implements ItemInventoryRepository {
 
         return ItemInventoryMapper.toDomain(savedEntity);
     }
+
+    @Override
+    public  Optional<ItemInventory> findByActiveTrueAndItemId(Long itemId) {
+
+        return  jpaRepository.findByActiveTrueAndItemId(itemId)
+                .map(ItemInventoryMapper::toDomain);
+    }
 }

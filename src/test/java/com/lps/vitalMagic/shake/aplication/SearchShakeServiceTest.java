@@ -26,7 +26,7 @@ import java.util.Set;
 import static  org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//Todo me pregunto si la pena tanto dividir  los casos ens ervicios, me aprece raro ver los test con pocas preubas, pero perosnalmente no encuentro mas logico juntarlos  supongoq ue es la costumbre
+
 @ExtendWith(MockitoExtension.class)
 public class SearchShakeServiceTest {
 

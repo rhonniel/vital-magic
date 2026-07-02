@@ -6,20 +6,19 @@ import com.lps.vitalMagic.inventory.domain.model.enums.InventoryTransactionType;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InventoryTransactionTest {
+
     @Test
     public void createValidSaleInventoryTransaction() {
-        Long itemInventoryId=77L;
+        Long itemId=77L;
         Long saleId=7777L;
         int quantity=7;
 
-        InventoryTransaction sale= InventoryTransaction.createSale(itemInventoryId,saleId,quantity);
+        InventoryTransaction sale= InventoryTransaction.createSale(itemId,saleId,quantity);
 
 
         assertNotNull(sale);
@@ -31,11 +30,11 @@ public class InventoryTransactionTest {
 
     @Test
     public  void shouldInventoryTransactionQuantityBePositive(){
-        Long itemInventoryId=77L;
+        Long itemId=77L;
         Long saleId=7777L;
         int quantity=-7;
 
-        assertThrows(InventoryTransactionException.class,()-> InventoryTransaction.createSale(itemInventoryId,saleId,quantity));
+        assertThrows(InventoryTransactionException.class,()-> InventoryTransaction.createSale(itemId,saleId,quantity));
 
     }
 
@@ -44,12 +43,12 @@ public class InventoryTransactionTest {
 
     @Test
     public void createValidPurchaseInventoryTransaction() {
-        Long itemInventoryId=77L;
+        Long itemId=77L;
         Long purchaseId=7777L;
         int quantity=7;
         BigDecimal unitCost= new BigDecimal("777.77");
 
-        InventoryTransaction purchase= InventoryTransaction.createPurchase(itemInventoryId,purchaseId,quantity,unitCost);
+        InventoryTransaction purchase= InventoryTransaction.createPurchase(itemId,purchaseId,quantity,unitCost);
 
 
         assertNotNull(purchase);
@@ -62,12 +61,12 @@ public class InventoryTransactionTest {
 
     @Test
     public  void shouldInventoryTransactionUnitCostBePositive(){
-        Long itemInventoryId=77L;
+        Long itemId=77L;
         Long purchaseId=7777L;
         int quantity=7;
         BigDecimal unitCost= new BigDecimal("-777.77");
 
-        assertThrows(InventoryTransactionException.class,()-> InventoryTransaction.createPurchase(itemInventoryId,purchaseId,quantity,unitCost));
+        assertThrows(InventoryTransactionException.class,()-> InventoryTransaction.createPurchase(itemId,purchaseId,quantity,unitCost));
 
     }
 
