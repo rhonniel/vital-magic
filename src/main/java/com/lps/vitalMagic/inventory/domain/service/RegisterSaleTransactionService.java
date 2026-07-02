@@ -18,10 +18,6 @@ public class RegisterSaleTransactionService {
         this.itemCurrentStockService =itemCurrentStockService;
     }
 
-
-    //  la logica detras de mi desicion de hacer esto es, que veo mas apropiado dado la independdncia del metodo
-    //  que el reciba lo queb el necesita de ahi en dalente el se las arregla, el metodo qu elo llame que le de loq ue el necesita
-
     public void registerInventoryTransaction(Long saleId, Long itemId, int quantity){
 
         if(itemCurrentStockService.getCurrentStock(itemId)>=quantity) {

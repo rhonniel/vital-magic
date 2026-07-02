@@ -7,7 +7,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-// Todo cual es la ventaja de que esto sea un bean de spring
 public class ItemCurrentStockService {
 
     private final ItemInventoryRepository itemInventoryRepository;

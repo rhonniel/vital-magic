@@ -7,5 +7,4 @@ import java.util.Optional;
 public interface SaleRepository {
     Optional<Sale> findById(Long id);
     Sale save(Sale sale);
-   // List<Sale> search(SaleFilter filter); TODO validar uso de queryFilter
 }

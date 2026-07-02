@@ -4,8 +4,6 @@ import com.lps.vitalMagic.inventory.domain.service.RegisterSaleTransactionServic
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
 import com.lps.vitalMagic.product.domain.model.data.ProductComposition;
-import com.lps.vitalMagic.product.domain.model.entity.Product;
-import com.lps.vitalMagic.product.domain.repository.ProductRepository;
 import com.lps.vitalMagic.product.domain.service.ProductAvailabilityService;
 import com.lps.vitalMagic.product.domain.service.ProductCompositionService;
 import com.lps.vitalMagic.sales.application.command.CreateSaleCommand;
@@ -16,11 +14,13 @@ import com.lps.vitalMagic.sales.domain.model.entity.ProductSnapshot;
 import com.lps.vitalMagic.sales.domain.model.entity.Sale;
 import com.lps.vitalMagic.sales.domain.model.input.SaleItemInput;
 import com.lps.vitalMagic.sales.domain.repository.SaleRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class RegisterSaleService implements RegisterSaleUseCase {
 
     public final SaleRepository saleRepository;
@@ -28,8 +28,8 @@ public class RegisterSaleService implements RegisterSaleUseCase {
     public final ProductCompositionService productCompositionService;
     public final RegisterSaleTransactionService saleTransactionService;
 
-  // TODO tiene sentido buscar cargando la instancia via spring lso servicios que son clases normales y no interfaces?
-    public RegisterSaleService(SaleRepository saleRepository, ProductRepository productRepository,
+
+    public RegisterSaleService(SaleRepository saleRepository,
                                ProductAvailabilityService productAvailabilityService,
                                ProductCompositionService productCompositionService,
                                RegisterSaleTransactionService saleTransactionService) {
@@ -39,8 +39,10 @@ public class RegisterSaleService implements RegisterSaleUseCase {
         this.saleTransactionService = saleTransactionService;
     }
 
+    @Transactional
     @Override
     public Long execute(CreateSaleCommand command) {
+
         List<SaleItemInput> saleItemInputs = new ArrayList<>();
         List<Composition> compositions= new ArrayList<>();
 
