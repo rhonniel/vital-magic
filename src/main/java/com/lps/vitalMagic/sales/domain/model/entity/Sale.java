@@ -5,6 +5,7 @@ import com.lps.vitalMagic.sales.domain.model.input.SaleItemInput;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,11 +20,14 @@ public class Sale {
 
     private List<SaleItem> items =new ArrayList<>();
 
-
     @Getter
     private BigDecimal totalAmount;
 
-    private Sale() {
+    @Getter
+    private final LocalDateTime createAt;
+
+    private Sale(LocalDateTime createAt) {
+        this.createAt = createAt;
     }
 
 
@@ -33,16 +37,17 @@ public class Sale {
         if(items.isEmpty()){
             throw new InvalidSaleException("Sale Items shouldn't be empty");
         }
-        Sale sale = new Sale();
+        Sale sale = new Sale(LocalDateTime.now());
         for(SaleItemInput saleItem:items){
             sale.items.add(new SaleItem(saleItem.productSnapshot(), saleItem.quantity()));
         }
+
         sale.calculateTotal();
        return  sale;
     }
 
-    public static Sale from(Long id, List<SaleItem> items,BigDecimal totalAmount){
-        Sale sale= new Sale();
+    public static Sale from(Long id, List<SaleItem> items,BigDecimal totalAmount, LocalDateTime createAt){
+        Sale sale= new Sale(createAt);
         sale.id=id;
         sale.items=items;
         sale.totalAmount=totalAmount;
