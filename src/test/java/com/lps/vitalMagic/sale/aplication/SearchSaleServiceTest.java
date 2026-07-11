@@ -55,4 +55,14 @@ public class SearchSaleServiceTest {
 
 
     }
+
+    @Test
+    public void shouldRejectInvalidDateRange(){
+        SearchSaleQuery query = new SearchSaleQuery(LocalDate.MAX,LocalDate.now(),777L,new Pagination(1,10));
+        SearchSaleQuery queryNull = new SearchSaleQuery(null,null,777L,new Pagination(1,10));
+
+        assertThrows(IllegalArgumentException.class,() -> searchSaleService.execute(query));
+        assertThrows(IllegalArgumentException.class,() -> searchSaleService.execute(queryNull)) ;
+
+    }
 }
