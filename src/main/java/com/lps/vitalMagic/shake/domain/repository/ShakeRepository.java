@@ -1,10 +1,7 @@
 package com.lps.vitalMagic.shake.domain.repository;
 
-import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.shake.application.query.SearchShakeQuery;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
-import com.lps.vitalMagic.shake.domain.model.enums.ShakeType;
-
 import java.util.List;
 import java.util.Optional;
 

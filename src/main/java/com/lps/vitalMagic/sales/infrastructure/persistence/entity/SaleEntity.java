@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +24,16 @@ public class SaleEntity {
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
+    @Column(name="created_at")
+    private LocalDateTime createAt;
+
     protected SaleEntity() {
     }
 
-    public SaleEntity(Long id, List<SaleItemEntity> items, BigDecimal totalAmount) {
+    public SaleEntity(Long id, List<SaleItemEntity> items, BigDecimal totalAmount,LocalDateTime createAt) {
         this.id = id;
         this.items = items;
         this.totalAmount = totalAmount;
+        this.createAt = createAt;
     }
 }

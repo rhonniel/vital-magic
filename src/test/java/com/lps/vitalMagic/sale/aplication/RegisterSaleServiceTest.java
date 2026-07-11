@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,8 @@ public class RegisterSaleServiceTest {
                     return Sale.from(
                             1L,
                             sale.getItems(),
-                            sale.getTotalAmount()
+                            sale.getTotalAmount(),
+                            LocalDateTime.now()
                     );
                 });
 
@@ -193,7 +195,8 @@ public class RegisterSaleServiceTest {
                     return Sale.from(
                             1L,
                             sale.getItems(),
-                            sale.getTotalAmount()
+                            sale.getTotalAmount(),
+                            LocalDateTime.now()
                     );
                 });
 
