@@ -13,10 +13,6 @@ public class SaleItem {
 
     private Long id;
 
-
-    private Long saleId;
-
-
     private  ProductSnapshot productSnapshot;
 
 
@@ -38,10 +34,9 @@ public class SaleItem {
 
     private SaleItem (){}
 
-    public static SaleItem from(Long id, Long saleId, Long productId, String productName, BigDecimal unitPrice, int quantity, BigDecimal subtotal) {
+    public static SaleItem from(Long id, Long productId, String productName, BigDecimal unitPrice, int quantity, BigDecimal subtotal) {
         SaleItem item = new SaleItem();
         item.id=id;
-        item.saleId=saleId;
         item.productSnapshot =  new ProductSnapshot(productId,productName,unitPrice);
         item.quantity=quantity;
         item.subtotal=subtotal;

@@ -24,7 +24,7 @@ public class ProductSnapshot {
         Objects.requireNonNull(unitPrice);
 
         if (productName == null || productName.isBlank()){
-            throw new InvalidSaleException("productName is required");
+            throw new InvalidSaleException("itemName is required");
         }
 
         if (unitPrice.compareTo(BigDecimal.ZERO) <= 0) {

@@ -13,10 +13,6 @@ public class PurchaseItem {
 
     private Long id;
 
-
-    private Long purchaseId;
-
-
     private  ItemSnapshot item;
 
 
@@ -32,7 +28,6 @@ public class PurchaseItem {
             throw new InvalidPurchaseException("Purchase item quantity should be more than zero");
         }
 
-        this.purchaseId=purchaseId;
         this.item= Objects.requireNonNull(item);
         this.quantity = quantity;
         calculateSubtotal();
@@ -40,11 +35,12 @@ public class PurchaseItem {
 
     private PurchaseItem(){}
 
-    public static PurchaseItem from(Long id, Long purchaseId, Long productId, String productName, BigDecimal unitCost, int quantity, BigDecimal subtotal) {
+    public static PurchaseItem from(Long id, Long productId, String productName, BigDecimal unitCost, int quantity, BigDecimal subtotal) {
       PurchaseItem purchaseItem = new PurchaseItem();
       purchaseItem.id=id;
-      purchaseItem.purchaseId=purchaseId;
-      purchaseItem.item= new ItemSnapshot(productId,productName,unitCost); // TODO se re usan validaciones de dominio costructir en record?
+      purchaseItem.item= new ItemSnapshot(productId,productName,unitCost);
+      purchaseItem.quantity=quantity;
+      purchaseItem.subtotal=subtotal;
 
       return purchaseItem;
      }

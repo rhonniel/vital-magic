@@ -15,7 +15,7 @@ public class SaleMapper {
 
 
     public static SaleEntity toEntity(Sale domain){
-        return new SaleEntity(domain.getId(), domain.getItems().stream().map(SaleItemMapper::toEntity).toList(),domain.getTotalAmount(),domain.getCreateAt());
+        return new SaleEntity(domain.getId(), domain.getItems().stream().map(item -> SaleItemMapper.toEntity(domain.getId(),item)).toList(),domain.getTotalAmount(),domain.getCreateAt());
     }
 
     public static Sale toDomain(SaleEntity entity){

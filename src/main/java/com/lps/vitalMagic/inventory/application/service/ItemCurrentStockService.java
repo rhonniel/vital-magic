@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.inventory.domain.service;
+package com.lps.vitalMagic.inventory.application.service;
 
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemInventory;
 import com.lps.vitalMagic.inventory.domain.repository.InventoryTransactionRepository;

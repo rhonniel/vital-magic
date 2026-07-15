@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.sale.aplication;
+package com.lps.vitalMagic.sale.application;
 
 import com.lps.vitalMagic.sales.application.pagination.PageResult;
 import com.lps.vitalMagic.sales.application.pagination.Pagination;

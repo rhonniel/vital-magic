@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.sales.application.service;
 
-import com.lps.vitalMagic.inventory.domain.service.RegisterSaleTransactionService;
+import com.lps.vitalMagic.inventory.application.service.RegisterSaleTransactionService;
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
 import com.lps.vitalMagic.product.domain.model.data.ProductComposition;

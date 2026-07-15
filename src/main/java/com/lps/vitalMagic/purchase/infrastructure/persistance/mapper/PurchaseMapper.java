@@ -8,11 +8,11 @@ public class PurchaseMapper {
 
     public static PurchaseEntity toEntity(Purchase domain){
         return new PurchaseEntity(domain.getId(),
-                domain.getItems().stream().map(PurchaseItemMapper::toEntity).toList(),
-                domain.getTotalAmount());
+                domain.getItems().stream().map(purchaseItem -> PurchaseItemMapper.toEntity(domain.getId(), purchaseItem)).toList(),
+                domain.getTotalAmount(),domain.getCreatedAt());
     }
 
     public static Purchase toDomain(PurchaseEntity entity){
-        return Purchase.from(entity.getId(),entity.getItems().stream().map(PurchaseItemMapper::toDomain).toList(),entity.getTotalAmount());
+        return Purchase.from(entity.getId(),entity.getItems().stream().map(PurchaseItemMapper::toDomain).toList(),entity.getTotalAmount(),entity.getCreatedAt());
     }
 }

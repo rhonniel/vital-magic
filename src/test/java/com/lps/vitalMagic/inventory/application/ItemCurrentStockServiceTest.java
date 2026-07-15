@@ -1,9 +1,9 @@
-package com.lps.vitalMagic.inventory.domain;
+package com.lps.vitalMagic.inventory.application;
 
+import com.lps.vitalMagic.inventory.application.service.ItemCurrentStockService;
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemInventory;
 import com.lps.vitalMagic.inventory.domain.repository.InventoryTransactionRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemInventoryRepository;
-import com.lps.vitalMagic.inventory.domain.service.ItemCurrentStockService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
