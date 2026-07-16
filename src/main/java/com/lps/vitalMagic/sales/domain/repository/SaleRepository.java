@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface SaleRepository {
     Optional<Sale> findById(Long id);
     Sale save(Sale sale);
-    PageResult<SaleView> searchAvailableShakes(SearchSaleQuery query);
+    PageResult<SaleView> search(SearchSaleQuery query);
 }

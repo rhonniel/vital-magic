@@ -1,7 +1,10 @@
 package com.lps.vitalMagic.purchase.domain.repository;
 
 
+import com.lps.vitalMagic.purchase.application.query.SearchPurchasesQuery;
+import com.lps.vitalMagic.purchase.application.view.PurchaseView;
 import com.lps.vitalMagic.purchase.domain.model.entity.Purchase;
+import com.lps.vitalMagic.sales.application.pagination.PageResult;
 
 
 import java.util.Optional;
@@ -9,5 +12,5 @@ import java.util.Optional;
 public interface PurchaseRepository {
     Optional<Purchase> findById(Long id);
     Purchase save(Purchase purchase);
-    //List<Purchase> search(SearchPurchasesQuery filter); TODO validar Criteria para no vincular entidad Query directo al repository
+    PageResult<PurchaseView> search(SearchPurchasesQuery filter);
 }
