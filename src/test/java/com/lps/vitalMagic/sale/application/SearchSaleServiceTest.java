@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.sale.aplication;
+package com.lps.vitalMagic.sale.application;
 
 import com.lps.vitalMagic.sales.application.pagination.PageResult;
 import com.lps.vitalMagic.sales.application.pagination.Pagination;
@@ -47,7 +47,7 @@ public class SearchSaleServiceTest {
         PageResult<SaleView> salePageResult= new PageResult<>(sales,query.pagination().page(),query.pagination().size(),1,1);
 
 
-        when(saleRepository.searchAvailableShakes(query)).thenReturn(salePageResult);
+        when(saleRepository.search(query)).thenReturn(salePageResult);
 
         PageResult<SaleView> result= searchSaleService.execute(query);
 

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +23,17 @@ public class PurchaseEntity {
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
+    @Column(name= "created_at")
+    private LocalDateTime createdAt;
+
     protected PurchaseEntity() {
     }
 
-    public PurchaseEntity(Long id, List<PurchaseItemEntity> items, BigDecimal totalAmount) {
+    public PurchaseEntity(Long id, List<PurchaseItemEntity> items, BigDecimal totalAmount,LocalDateTime createdAt) {
         this.id = id;
         this.items = items;
         this.totalAmount = totalAmount;
+        this.createdAt=createdAt;
     }
 
 }

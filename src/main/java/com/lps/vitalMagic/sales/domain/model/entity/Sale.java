@@ -17,7 +17,6 @@ public class Sale {
     @Getter
     private Long id;
 
-
     private List<SaleItem> items =new ArrayList<>();
 
     @Getter

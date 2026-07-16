@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.inventory.domain.service;
+package com.lps.vitalMagic.inventory.application.service;
 
 import com.lps.vitalMagic.inventory.domain.exception.InventoryTransactionException;
 import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;

@@ -26,6 +26,6 @@ public class SearchSaleService implements SearchSaleUseCase {
         if (query.from().isAfter(query.to())) {
             throw new IllegalArgumentException("From should be before To.");
         }
-        return  saleRepository.searchAvailableShakes(query);
+        return  saleRepository.search(query);
     }
 }

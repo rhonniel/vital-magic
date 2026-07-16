@@ -1,9 +1,8 @@
 package com.lps.vitalMagic.product.domain.service;
 
-import com.lps.vitalMagic.inventory.domain.service.ItemCurrentStockService;
+import com.lps.vitalMagic.inventory.application.service.ItemCurrentStockService;
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
-import com.lps.vitalMagic.product.domain.model.data.ProductComposition;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;

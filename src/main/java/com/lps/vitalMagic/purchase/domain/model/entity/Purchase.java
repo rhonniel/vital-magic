@@ -6,6 +6,7 @@ import com.lps.vitalMagic.purchase.domain.model.input.PurchaseItemInput;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,20 +16,21 @@ import java.util.Objects;
 public class Purchase {
     @Getter
     private Long id;
-
-
     private List<PurchaseItem> items= new ArrayList<>();
+    @Getter
+    private final LocalDateTime createdAt;
 
 
     @Getter
     private BigDecimal totalAmount;
 
-    private Purchase() {
+    private Purchase(LocalDateTime createdAt) {
+        this.createdAt=createdAt;
     }
 
     public static Purchase create(List<PurchaseItemInput> items){
 
-        Purchase purchase= new Purchase();
+        Purchase purchase= new Purchase(LocalDateTime.now());
 
         Objects.requireNonNull(items);
 
@@ -46,8 +48,8 @@ public class Purchase {
         return purchase;
     }
 
-    public static Purchase from(Long id, List<PurchaseItem> items, BigDecimal totalAmount) {
-        Purchase purchase= new Purchase();
+    public static Purchase from(Long id, List<PurchaseItem> items, BigDecimal totalAmount,LocalDateTime createdAt) {
+        Purchase purchase= new Purchase(createdAt);
         purchase.id=id;
         purchase.items=items;
         purchase.totalAmount=totalAmount;

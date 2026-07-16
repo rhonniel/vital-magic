@@ -38,7 +38,7 @@ public class JpaSaleRepository implements SaleRepository {
     }
 
     @Override
-    public PageResult<SaleView> searchAvailableShakes(SearchSaleQuery query) {
+    public PageResult<SaleView> search(SearchSaleQuery query) {
         Pageable pageable = PageRequest.of(
                 query.pagination().page(),
                 query.pagination().size(),

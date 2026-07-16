@@ -1,6 +1,7 @@
 package com.lps.vitalMagic.product.domain;
 
-import com.lps.vitalMagic.inventory.domain.service.ItemCurrentStockService;
+
+import com.lps.vitalMagic.inventory.application.service.ItemCurrentStockService;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.product.domain.service.ProductAvailabilityService;

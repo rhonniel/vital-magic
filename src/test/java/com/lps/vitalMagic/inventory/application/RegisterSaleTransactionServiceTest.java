@@ -1,12 +1,12 @@
-package com.lps.vitalMagic.inventory.domain;
+package com.lps.vitalMagic.inventory.application;
 
 
+import com.lps.vitalMagic.inventory.application.service.ItemCurrentStockService;
+import com.lps.vitalMagic.inventory.application.service.RegisterSaleTransactionService;
 import com.lps.vitalMagic.inventory.domain.exception.InventoryTransactionException;
 import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;
 import com.lps.vitalMagic.inventory.domain.model.enums.InventoryTransactionType;
 import com.lps.vitalMagic.inventory.domain.repository.InventoryTransactionRepository;
-import com.lps.vitalMagic.inventory.domain.service.ItemCurrentStockService;
-import com.lps.vitalMagic.inventory.domain.service.RegisterSaleTransactionService;
 
 
 import org.junit.jupiter.api.Test;

@@ -1,0 +1,2 @@
+alter table purchase
+ADD COLUMN created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;

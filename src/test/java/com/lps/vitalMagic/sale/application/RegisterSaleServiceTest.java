@@ -1,7 +1,7 @@
-package com.lps.vitalMagic.sale.aplication;
+package com.lps.vitalMagic.sale.application;
 
+import com.lps.vitalMagic.inventory.application.service.RegisterSaleTransactionService;
 import com.lps.vitalMagic.inventory.domain.exception.InventoryTransactionException;
-import com.lps.vitalMagic.inventory.domain.service.RegisterSaleTransactionService;
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
 import com.lps.vitalMagic.product.domain.model.data.ProductComposition;
