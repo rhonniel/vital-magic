@@ -4,7 +4,6 @@ import com.lps.vitalMagic.inventory.application.service.ItemCurrentStockService;
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemInventory;
 import com.lps.vitalMagic.inventory.domain.repository.InventoryTransactionRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemInventoryRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,7 +49,7 @@ public class ItemCurrentStockServiceTest {
 
     @Test
     public void whenItemIdIsNotFound(){
-        when(itemInventoryRepository.findByActiveTrueAndItemId(9L)).thenThrow(EntityNotFoundException.class);
-        assertThrows(EntityNotFoundException.class,() -> {service.getCurrentStock(9L);});
+        when(itemInventoryRepository.findByActiveTrueAndItemId(9L)).thenThrow(IllegalStateException.class);
+        assertThrows(IllegalStateException.class,() -> {service.getCurrentStock(9L);});
     }
 }

@@ -2,6 +2,7 @@ package com.lps.vitalMagic.inventory.application.service;
 
 import com.lps.vitalMagic.inventory.application.command.CreateItemAttributeCommand;
 import com.lps.vitalMagic.inventory.application.command.CreateItemCommand;
+import com.lps.vitalMagic.common.presentation.exception.ResourceNotFoundException;
 import com.lps.vitalMagic.inventory.application.usecase.CreateItemUseCase;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemInventory;
@@ -9,7 +10,6 @@ import com.lps.vitalMagic.inventory.domain.model.input.AttributeValue;
 import com.lps.vitalMagic.inventory.domain.repository.AttributeRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemInventoryRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,8 +39,9 @@ public class CreateItemService implements CreateItemUseCase {
 
         for(CreateItemAttributeCommand attribute:command.attributes()){
             if (!attributeRepository.existsById(attribute.attributeId())) {
-                throw new EntityNotFoundException(
-                        "Attribute with id %d not found".formatted(attribute.attributeId())
+                throw new ResourceNotFoundException(
+                        "Attribute",
+                        attribute.attributeId()
                 );
             }
             attributeValues.add(new AttributeValue(attribute.attributeId(),attribute.value()));

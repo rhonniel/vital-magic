@@ -2,9 +2,8 @@ package com.lps.vitalMagic.inventory.application.usecase;
 
 import com.lps.vitalMagic.inventory.application.query.SearchItemsQuery;
 import com.lps.vitalMagic.inventory.application.view.ItemView;
-
-import java.util.List;
+import com.lps.vitalMagic.sales.application.pagination.PageResult;
 
 public interface SearchAvailableItemsUseCase {
-    List<ItemView> execute(SearchItemsQuery query);
+    PageResult<ItemView> execute(SearchItemsQuery query);
 }

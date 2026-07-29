@@ -28,10 +28,24 @@ public class ItemEntity {
 
     public ItemEntity(){}
 
+
+
     public ItemEntity(String name, String description, List<ItemAttributeEntity> attributes, boolean active) {
         this.name = name;
         this.description = description;
         this.attributes = attributes;
         this.active = active;
+    }
+
+    public ItemEntity(String name, String description, boolean active) {
+        this.name = name;
+        this.description = description;
+        this.active = active;
+    }
+
+
+    public void addAttribute(ItemAttributeEntity attribute) {
+        attributes.add(attribute);
+        attribute.assignTo(this);
     }
 }

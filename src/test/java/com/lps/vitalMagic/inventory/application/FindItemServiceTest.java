@@ -5,7 +5,6 @@ import com.lps.vitalMagic.inventory.application.service.FindItemService;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemAttribute;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -48,8 +47,8 @@ public class FindItemServiceTest {
 
     @Test
     public void whenItemNotExistsFindItemThrowAException(){
-        when(itemRepository.findById(777L)).thenThrow(EntityNotFoundException.class);
-        assertThrows(EntityNotFoundException.class,() -> findItemService.getItemInfo(777L));
+        when(itemRepository.findById(777L)).thenThrow(IllegalStateException.class);
+        assertThrows(IllegalStateException.class,() -> findItemService.getItemInfo(777L));
 
     }
 }

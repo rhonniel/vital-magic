@@ -1,13 +1,12 @@
 package com.lps.vitalMagic.inventory.application;
 
 
+import com.lps.vitalMagic.common.presentation.exception.ResourceNotFoundException;
 import com.lps.vitalMagic.inventory.application.service.RegisterPurchaseTransactionService;
-import com.lps.vitalMagic.inventory.domain.exception.InventoryTransactionException;
 import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;
 import com.lps.vitalMagic.inventory.domain.model.enums.InventoryTransactionType;
 import com.lps.vitalMagic.inventory.domain.repository.InventoryTransactionRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -62,7 +61,7 @@ public class RegisterPurchaseTransactionServiceTest {
         Long itemId= 7L;
         when(itemRepository.existsById(itemId)).thenReturn(Boolean.FALSE);
 
-        assertThrows( EntityNotFoundException.class,()->   registerPurchaseTransactionService
+        assertThrows( ResourceNotFoundException.class,()->   registerPurchaseTransactionService
                 .registerPurchase(purchaseId,itemId,10, BigDecimal.valueOf(700.00)));
     }
 

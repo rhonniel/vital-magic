@@ -3,8 +3,9 @@ package com.lps.vitalMagic.inventory.application;
 import com.lps.vitalMagic.inventory.application.query.SearchItemsQuery;
 import com.lps.vitalMagic.inventory.application.service.SearchAvailableItemsService;
 import com.lps.vitalMagic.inventory.application.view.ItemView;
-import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
+import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.sales.application.pagination.Pagination;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,25 +32,26 @@ public class SearchAvailableItemsServiceTest {
     @Test
     public void shouldReturnAvailableItems(){
 
-        SearchItemsQuery query = new SearchItemsQuery("Pelo");
+        SearchItemsQuery query = new SearchItemsQuery("Pelo",new Pagination(1,1));
 
-        Item item = Item.from(
+        ItemView item = new ItemView(
                 7L,
                 "Pelo de araña",
                 "Hebras de cabello sacadas de un arácnido",
-                List.of(),
-                true
+                List.of()
         );
 
-        when(itemRepository.searchAvailableItems(query))
-                .thenReturn(List.of(item));
+        PageResult<ItemView> pageResult= new PageResult<>(List.of(item),1,1,1L,1);
 
-        List<ItemView> result = service.execute(query);
+        when(itemRepository.searchAvailableItems(query))
+                .thenReturn(pageResult);
+
+        PageResult<ItemView> result = service.execute(query);
 
         assertNotNull(result);
         assertEquals(1, result.size());
 
-        ItemView itemView = result.get(0);
+        ItemView itemView = result.content().get(0);
 
         assertEquals(7L, itemView.id());
         assertEquals("Pelo de araña", itemView.name());

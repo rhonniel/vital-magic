@@ -1,9 +1,9 @@
 package com.lps.vitalMagic.inventory.application.service;
 
+import com.lps.vitalMagic.common.presentation.exception.ResourceNotFoundException;
 import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;
 import com.lps.vitalMagic.inventory.domain.repository.InventoryTransactionRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,7 +23,7 @@ public class RegisterPurchaseTransactionService {
         if(itemRepository.existsById(itemId)) {
             inventoryTransactionRepository.save(InventoryTransaction.createPurchase(itemId, purchaseId, quantity, unitCost));
         }else {
-            throw  new EntityNotFoundException("Item doesn't exists");
+            throw  new ResourceNotFoundException("Item",itemId);
         }
     }
 }

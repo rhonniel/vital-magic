@@ -6,6 +6,7 @@ import com.lps.vitalMagic.inventory.application.view.ItemView;
 import com.lps.vitalMagic.inventory.application.usecase.SearchAvailableItemsUseCase;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
+import com.lps.vitalMagic.sales.application.pagination.PageResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,15 +21,10 @@ public class SearchAvailableItemsService implements SearchAvailableItemsUseCase 
     }
 
     @Override
-    public List<ItemView> execute(SearchItemsQuery query) {
+    public PageResult<ItemView> execute(SearchItemsQuery query) {
 
-       List<Item> items= itemRepository.searchAvailableItems(query);
+      return itemRepository.searchAvailableItems(query);
 
-        return items.stream().map(item -> {
-            List<ItemAttributeView> attributeViews= item.getAttributes().stream()
-                    .map(attribute -> new ItemAttributeView(attribute.getAttributeId(),"",attribute.getValue())).toList();
-            return new ItemView(item.getId(),item.getName(),item.getDescription(),attributeViews);
-        }).toList();
 
     }
 }
