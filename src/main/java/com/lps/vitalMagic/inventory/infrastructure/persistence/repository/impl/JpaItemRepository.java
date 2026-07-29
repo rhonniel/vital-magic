@@ -1,25 +1,39 @@
 package com.lps.vitalMagic.inventory.infrastructure.persistence.repository.impl;
 
 import com.lps.vitalMagic.inventory.application.query.SearchItemsQuery;
+import com.lps.vitalMagic.inventory.application.view.ItemView;
+import com.lps.vitalMagic.inventory.domain.model.entity.Attribute;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.mapper.ItemMapper;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.repository.ItemJpaRepository;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.specification.ItemSpecifications;
+import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.sales.infrastructure.persistence.entity.SaleEntity;
+import com.lps.vitalMagic.sales.infrastructure.persistence.mapper.SaleMapper;
+import com.lps.vitalMagic.sales.infrastructure.persistence.specification.SaleSpecifications;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class JpaItemRepository implements ItemRepository {
 
     private final ItemJpaRepository jpaRepo;
+    private final JpaAttributeRepository attributeRepository;
 
-    public JpaItemRepository(ItemJpaRepository jpaRepo) {
+    public JpaItemRepository(ItemJpaRepository jpaRepo, JpaAttributeRepository attributeRepository) {
         this.jpaRepo = jpaRepo;
+        this.attributeRepository = attributeRepository;
     }
 
     @Override
@@ -38,13 +52,27 @@ public class JpaItemRepository implements ItemRepository {
     }
 
     @Override
-    public List<Item> searchAvailableItems(SearchItemsQuery query) {
-        return jpaRepo.findAll(
-                        ItemSpecifications.withFilters(query)
-                )
-                .stream()
-                .map(ItemMapper::toDomain)
-                .toList();
+    public PageResult<ItemView> searchAvailableItems(SearchItemsQuery query) {
+
+        Pageable pageable = PageRequest.of(
+                query.pagination().page(),
+                query.pagination().size()
+        );
+
+        Page<ItemEntity> page = jpaRepo.findAll(
+                ItemSpecifications.withFilters(query),
+                pageable
+        );
+
+        Map<Long, String> attributeNames = attributeRepository.findAll().stream()
+                .collect(Collectors.toMap(
+                        Attribute::getId,
+                        Attribute::getName
+                ));
+
+
+        return ItemMapper.toPageResult(page,attributeNames);
+
     }
 
     @Override

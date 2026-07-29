@@ -4,11 +4,9 @@ import com.lps.vitalMagic.inventory.application.service.ItemCurrentStockService;
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
-import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
 import com.lps.vitalMagic.shake.domain.model.entity.ShakeIngredient;
 import com.lps.vitalMagic.shake.domain.repository.ShakeRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,21 +22,31 @@ public class ProductAvailabilityService {
     }
 
     public boolean checkAvailability(Product product, int quantity) {
-
-       if(product.getProductType()== ProductType.SHAKE){
-           return checkShakeAvailability(product.getReferenceNo(),quantity);
-       }
-       if(product.getProductType()== ProductType.SIMPLE_PRODUCT){
-            return checkSimpleProductAvailability(product.getReferenceNo(),quantity);
+        if (quantity <= 0) {
+            throw new IllegalArgumentException(
+                    "Quantity must be greater than zero"
+            );
         }
 
+        return switch (product.getProductType()) {
+            case SHAKE ->
+                    checkShakeAvailability(
+                            product.getReferenceNo(),
+                            quantity
+                    );
 
-        return true;
+            case SIMPLE_PRODUCT ->
+                    checkSimpleProductAvailability(
+                            product.getReferenceNo(),
+                            quantity
+                    );
+        };
+
     }
 
     private boolean checkShakeAvailability(Long shakeId, int quantity) {
 
-        Shake shake = shakeRepository.findById(shakeId).orElseThrow(EntityNotFoundException::new);
+        Shake shake = shakeRepository.findById(shakeId).orElseThrow(IllegalStateException::new);
 
         for(ShakeIngredient shakeIngredient:shake.getIngredients()){
            Integer currentStock= itemCurrentStockService.getCurrentStock(shakeIngredient.getItemId());

@@ -9,13 +9,15 @@ import lombok.Getter;
 @Getter
 public class ItemAttributeEntity {
 
-    @Column(name = "item_id")
-    @Id
-    private Long itemId;
+    @EmbeddedId
+    private ItemAttributeId id;
 
-    @Column(name = "attribute_id")
-    @Id
-    private Long attributeId;
+    @MapsId("itemId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "item_id", nullable = false)
+    private ItemEntity item;
+
+
 
     @Getter
     @Column
@@ -23,9 +25,12 @@ public class ItemAttributeEntity {
 
     protected ItemAttributeEntity(){}
 
-    public ItemAttributeEntity( Long itemId, Long attributeId,int value) {
+    public ItemAttributeEntity(Long attributeId, int value) {
+        this.id = new ItemAttributeId(null, attributeId);
         this.value = value;
-        this.attributeId = attributeId;
-        this.itemId = itemId;
     }
+    void assignTo(ItemEntity item) {
+        this.item = item;
+    }
+
 }

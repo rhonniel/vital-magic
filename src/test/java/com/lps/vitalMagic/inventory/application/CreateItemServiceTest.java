@@ -1,5 +1,6 @@
 package com.lps.vitalMagic.inventory.application;
 
+import com.lps.vitalMagic.common.presentation.exception.ResourceNotFoundException;
 import com.lps.vitalMagic.inventory.application.command.CreateItemAttributeCommand;
 import com.lps.vitalMagic.inventory.application.command.CreateItemCommand;
 import com.lps.vitalMagic.inventory.application.service.CreateItemService;
@@ -9,7 +10,6 @@ import com.lps.vitalMagic.inventory.domain.model.entity.ItemInventory;
 import com.lps.vitalMagic.inventory.domain.repository.AttributeRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemInventoryRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -81,7 +81,7 @@ class CreateItemServiceTest {
         when(attributeRepository.existsById(command.attributes().get(1).attributeId()))
                 .thenReturn(false);
 
-        assertThrows(EntityNotFoundException.class,() -> {service.execute(command);});
+        assertThrows(ResourceNotFoundException.class,() -> {service.execute(command);});
 
 
     }

@@ -9,7 +9,6 @@ import com.lps.vitalMagic.product.domain.repository.ProductRepository;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
 import com.lps.vitalMagic.shake.domain.model.entity.ShakeIngredient;
 import com.lps.vitalMagic.shake.domain.repository.ShakeRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class ProductCompositionService {
         Composition composition = new Composition(ingredientCompositions);
 
         if(product.getProductType()== ProductType.SHAKE){
-            Shake shake = shakeRepository.findById(product.getReferenceNo()).orElseThrow(EntityNotFoundException::new);
+            Shake shake = shakeRepository.findById(product.getReferenceNo()).orElseThrow(() -> new IllegalArgumentException());
             for(ShakeIngredient shakeIngredient:shake.getIngredients()){
                 ingredientCompositions.add(new IngredientComposition(shakeIngredient.getItemId(),shakeIngredient.getQuantity()*quantity));
             }
@@ -45,7 +44,7 @@ public class ProductCompositionService {
     }
 
     public ProductComposition getProductComposition(Long productId, int quantity){
-        Product product =productRepository.findById(productId).orElseThrow((EntityNotFoundException::new));
+        Product product =productRepository.findById(productId).orElseThrow((IllegalStateException::new));
         Composition composition= getComposition(product,quantity);
         return  new ProductComposition(product,composition);
     }
