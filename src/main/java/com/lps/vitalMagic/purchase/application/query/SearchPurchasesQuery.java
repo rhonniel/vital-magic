@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.purchase.application.query;
 
-import com.lps.vitalMagic.sales.application.pagination.Pagination;
+import com.lps.vitalMagic.common.presentation.pagination.Pagination;
 
 import java.time.LocalDate;
 

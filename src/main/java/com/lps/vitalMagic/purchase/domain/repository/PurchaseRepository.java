@@ -4,7 +4,7 @@ package com.lps.vitalMagic.purchase.domain.repository;
 import com.lps.vitalMagic.purchase.application.query.SearchPurchasesQuery;
 import com.lps.vitalMagic.purchase.application.view.PurchaseView;
 import com.lps.vitalMagic.purchase.domain.model.entity.Purchase;
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
 
 
 import java.util.Optional;

@@ -7,8 +7,8 @@ import com.lps.vitalMagic.inventory.application.usecase.CreateItemUseCase;
 import com.lps.vitalMagic.inventory.application.usecase.FindItemsWithLowStockUseCase;
 import com.lps.vitalMagic.inventory.application.usecase.SearchAvailableItemsUseCase;
 import com.lps.vitalMagic.inventory.application.view.ItemView;
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
-import com.lps.vitalMagic.sales.application.pagination.Pagination;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.Pagination;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class ItemController {
     private final CreateItemUseCase createItemUseCase;
     private final SearchAvailableItemsUseCase searchAvailableItemsUseCase;
 
-    public ItemController(CreateItemUseCase createItemUseCase, SearchAvailableItemsUseCase searchAvailableItemsUseCase, FindItemsWithLowStockUseCase findItemsWithLowStockUseCase) {
+    public ItemController(CreateItemUseCase createItemUseCase, SearchAvailableItemsUseCase searchAvailableItemsUseCase) {
         this.createItemUseCase = createItemUseCase;
         this.searchAvailableItemsUseCase = searchAvailableItemsUseCase;
     }

@@ -8,10 +8,12 @@ import com.lps.vitalMagic.shake.domain.model.entity.Shake;
 import com.lps.vitalMagic.shake.domain.model.input.IngredientQuantityInput;
 import com.lps.vitalMagic.shake.domain.repository.ShakeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CreateStandardShakeService implements CreateStandardShakeUseCase {
 
     private final ShakeRepository shakeRepository;

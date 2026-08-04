@@ -8,7 +8,7 @@ import com.lps.vitalMagic.purchase.infrastructure.persistance.entity.PurchaseEnt
 import com.lps.vitalMagic.purchase.infrastructure.persistance.mapper.PurchaseMapper;
 import com.lps.vitalMagic.purchase.infrastructure.persistance.repository.PurchaseJpaRepository;
 import com.lps.vitalMagic.purchase.infrastructure.persistance.specification.PurchaseSpecifications;
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.shake.infrastructure.persistance.entity;
+package com.lps.vitalMagic.shake.infrastructure.persistence.entity;
 
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeCategory;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeType;

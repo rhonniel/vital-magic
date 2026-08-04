@@ -1,7 +1,7 @@
 package com.lps.vitalMagic.sale.application;
 
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
-import com.lps.vitalMagic.sales.application.pagination.Pagination;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.Pagination;
 import com.lps.vitalMagic.sales.application.query.SearchSaleQuery;
 import com.lps.vitalMagic.sales.application.service.SearchSaleService;
 import com.lps.vitalMagic.sales.application.view.SaleItemView;
