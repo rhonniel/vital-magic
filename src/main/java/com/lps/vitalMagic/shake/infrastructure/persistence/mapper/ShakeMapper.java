@@ -1,7 +1,7 @@
 package com.lps.vitalMagic.shake.infrastructure.persistence.mapper;
 
 
-import com.lps.vitalMagic.common.presentation.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.PageResult;
 import com.lps.vitalMagic.shake.application.view.ShakeAttributeView;
 import com.lps.vitalMagic.shake.application.view.ShakeIngredientView;
 import com.lps.vitalMagic.shake.application.view.ShakeView;

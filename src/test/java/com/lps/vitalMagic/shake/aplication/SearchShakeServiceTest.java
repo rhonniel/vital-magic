@@ -1,17 +1,11 @@
 package com.lps.vitalMagic.shake.aplication;
 
 
-import com.lps.vitalMagic.common.presentation.pagination.PageResult;
-import com.lps.vitalMagic.common.presentation.pagination.Pagination;
-import com.lps.vitalMagic.inventory.application.view.ItemView;
-import com.lps.vitalMagic.inventory.domain.model.entity.Attribute;
-import com.lps.vitalMagic.inventory.domain.model.entity.Item;
-import com.lps.vitalMagic.inventory.domain.model.entity.ItemAttribute;
+import com.lps.vitalMagic.common.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.Pagination;
 import com.lps.vitalMagic.shake.application.query.SearchShakeQuery;
 import com.lps.vitalMagic.shake.application.service.SearchShakeService;
 import com.lps.vitalMagic.shake.application.view.ShakeView;
-import com.lps.vitalMagic.shake.domain.model.entity.Shake;
-import com.lps.vitalMagic.shake.domain.model.entity.ShakeIngredient;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeCategory;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeType;
 import com.lps.vitalMagic.shake.domain.repository.ShakeRepository;
@@ -21,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static  org.junit.jupiter.api.Assertions.*;

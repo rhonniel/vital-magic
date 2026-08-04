@@ -1,8 +1,8 @@
 package com.lps.vitalMagic.shake.application.controller;
 
 
-import com.lps.vitalMagic.common.presentation.pagination.PageResult;
-import com.lps.vitalMagic.common.presentation.pagination.Pagination;
+import com.lps.vitalMagic.common.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.Pagination;
 import com.lps.vitalMagic.shake.application.command.CreateShakeIngredientCommand;
 import com.lps.vitalMagic.shake.application.command.CreateStandardShakeCommand;
 import com.lps.vitalMagic.shake.application.query.SearchShakeQuery;

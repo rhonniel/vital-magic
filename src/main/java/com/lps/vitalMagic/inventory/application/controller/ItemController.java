@@ -4,11 +4,10 @@ import com.lps.vitalMagic.inventory.application.command.CreateItemAttributeComma
 import com.lps.vitalMagic.inventory.application.command.CreateItemCommand;
 import com.lps.vitalMagic.inventory.application.query.SearchItemsQuery;
 import com.lps.vitalMagic.inventory.application.usecase.CreateItemUseCase;
-import com.lps.vitalMagic.inventory.application.usecase.FindItemsWithLowStockUseCase;
 import com.lps.vitalMagic.inventory.application.usecase.SearchAvailableItemsUseCase;
 import com.lps.vitalMagic.inventory.application.view.ItemView;
-import com.lps.vitalMagic.common.presentation.pagination.PageResult;
-import com.lps.vitalMagic.common.presentation.pagination.Pagination;
+import com.lps.vitalMagic.common.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.Pagination;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.springframework.http.ResponseEntity;

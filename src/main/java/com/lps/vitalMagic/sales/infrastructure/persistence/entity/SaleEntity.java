@@ -25,15 +25,15 @@ public class SaleEntity {
     private BigDecimal totalAmount;
 
     @Column(name="created_at")
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     protected SaleEntity() {
     }
 
-    public SaleEntity(Long id, List<SaleItemEntity> items, BigDecimal totalAmount,LocalDateTime createAt) {
+    public SaleEntity(Long id, List<SaleItemEntity> items, BigDecimal totalAmount,LocalDateTime createdAt) {
         this.id = id;
         this.items = items;
         this.totalAmount = totalAmount;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 }

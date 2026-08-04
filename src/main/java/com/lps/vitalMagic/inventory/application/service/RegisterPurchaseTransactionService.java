@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.inventory.application.service;
 
-import com.lps.vitalMagic.common.presentation.exception.ResourceNotFoundException;
+import com.lps.vitalMagic.common.exception.ResourceNotFoundException;
 import com.lps.vitalMagic.inventory.domain.model.entity.InventoryTransaction;
 import com.lps.vitalMagic.inventory.domain.repository.InventoryTransactionRepository;
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;

@@ -5,7 +5,7 @@ import com.lps.vitalMagic.purchase.application.view.PurchaseView;
 import com.lps.vitalMagic.purchase.domain.model.entity.Purchase;
 import com.lps.vitalMagic.purchase.infrastructure.persistance.entity.PurchaseEntity;
 import com.lps.vitalMagic.purchase.infrastructure.persistance.entity.PurchaseItemEntity;
-import com.lps.vitalMagic.common.presentation.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.PageResult;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;

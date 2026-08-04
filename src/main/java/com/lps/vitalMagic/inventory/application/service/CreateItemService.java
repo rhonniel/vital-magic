@@ -2,7 +2,7 @@ package com.lps.vitalMagic.inventory.application.service;
 
 import com.lps.vitalMagic.inventory.application.command.CreateItemAttributeCommand;
 import com.lps.vitalMagic.inventory.application.command.CreateItemCommand;
-import com.lps.vitalMagic.common.presentation.exception.ResourceNotFoundException;
+import com.lps.vitalMagic.common.exception.ResourceNotFoundException;
 import com.lps.vitalMagic.inventory.application.usecase.CreateItemUseCase;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemInventory;
