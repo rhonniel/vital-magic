@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.sales.infrastructure.persistence.repository.impl;
 
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
 import com.lps.vitalMagic.sales.application.query.SearchSaleQuery;
 import com.lps.vitalMagic.sales.application.view.SaleView;
 import com.lps.vitalMagic.sales.domain.model.entity.Sale;
@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 @Repository
 public class JpaSaleRepository implements SaleRepository {

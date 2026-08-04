@@ -3,7 +3,7 @@ package com.lps.vitalMagic.inventory.domain.repository;
 import com.lps.vitalMagic.inventory.application.query.SearchItemsQuery;
 import com.lps.vitalMagic.inventory.application.view.ItemView;
 import com.lps.vitalMagic.inventory.domain.model.entity.Item;
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
 
 import java.util.List;
 import java.util.Optional;

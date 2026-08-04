@@ -153,9 +153,9 @@ public class ItemControllerTest {
 
     private static Stream<Arguments> invalidSearchParameters() {
         return Stream.of(
-                Arguments.of("Dragon tail","-4", "10"), // page: @PositiveOrZero
-                Arguments.of("Dragon tail","0", "0"), // size: @min 1
-                Arguments.of("Dragon tail","0", "101")// size: @max 100
+                Arguments.of("-4", "10"), // page: @PositiveOrZero
+                Arguments.of("0", "0"), // size: @min 1
+                Arguments.of("0", "101")// size: @max 100
 
         );
     }

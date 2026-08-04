@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.shake.infrastructure.persistance.entity;
+package com.lps.vitalMagic.shake.infrastructure.persistence.entity;
 
 
 import jakarta.persistence.*;

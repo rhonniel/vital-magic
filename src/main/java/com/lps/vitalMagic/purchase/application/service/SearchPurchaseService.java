@@ -4,10 +4,8 @@ import com.lps.vitalMagic.purchase.application.query.SearchPurchasesQuery;
 import com.lps.vitalMagic.purchase.application.usecase.SearchPurchaseUseCase;
 import com.lps.vitalMagic.purchase.application.view.PurchaseView;
 import com.lps.vitalMagic.purchase.domain.repository.PurchaseRepository;
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class SearchPurchaseService  implements SearchPurchaseUseCase {

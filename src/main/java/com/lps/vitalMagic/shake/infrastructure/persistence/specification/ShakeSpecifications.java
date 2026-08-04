@@ -1,10 +1,10 @@
-package com.lps.vitalMagic.shake.infrastructure.persistance.specification;
+package com.lps.vitalMagic.shake.infrastructure.persistence.specification;
 
 
 import com.lps.vitalMagic.shake.application.query.SearchShakeQuery;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeCategory;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeType;
-import com.lps.vitalMagic.shake.infrastructure.persistance.entity.ShakeEntity;
+import com.lps.vitalMagic.shake.infrastructure.persistence.entity.ShakeEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ShakeSpecifications {

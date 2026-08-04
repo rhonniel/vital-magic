@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.sales.application.pagination;
+package com.lps.vitalMagic.common.presentation.pagination;
 
 import java.util.List;
 

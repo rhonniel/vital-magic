@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.sales.infrastructure.persistence.mapper;
 
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
 import com.lps.vitalMagic.sales.application.view.SaleItemView;
 import com.lps.vitalMagic.sales.application.view.SaleView;
 import com.lps.vitalMagic.sales.domain.model.entity.Sale;

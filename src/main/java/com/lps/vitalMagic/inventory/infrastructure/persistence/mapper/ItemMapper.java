@@ -6,7 +6,7 @@ import com.lps.vitalMagic.inventory.domain.model.entity.Item;
 import com.lps.vitalMagic.inventory.domain.model.entity.ItemAttribute;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemAttributeEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity;
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;

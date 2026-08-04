@@ -9,14 +9,10 @@ import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity
 import com.lps.vitalMagic.inventory.infrastructure.persistence.mapper.ItemMapper;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.repository.ItemJpaRepository;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.specification.ItemSpecifications;
-import com.lps.vitalMagic.sales.application.pagination.PageResult;
-import com.lps.vitalMagic.sales.infrastructure.persistence.entity.SaleEntity;
-import com.lps.vitalMagic.sales.infrastructure.persistence.mapper.SaleMapper;
-import com.lps.vitalMagic.sales.infrastructure.persistence.specification.SaleSpecifications;
+import com.lps.vitalMagic.common.presentation.pagination.PageResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

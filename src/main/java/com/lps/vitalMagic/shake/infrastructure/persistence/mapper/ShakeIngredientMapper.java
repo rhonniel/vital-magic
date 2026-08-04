@@ -1,8 +1,8 @@
-package com.lps.vitalMagic.shake.infrastructure.persistance.mapper;
+package com.lps.vitalMagic.shake.infrastructure.persistence.mapper;
 
 
 import com.lps.vitalMagic.shake.domain.model.entity.ShakeIngredient;
-import com.lps.vitalMagic.shake.infrastructure.persistance.entity.ShakeIngredientEntity;
+import com.lps.vitalMagic.shake.infrastructure.persistence.entity.ShakeIngredientEntity;
 
 public class ShakeIngredientMapper  {
 
