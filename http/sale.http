@@ -1,0 +1,37 @@
+### Registrar una venta y comprobar el resultado
+# @name registerSale
+POST localhost:8080/sale
+Content-Type: application/json
+Accept: application/json
+
+{
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    }
+  ]
+}
+
+> {%
+    client.test("La venta fue creada", function () {
+        client.assert(
+            response.status === 201,
+            "Se esperaba 201, pero llegó " + response.status
+        );
+    });
+
+    client.test("Retorna el ID de la venta", function () {
+        client.assert(
+            response.body.saleId != null,
+            "La respuesta no contiene saleId"
+        );
+    });
+
+    client.test("Incluye el header Location", function () {
+        client.assert(
+            response.headers.valueOf("Location") != null,
+            "No se recibió Location"
+        );
+    });
+%}

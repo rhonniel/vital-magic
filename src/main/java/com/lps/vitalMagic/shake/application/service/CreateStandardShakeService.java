@@ -1,6 +1,8 @@
 package com.lps.vitalMagic.shake.application.service;
 
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
+import com.lps.vitalMagic.product.aplication.command.CreateShakeProductCommand;
+import com.lps.vitalMagic.product.aplication.usecase.CreateShakeProductUseCase;
 import com.lps.vitalMagic.shake.application.command.CreateShakeIngredientCommand;
 import com.lps.vitalMagic.shake.application.command.CreateStandardShakeCommand;
 import com.lps.vitalMagic.shake.application.usecase.CreateStandardShakeUseCase;
@@ -17,12 +19,14 @@ import java.util.List;
 public class CreateStandardShakeService implements CreateStandardShakeUseCase {
 
     private final ShakeRepository shakeRepository;
-    private final ItemRepository itemRepository;
+    private final ItemRepository itemRepository; //TODO I already that dependency is too deep , is better call a service or use case, but i fix this in the another stage
+    private final CreateShakeProductUseCase createShakeProductUseCase;
 
 
-    public CreateStandardShakeService(ShakeRepository shakeRepository, ItemRepository itemRepository) {
+    public CreateStandardShakeService(ShakeRepository shakeRepository, ItemRepository itemRepository, CreateShakeProductUseCase createShakeProductUseCase) {
         this.shakeRepository = shakeRepository;
         this.itemRepository = itemRepository;
+        this.createShakeProductUseCase = createShakeProductUseCase;
     }
 
     @Override
@@ -43,6 +47,10 @@ public class CreateStandardShakeService implements CreateStandardShakeUseCase {
 
        Shake standardShake= Shake.createStandardShake(command.name(), command.description(), command.shakeCategory(),ingredientQuantityInputs);
 
-        return shakeRepository.save(standardShake).getId();
+        Shake shake= shakeRepository.save(standardShake);
+
+        createShakeProductUseCase.execute(new CreateShakeProductCommand(shake.getId()));
+
+        return shake.getId();
     }
 }

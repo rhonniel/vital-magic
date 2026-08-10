@@ -1,6 +1,8 @@
 package com.lps.vitalMagic.product.domain.model.entity;
 
 import com.lps.vitalMagic.product.domain.exception.InvalidProductException;
+import com.lps.vitalMagic.product.domain.model.data.IngredientCost;
+import com.lps.vitalMagic.product.domain.model.data.ShakeProductData;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
 import com.lps.vitalMagic.shake.domain.model.entity.ShakeIngredient;
@@ -45,37 +47,28 @@ public class Product {
         this.active = active;
     }
 
-    public static Product createShakeProduct(Shake shake, Map<Long, BigDecimal> itemsCost){
+    public static Product createShakeProduct(ShakeProductData data) {
+        Objects.requireNonNull(data);
 
+        BigDecimal totalCost = data.ingredients().stream()
+                .map(IngredientCost::totalCost)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        BigDecimal productTotalCost= BigDecimal.ZERO;
+        BigDecimal price = calculatePrice(totalCost);
 
-        for (ShakeIngredient ingredient : shake.getIngredients()) {
-
-            BigDecimal itemCost =
-                    itemsCost.get(ingredient.getItemId());
-            if(itemCost==null){
-                throw new InvalidProductException("Missing cost for item " + ingredient.getItemId());
-            }
-            BigDecimal subtotal =
-                    itemCost.multiply(
-                            BigDecimal.valueOf(
-                                    ingredient.getQuantity()
-                            )
-                    );
-
-            productTotalCost = productTotalCost.add(subtotal);
-        }
-
-        BigDecimal productPrice= calculatePrice(productTotalCost);
-
-        if(productPrice.compareTo(productTotalCost) <= 0){
+        if (price.compareTo(totalCost) <= 0) {
             throw new InvalidProductException(
                     "Product price should be greater than total cost"
             );
         }
 
-        return new Product(shake.getId(),ProductType.SHAKE,shake.getName(),productPrice,true);
+        return new Product(
+                data.referenceNo(),
+                ProductType.SHAKE,
+                data.name(),
+                price,
+                true
+        );
     }
 
     /*Simple price using fixed profit margin, MVP version*/

@@ -1,6 +1,7 @@
 package com.lps.vitalMagic.product.infrastructure.persistance.repository.impl;
 
 import com.lps.vitalMagic.product.domain.model.entity.Product;
+import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.product.domain.repository.ProductRepository;
 import com.lps.vitalMagic.product.infrastructure.persistance.entity.ProductEntity;
 import com.lps.vitalMagic.product.infrastructure.persistance.mapper.ProductMapper;
@@ -33,5 +34,10 @@ public class JpaProductRepository implements ProductRepository {
     @Override
     public List<Product> findAllActiveProducts() {
         return jpaRepository.findByActiveTrue().stream().map(ProductMapper::toDomain).toList();
+    }
+
+    @Override
+    public boolean existsByReferenceNoAndProductType(Long referenceNo, ProductType productType) {
+        return false;
     }
 }
