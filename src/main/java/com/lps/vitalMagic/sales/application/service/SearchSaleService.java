@@ -19,13 +19,14 @@ public class SearchSaleService implements SearchSaleUseCase {
 
     @Override
     public PageResult<SaleView> execute(SearchSaleQuery query) {
-        if (query.from() == null || query.to() == null) {
-            throw new IllegalArgumentException("From and To dates are required.");
+
+        if (query.from() != null && query.to() != null) {
+            if (query.from().isAfter(query.to())) {
+                throw new IllegalArgumentException("From should be before To.");
+            }
         }
 
-        if (query.from().isAfter(query.to())) {
-            throw new IllegalArgumentException("From should be before To.");
-        }
+
         return  saleRepository.search(query);
     }
 }

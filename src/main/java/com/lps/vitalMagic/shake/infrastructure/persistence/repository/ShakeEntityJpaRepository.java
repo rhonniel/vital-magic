@@ -13,13 +13,13 @@ import java.util.List;
 
 public interface ShakeEntityJpaRepository extends JpaRepository<ShakeEntity,Long>, JpaSpecificationExecutor<ShakeEntity> {
     @Query("""
-    select si.shakeId as shakeId,
+    select si.id.shakeId as shakeId,
            i.id as itemId,
            i.name as itemName,
            si.quantity as quantity
     from ShakeIngredientEntity si
-    join ItemEntity i on i.id = si.itemId
-    where si.shakeId in :shakeIds
+    join ItemEntity i on i.id = si.id.itemId
+    where si.id.shakeId in :shakeIds
     """)
     List<ShakeIngredientProjection> findIngredientsByShakeIds(
             Collection<Long> shakeIds

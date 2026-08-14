@@ -7,11 +7,11 @@ import com.lps.vitalMagic.shake.infrastructure.persistence.entity.ShakeIngredien
 public class ShakeIngredientMapper  {
 
     public static ShakeIngredientEntity toEntity(ShakeIngredient domain) {
-        return  new ShakeIngredientEntity(domain.getItemId(), domain.getShakeId(), domain.getQuantity());
+        return  new ShakeIngredientEntity(domain.getItemId(), domain.getQuantity());
     }
 
 
     public static ShakeIngredient toDomain(ShakeIngredientEntity entity) {
-        return  ShakeIngredient.from(entity.getShakeId(), entity.getItemId(), entity.getQuantity());
+        return  ShakeIngredient.from( entity.getId().getItemId(), entity.getQuantity());
     }
 }

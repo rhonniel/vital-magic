@@ -1,10 +1,12 @@
 package com.lps.vitalMagic.shake.infrastructure.persistence.entity;
 
+import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemAttributeEntity;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeCategory;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeType;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,14 +40,18 @@ public class ShakeEntity {
 
     protected ShakeEntity() {
     }
+    public void addShakeIngredientEntity(ShakeIngredientEntity shakeIngredientEntity) {
+        ingredients.add(shakeIngredientEntity);
+        shakeIngredientEntity.assignTo(this);
+    }
 
-    public ShakeEntity(Long id, String name, String description, ShakeType shakeType, ShakeCategory shakeCategory, List<ShakeIngredientEntity> ingredients, boolean active) {
+    public ShakeEntity(Long id, String name, String description, ShakeType shakeType, ShakeCategory shakeCategory, boolean active) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.shakeType = shakeType;
         this.shakeCategory = shakeCategory;
-        this.ingredients = ingredients;
+        this.ingredients = new ArrayList<>();
         this.active = active;
     }
 }

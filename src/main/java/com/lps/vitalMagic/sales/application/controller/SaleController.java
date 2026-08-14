@@ -1,22 +1,22 @@
-package com.lps.vitalMagic.sales.presentation.controller;
+package com.lps.vitalMagic.sales.application.controller;
 
-import com.lps.vitalMagic.inventory.application.controller.ItemController;
+import com.lps.vitalMagic.common.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.Pagination;
 import com.lps.vitalMagic.sales.application.command.CreateSaleCommand;
 import com.lps.vitalMagic.sales.application.command.CreateSaleItemCommand;
+import com.lps.vitalMagic.sales.application.query.SearchSaleQuery;
 import com.lps.vitalMagic.sales.application.usecase.RegisterSaleUseCase;
 import com.lps.vitalMagic.sales.application.usecase.SearchSaleUseCase;
+import com.lps.vitalMagic.sales.application.view.SaleView;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -52,6 +52,14 @@ public class SaleController {
 
     }
 
+    @GetMapping
+    public PageResult<SaleView> searchSale(@Valid SearchSaleRequest request){
+        SearchSaleQuery query = new SearchSaleQuery(request.from,request.to,request.productId,
+        new Pagination(request.page(), request.size()));
+        return searchSaleUseCase.execute(query);
+
+    }
+
 
 
 
@@ -72,6 +80,26 @@ public class SaleController {
 
             @Positive
             int quantity
+    ) {}
+
+
+    public record SearchSaleRequest(
+
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate from,
+
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate to,
+
+            @Positive
+            Long productId,
+
+            @PositiveOrZero
+            int page,
+
+            @Min(1)
+            @Max(100)
+            int size
     ) {}
 
 }

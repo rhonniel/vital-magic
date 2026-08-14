@@ -53,10 +53,8 @@ public class SearchPurchaseServiceTest {
     @Test
     public void shouldRejectInvalidDateRange(){
         SearchPurchasesQuery query= new SearchPurchasesQuery(LocalDate.MAX,LocalDate.now(),7L,new Pagination(1,1));
-        SearchPurchasesQuery queryNull= new SearchPurchasesQuery(null,null,7L,new Pagination(1,1));
 
         assertThrows(IllegalArgumentException.class,() -> searchPurchaseService.execute(query));
-        assertThrows(IllegalArgumentException.class,() -> searchPurchaseService.execute(queryNull)) ;
 
     }
 

@@ -10,12 +10,17 @@ import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//TODO nada testea el mapeo ni la infra en general
 public class SaleMapper {
 
 
     public static SaleEntity toEntity(Sale domain){
-        return new SaleEntity(domain.getId(), domain.getItems().stream().map(item -> SaleItemMapper.toEntity(domain.getId(),item)).toList(),domain.getTotalAmount(),domain.getCreateAt());
+        SaleEntity entity = new SaleEntity(domain.getId(),domain.getTotalAmount(),domain.getCreateAt());
+        domain.getItems().forEach(item -> {
+            entity.addItem(SaleItemMapper.toEntity(item));
+        });
+
+        return entity;
     }
 
     public static Sale toDomain(SaleEntity entity){

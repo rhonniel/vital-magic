@@ -18,14 +18,11 @@ public class SearchPurchaseService  implements SearchPurchaseUseCase {
 
     @Override
     public PageResult<PurchaseView> execute(SearchPurchasesQuery query) {
-        if (query.from() == null || query.to() == null) {
-            throw new IllegalArgumentException("From and To dates are required.");
+        if (query.from() != null && query.to() != null) {
+            if (query.from().isAfter(query.to())) {
+                throw new IllegalArgumentException("From should be before To.");
+            }
         }
-
-        if (query.from().isAfter(query.to())) {
-            throw new IllegalArgumentException("From should be before To.");
-        }
-
         return purchaseRepository.search(query);
     }
 }

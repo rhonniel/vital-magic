@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+//* TODO Los mensages de nigun fallo salen solo dice la excepcion pero no dice el mensage de que paso
 @Service
 public class CreateShakeProductService implements CreateShakeProductUseCase {
 

@@ -17,7 +17,13 @@ public class ShakeMapper {
 
 
     public static ShakeEntity toEntity(Shake domain) {
-        return new ShakeEntity(domain.getId(), domain.getName(), domain.getDescription(),domain.getShakeType(),domain.getShakeCategory(),domain.getIngredients().stream().map(ShakeIngredientMapper::toEntity).toList(), domain.isActive());
+        ShakeEntity entity=new ShakeEntity(domain.getId(), domain.getName(), domain.getDescription(),domain.getShakeType(),
+                domain.getShakeCategory(), domain.isActive());
+        domain.getIngredients().forEach(shakeIngredient -> {
+            entity.addShakeIngredientEntity(ShakeIngredientMapper.toEntity(shakeIngredient));
+        });
+
+        return entity;
     }
 
 

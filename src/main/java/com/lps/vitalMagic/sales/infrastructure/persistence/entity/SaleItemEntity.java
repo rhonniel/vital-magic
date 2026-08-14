@@ -13,8 +13,9 @@ public class SaleItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sale_id")
-    private Long saleId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "sale_id", nullable = false)
+    private SaleEntity sale;
 
     @Column(name = "product_id")
     private Long productId;
@@ -35,13 +36,16 @@ public class SaleItemEntity {
     protected SaleItemEntity(){}
 
 
-    public SaleItemEntity(Long id, Long saleId, Long productId, String productName, BigDecimal unitPrice, int quantity, BigDecimal subtotal) {
+    public SaleItemEntity(Long id, Long productId, String productName, BigDecimal unitPrice, int quantity, BigDecimal subtotal) {
         this.id = id;
-        this.saleId = saleId;
         this.productId = productId;
         this.productName = productName;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.subtotal = subtotal;
+    }
+
+    public void assignTo(SaleEntity saleEntity) {
+        this.sale = saleEntity;
     }
 }

@@ -10,6 +10,7 @@ import com.lps.vitalMagic.shake.domain.model.entity.Shake;
 import com.lps.vitalMagic.shake.domain.model.input.IngredientQuantityInput;
 import com.lps.vitalMagic.shake.domain.repository.ShakeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class CreateStandardShakeService implements CreateStandardShakeUseCase {
     }
 
     @Override
+    @Transactional
     public Long execute(CreateStandardShakeCommand command) {
 
         List<IngredientQuantityInput> ingredientQuantityInputs = new ArrayList<>();

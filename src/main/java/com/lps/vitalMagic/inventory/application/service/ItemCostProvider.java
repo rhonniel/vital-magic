@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
+//Todo faltan los test de esto
 public class ItemCostProvider {
     private final ItemInventoryRepository itemInventoryRepository;
 
@@ -24,7 +25,7 @@ public class ItemCostProvider {
         }
 
         itemInventoryRepository.findByItemIds(itemIds).forEach(itemInventory -> {
-            itemCosts.put(itemInventory.getItemId(), itemCosts.get(itemInventory.getItemId()));
+            itemCosts.put(itemInventory.getItemId(), itemInventory.getUnitCost());
         });
 
         return itemCosts;
