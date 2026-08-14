@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.sales.application.service;
 
-import com.lps.vitalMagic.common.presentation.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.PageResult;
 import com.lps.vitalMagic.sales.application.query.SearchSaleQuery;
 import com.lps.vitalMagic.sales.application.usecase.SearchSaleUseCase;
 import com.lps.vitalMagic.sales.application.view.SaleView;
@@ -19,13 +19,14 @@ public class SearchSaleService implements SearchSaleUseCase {
 
     @Override
     public PageResult<SaleView> execute(SearchSaleQuery query) {
-        if (query.from() == null || query.to() == null) {
-            throw new IllegalArgumentException("From and To dates are required.");
+
+        if (query.from() != null && query.to() != null) {
+            if (query.from().isAfter(query.to())) {
+                throw new IllegalArgumentException("From should be before To.");
+            }
         }
 
-        if (query.from().isAfter(query.to())) {
-            throw new IllegalArgumentException("From should be before To.");
-        }
+
         return  saleRepository.search(query);
     }
 }

@@ -9,17 +9,14 @@ import lombok.Getter;
 @Getter
 public class ShakeIngredientEntity {
 
-    @Id
-    @Column(name = "item_id")
-    private Long itemId;
+    @EmbeddedId
+    private ShakeIngredientId id;
 
-    @Id
-    @Column(
-            name = "shake_id",
-            insertable = false,
-            updatable = false
-    )
-    private Long shakeId;
+
+    @MapsId("shakeId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "shake_id", nullable = false)
+    private ShakeEntity shake;
 
 
     @Column
@@ -28,9 +25,12 @@ public class ShakeIngredientEntity {
     protected ShakeIngredientEntity() {
     }
 
-    public ShakeIngredientEntity(Long itemId, Long shakeId, int quantity) {
-        this.itemId = itemId;
-        this.shakeId = shakeId;
+    public ShakeIngredientEntity(Long itemId, int quantity) {
+        this.id = new ShakeIngredientId(null, itemId);
         this.quantity = quantity;
+    }
+
+    public void assignTo(ShakeEntity shakeEntity) {
+        this.shake = shakeEntity;
     }
 }

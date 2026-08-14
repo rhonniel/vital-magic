@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.common.presentation.pagination;
+package com.lps.vitalMagic.common.pagination;
 
 public record Pagination(int page, int size) {
 

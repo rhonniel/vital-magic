@@ -1,0 +1,117 @@
+@baseUrl = http://localhost:8080
+
+### Crear item: "Polvo de perlas
+POST {{baseUrl}}/item
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Polvo de perlas",
+  "description": "Perlas de mar molidas",
+  "attributes": {
+    "1": 8,
+    "2": 5,
+    "3": 3
+  },
+  "minStock": 10
+}
+
+> {%
+    client.test("Item created successfully", function () {
+        client.assert(response.status === 201, "Expected HTTP 201");
+        client.assert(response.body.id !== undefined, "Response should contain an id");
+    });
+
+    client.global.set("itemId", response.body.id);
+%}
+
+### Crear item: Moon Herb
+POST {{baseUrl}}/item
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Moon Herb",
+  "description": "A magical herb that grows under moonlight",
+  "attributes": {
+    "1": 4,
+    "3": 7
+  },
+  "minStock": 20
+}
+
+> {%
+    client.test("Item created successfully", function () {
+        client.assert(response.status === 201, "Expected HTTP 201");
+    });
+%}
+
+### Buscar todos los items — primera página
+GET {{baseUrl}}/item?page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("Search returns OK", function () {
+        client.assert(response.status === 200, "Expected HTTP 200");
+    });
+%}
+
+### Buscar items por nombre
+GET {{baseUrl}}/item?name=Dragon&page=0&size=10
+Accept: application/json
+
+### Buscar por nombre exacto
+GET {{baseUrl}}/item?name=Dragon%20Tail&page=0&size=10
+Accept: application/json
+
+### Buscar segunda página
+GET {{baseUrl}}/item?page=1&size=10
+Accept: application/json
+
+### Request inválido: nombre vacío
+POST {{baseUrl}}/item
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "",
+  "description": "Invalid item",
+  "attributes": {
+    "1": 5
+  },
+  "minStock": 10
+}
+
+> {%
+    client.test("Blank name is rejected", function () {
+        client.assert(response.status === 400, "Expected HTTP 400");
+    });
+%}
+
+### Request inválido: attributes vacío
+POST {{baseUrl}}/item
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Invalid Item",
+  "description": "Item without attributes",
+  "attributes": {},
+  "minStock": 10
+}
+
+> {%
+    client.test("Empty attributes are rejected", function () {
+        client.assert(response.status === 400, "Expected HTTP 400");
+    });
+%}
+
+### Request inválido: paginación
+GET {{baseUrl}}/item?page=-1&size=101
+Accept: application/json
+
+> {%
+    client.test("Invalid pagination is rejected", function () {
+        client.assert(response.status === 400, "Expected HTTP 400");
+    });
+%}

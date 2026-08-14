@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.inventory.application;
 
-import com.lps.vitalMagic.common.presentation.exception.ResourceNotFoundException;
+import com.lps.vitalMagic.common.exception.ResourceNotFoundException;
 import com.lps.vitalMagic.inventory.application.command.CreateItemAttributeCommand;
 import com.lps.vitalMagic.inventory.application.command.CreateItemCommand;
 import com.lps.vitalMagic.inventory.application.service.CreateItemService;

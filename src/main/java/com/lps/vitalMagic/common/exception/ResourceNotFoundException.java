@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.common.presentation.exception;
+package com.lps.vitalMagic.common.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

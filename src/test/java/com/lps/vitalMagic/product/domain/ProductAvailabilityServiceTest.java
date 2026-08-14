@@ -49,9 +49,9 @@ public class ProductAvailabilityServiceTest {
                 ProductType.SHAKE,"Batida zapote criptoniano",new BigDecimal("750.50"),true);
 
         List<ShakeIngredient> shakeIngredients= new ArrayList<>();
-        shakeIngredients.add(ShakeIngredient.from(productId,1L,2));
-        shakeIngredients.add(ShakeIngredient.from(productId,2L,1));
-        shakeIngredients.add(ShakeIngredient.from(productId,3L,3));
+        shakeIngredients.add(ShakeIngredient.from(1L,2));
+        shakeIngredients.add(ShakeIngredient.from(2L,1));
+        shakeIngredients.add(ShakeIngredient.from(3L,3));
 
         Shake shake= Shake.from(productId,"Pollo","Pollo", ShakeType.STANDARD, ShakeCategory.RARE,shakeIngredients,true);
 
@@ -98,9 +98,9 @@ public class ProductAvailabilityServiceTest {
                 ProductType.SHAKE,"Batida zapote criptoniano",new BigDecimal("750.50"),true);
 
         List<ShakeIngredient> shakeIngredients= new ArrayList<>();
-        shakeIngredients.add(ShakeIngredient.from(productId,1L,2));
-        shakeIngredients.add(ShakeIngredient.from(productId,2L,1));
-        shakeIngredients.add(ShakeIngredient.from(productId,3L,3));
+        shakeIngredients.add(ShakeIngredient.from(1L,2));
+        shakeIngredients.add(ShakeIngredient.from(2L,1));
+        shakeIngredients.add(ShakeIngredient.from(3L,3));
 
         Shake shake= Shake.from(productId,"Pollo","Pollo", ShakeType.STANDARD, ShakeCategory.RARE,shakeIngredients,true);
 

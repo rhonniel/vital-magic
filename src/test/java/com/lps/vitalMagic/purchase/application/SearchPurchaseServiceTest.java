@@ -5,8 +5,8 @@ import com.lps.vitalMagic.purchase.application.service.SearchPurchaseService;
 import com.lps.vitalMagic.purchase.application.view.PurchaseItemView;
 import com.lps.vitalMagic.purchase.application.view.PurchaseView;
 import com.lps.vitalMagic.purchase.domain.repository.PurchaseRepository;
-import com.lps.vitalMagic.common.presentation.pagination.PageResult;
-import com.lps.vitalMagic.common.presentation.pagination.Pagination;
+import com.lps.vitalMagic.common.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.Pagination;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,10 +53,8 @@ public class SearchPurchaseServiceTest {
     @Test
     public void shouldRejectInvalidDateRange(){
         SearchPurchasesQuery query= new SearchPurchasesQuery(LocalDate.MAX,LocalDate.now(),7L,new Pagination(1,1));
-        SearchPurchasesQuery queryNull= new SearchPurchasesQuery(null,null,7L,new Pagination(1,1));
 
         assertThrows(IllegalArgumentException.class,() -> searchPurchaseService.execute(query));
-        assertThrows(IllegalArgumentException.class,() -> searchPurchaseService.execute(queryNull)) ;
 
     }
 

@@ -1,7 +1,7 @@
 package com.lps.vitalMagic.sale.application;
 
-import com.lps.vitalMagic.common.presentation.pagination.PageResult;
-import com.lps.vitalMagic.common.presentation.pagination.Pagination;
+import com.lps.vitalMagic.common.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.Pagination;
 import com.lps.vitalMagic.sales.application.query.SearchSaleQuery;
 import com.lps.vitalMagic.sales.application.service.SearchSaleService;
 import com.lps.vitalMagic.sales.application.view.SaleItemView;
@@ -59,10 +59,9 @@ public class SearchSaleServiceTest {
     @Test
     public void shouldRejectInvalidDateRange(){
         SearchSaleQuery query = new SearchSaleQuery(LocalDate.MAX,LocalDate.now(),777L,new Pagination(1,10));
-        SearchSaleQuery queryNull = new SearchSaleQuery(null,null,777L,new Pagination(1,10));
 
         assertThrows(IllegalArgumentException.class,() -> searchSaleService.execute(query));
-        assertThrows(IllegalArgumentException.class,() -> searchSaleService.execute(queryNull)) ;
+
 
     }
 }

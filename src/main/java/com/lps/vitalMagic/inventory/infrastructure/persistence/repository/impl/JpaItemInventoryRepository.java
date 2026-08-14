@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class JpaItemInventoryRepository implements ItemInventoryRepository {
@@ -33,6 +34,13 @@ public class JpaItemInventoryRepository implements ItemInventoryRepository {
 
         return  jpaRepository.findById(id)
                 .map(ItemInventoryMapper::toDomain);
+    }
+
+    @Override
+    public List<ItemInventory> findByItemIds(Set<Long> itemIds) {
+        return jpaRepository.findByItemIdIn(itemIds).stream()
+                .map(ItemInventoryMapper::toDomain)
+                .toList();
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.lps.vitalMagic.shake.aplication;
 
 import com.lps.vitalMagic.inventory.domain.repository.ItemRepository;
+import com.lps.vitalMagic.product.aplication.command.CreateShakeProductCommand;
+import com.lps.vitalMagic.product.aplication.usecase.CreateShakeProductUseCase;
 import com.lps.vitalMagic.shake.application.command.CreateShakeIngredientCommand;
 import com.lps.vitalMagic.shake.application.command.CreateStandardShakeCommand;
+import com.lps.vitalMagic.shake.application.query.ShakeProductSource;
 import com.lps.vitalMagic.shake.application.service.CreateStandardShakeService;
 import com.lps.vitalMagic.shake.domain.model.entity.Shake;
 import com.lps.vitalMagic.shake.domain.model.enums.ShakeCategory;
@@ -32,6 +35,9 @@ public class CreateStandardShakeServiceTest {
 
     @Mock
     private ItemRepository itemRepository;
+
+    @Mock
+    private CreateShakeProductUseCase  createShakeProductUseCase;
 
     @InjectMocks
     private CreateStandardShakeService service;
@@ -63,12 +69,15 @@ public class CreateStandardShakeServiceTest {
         when(itemRepository.existsById(anyLong())).thenReturn(true);
         when(shakeRepository.save(any())).thenReturn(persisted);
 
+
         Long shakeId= service.execute(shakeCommand);
         ArgumentCaptor<Shake> captor =
                 ArgumentCaptor.forClass(Shake.class);
 
         verify(shakeRepository).save(captor.capture());
         Shake saved = captor.getValue();
+
+        verify(createShakeProductUseCase).execute(new CreateShakeProductCommand(persisted.getId()));
         assertEquals(ShakeType.STANDARD, saved.getShakeType());
         assertEquals(ingredientCommands.size(),saved.getIngredients().size());
         assertEquals(persisted.getId(),shakeId);

@@ -38,7 +38,7 @@ public class Shake {
 
     public void addIngredient(IngredientQuantityInput ingredientQuantity) {
         ShakeIngredient ingredient =
-                new ShakeIngredient(this.id, ingredientQuantity.itemId(), ingredientQuantity.quantity());
+                new ShakeIngredient(ingredientQuantity.itemId(), ingredientQuantity.quantity());
         this.ingredients.add(ingredient);
     }
 

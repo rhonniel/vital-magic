@@ -1,4 +1,4 @@
-package com.lps.vitalMagic.common.presentation.exception;
+package com.lps.vitalMagic.common.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;

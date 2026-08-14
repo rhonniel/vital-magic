@@ -1,0 +1,46 @@
+### Vital Magic - Shake API
+### IntelliJ IDEA Ultimate HTTP Client
+
+@baseUrl = http://localhost:8080
+
+### Crear una batida estándar
+
+POST {{baseUrl}}/shake
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "BatiOmega",
+  "description": "Batida con el poder de cantar merengue con voz grave",
+  "shakeCategory": "RARE",
+  "ingredients": {
+    "3": 2,
+    "4": 1,
+    "5": 1
+  }
+}
+
+> {%
+    client.test("La batida fue creada", function () {
+        client.assert(response.status === 201, "Se esperaba HTTP 201");
+        client.assert(response.body.id != null, "La respuesta debe incluir el id");
+    });
+
+    client.global.set("createdShakeId", response.body.id);
+%}
+
+### Buscar todas las batidas - primera página
+GET {{baseUrl}}/shake?page=0&size=10
+Accept: application/json
+
+### Buscar batidas por tipo
+GET {{baseUrl}}/shake?shakeType=STANDARD&page=0&size=10
+Accept: application/json
+
+### Buscar batidas por categoría
+GET {{baseUrl}}/shake?shakeCategory=RARE&page=0&size=10
+Accept: application/json
+
+### Buscar batidas por tipo y categoría
+GET {{baseUrl}}/shake?shakeType=STANDARD&shakeCategory=RARE&page=0&size=10
+Accept: application/json

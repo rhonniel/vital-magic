@@ -30,19 +30,19 @@ public class PurchaseSpecifications {
     }
 
     public static Specification<PurchaseEntity> hasItem(Long itemId){
-        return (root, query, cb) -> {
+           return (root, query, cb) -> {
+                Subquery<Long> subquery = query.subquery(Long.class);
+                Root<PurchaseItemEntity> purchaseItem =
+                        subquery.from(PurchaseItemEntity.class);
 
-            Subquery<Long> subquery = query.subquery(Long.class);
+                subquery.select(purchaseItem.get("purchaseId"));
 
-            Root<PurchaseItemEntity> saleItem = subquery.from(PurchaseItemEntity.class);
+                subquery.where(
+                        cb.equal(purchaseItem.get("itemId"), itemId),
+                        cb.equal(purchaseItem.get("purchaseId"), root.get("id"))
+                );
 
-            subquery.select(cb.literal(1L))
-                    .where(
-                            cb.equal(saleItem.get("purchase"), root),
-                            cb.equal(saleItem.get("itemId"), itemId)
-                    );
-
-            return cb.exists(subquery);
+                return cb.exists(subquery);
         };
     }
 }

@@ -1,0 +1,126 @@
+### Registrar una venta y comprobar el resultado
+# @name registerSale
+@baseUrl = http://localhost:8080
+POST localhost:8080/sale
+Content-Type: application/json
+Accept: application/json
+
+{
+  "items": [
+    {
+      "productId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+> {%
+    client.test("La venta fue creada", function () {
+        client.assert(
+            response.status === 201,
+            "Se esperaba 201, pero llegó " + response.status
+        );
+    });
+
+    client.test("Retorna el ID de la venta", function () {
+        client.assert(
+            response.body.saleId != null,
+            "La respuesta no contiene saleId"
+        );
+    });
+
+    client.test("Incluye el header Location", function () {
+        client.assert(
+            response.headers.valueOf("Location") != null,
+            "No se recibió Location"
+        );
+    });
+%}
+
+### Buscar todas las ventas
+GET {{baseUrl}}/sale?page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("La búsqueda fue exitosa", function () {
+        client.assert(
+            response.status === 200,
+            "Se esperaba 200, pero llegó " + response.status
+        );
+    });
+%}
+
+### Buscar ventas por rango de fechas
+GET {{baseUrl}}/sale?from=2026-08-01&to=2026-08-13&page=0&size=10
+Accept: application/json
+
+### Buscar ventas por producto
+GET {{baseUrl}}/sale?productId=7&page=0&size=10
+Accept: application/json
+
+### Buscar ventas combinando producto y fechas
+GET {{baseUrl}}/sale?from=2026-08-01&to=2026-08-13&productId=2&page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("La búsqueda combinada fue exitosa", function () {
+        client.assert(
+            response.status === 200,
+            "Se esperaba 200, pero llegó " + response.status
+        );
+    });
+
+    client.test("La respuesta contiene información paginada", function () {
+        client.assert(
+            response.body != null,
+            "La respuesta está vacía"
+        );
+    });
+%}
+
+### Buscar ventas desde una fecha
+GET {{baseUrl}}/sale?from=2026-08-01&page=0&size=10
+Accept: application/json
+
+### Buscar ventas hasta una fecha
+GET {{baseUrl}}/sale?to=2026-08-13&page=0&size=10
+Accept: application/json
+
+### Request inválido: productId igual a cero
+GET {{baseUrl}}/sale?productId=0&page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("Rechaza un productId inválido", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Request inválido: fecha con formato incorrecto
+GET {{baseUrl}}/sale?from=13-08-2026&to=2026-08-13&page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("Rechaza una fecha con formato incorrecto", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Request inválido: paginación fuera del rango permitido
+GET {{baseUrl}}/sale?page=-1&size=101
+Accept: application/json
+
+> {%
+    client.test("Rechaza la paginación inválida", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
