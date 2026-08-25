@@ -1,0 +1,255 @@
+### Vital Magic - Purchase API
+### IntelliJ IDEA Ultimate HTTP Client
+
+@baseUrl = http://localhost:8080
+@itemId = 1
+
+### Registrar una compra
+# @name registerPurchase
+POST {{baseUrl}}/purchase
+Content-Type: application/json
+Accept: application/json
+
+{
+  "items": [
+    {
+      "itemId": {{itemId}},
+      "quantity": 5,
+      "unitCost": 35.50
+    },
+    {
+      "itemId": 2,
+      "quantity": 3,
+      "unitCost": 20.00
+    }
+  ]
+}
+
+> {%
+    client.test("La compra fue registrada", function () {
+        client.assert(
+            response.status === 201,
+            "Se esperaba 201, pero llegó " + response.status
+        );
+    });
+
+    client.test("Retorna el ID de la compra", function () {
+        client.assert(
+            response.body.purchaseId != null,
+            "La respuesta no contiene purchaseId"
+        );
+    });
+
+    client.test("Incluye el header Location", function () {
+        client.assert(
+            response.headers.valueOf("Location") != null,
+            "No se recibió el header Location"
+        );
+    });
+
+    client.global.set(
+        "createdPurchaseId",
+        response.body.purchaseId
+    );
+%}
+
+### Buscar todas las compras
+GET {{baseUrl}}/purchase?page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("La búsqueda fue exitosa", function () {
+        client.assert(
+            response.status === 200,
+            "Se esperaba 200, pero llegó " + response.status
+        );
+    });
+
+    client.test("Retorna una respuesta paginada", function () {
+        client.assert(
+            response.body.content != null,
+            "La respuesta no contiene content"
+        );
+
+        client.assert(
+            response.body.page != null,
+            "La respuesta no contiene page"
+        );
+
+        client.assert(
+            response.body.totalElements != null,
+            "La respuesta no contiene totalElements"
+        );
+    });
+%}
+
+### Buscar compras por rango de fechas
+GET {{baseUrl}}/purchase?from=2026-08-01&to=2026-08-24&page=0&size=10
+Accept: application/json
+
+### Buscar compras por item
+GET {{baseUrl}}/purchase?itemId={{itemId}}&page=0&size=10
+Accept: application/json
+
+### Buscar compras combinando item y fechas
+GET {{baseUrl}}/purchase?from=2026-08-01&to=2026-08-24&itemId={{itemId}}&page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("La búsqueda combinada fue exitosa", function () {
+        client.assert(
+            response.status === 200,
+            "Se esperaba 200, pero llegó " + response.status
+        );
+    });
+%}
+
+### Buscar compras desde una fecha
+GET {{baseUrl}}/purchase?from=2026-08-01&page=0&size=10
+Accept: application/json
+
+### Buscar compras hasta una fecha
+GET {{baseUrl}}/purchase?to=2026-08-24&page=0&size=10
+Accept: application/json
+
+### Registro inválido: lista de items vacía
+POST {{baseUrl}}/purchase
+Content-Type: application/json
+Accept: application/json
+
+{
+  "items": []
+}
+
+> {%
+    client.test("Rechaza una compra sin items", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Registro inválido: itemId negativo
+POST {{baseUrl}}/purchase
+Content-Type: application/json
+Accept: application/json
+
+{
+  "items": [
+    {
+      "itemId": -1,
+      "quantity": 5,
+      "unitCost": 35.50
+    }
+  ]
+}
+
+> {%
+    client.test("Rechaza un itemId inválido", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Registro inválido: cantidad igual a cero
+POST {{baseUrl}}/purchase
+Content-Type: application/json
+Accept: application/json
+
+{
+  "items": [
+    {
+      "itemId": {{itemId}},
+      "quantity": 0,
+      "unitCost": 35.50
+    }
+  ]
+}
+
+> {%
+    client.test("Rechaza una cantidad inválida", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Registro inválido: costo unitario igual a cero
+POST {{baseUrl}}/purchase
+Content-Type: application/json
+Accept: application/json
+
+{
+  "items": [
+    {
+      "itemId": {{itemId}},
+      "quantity": 5,
+      "unitCost": 0
+    }
+  ]
+}
+
+> {%
+    client.test("Rechaza un costo unitario inválido", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Búsqueda inválida: itemId igual a cero
+GET {{baseUrl}}/purchase?itemId=0&page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("Rechaza un itemId de búsqueda inválido", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Búsqueda inválida: formato incorrecto de fecha
+GET {{baseUrl}}/purchase?from=24-08-2026&to=2026-08-24&page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("Rechaza una fecha con formato incorrecto", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Búsqueda inválida: from posterior a to
+GET {{baseUrl}}/purchase?from=2026-08-24&to=2026-08-01&page=0&size=10
+Accept: application/json
+
+> {%
+    client.test("Rechaza un rango de fechas invertido", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
+
+### Búsqueda inválida: paginación fuera del rango permitido
+GET {{baseUrl}}/purchase?page=-1&size=101
+Accept: application/json
+
+> {%
+    client.test("Rechaza la paginación inválida", function () {
+        client.assert(
+            response.status === 400,
+            "Se esperaba 400, pero llegó " + response.status
+        );
+    });
+%}
