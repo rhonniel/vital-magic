@@ -15,9 +15,13 @@ import java.util.List;
 public class PurchaseMapper {
 
     public static PurchaseEntity toEntity(Purchase domain){
-        return new PurchaseEntity(domain.getId(),
-                domain.getItems().stream().map(purchaseItem -> PurchaseItemMapper.toEntity(domain.getId(), purchaseItem)).toList(),
+        PurchaseEntity purchaseEntity= new PurchaseEntity(domain.getId(),
                 domain.getTotalAmount(),domain.getCreatedAt());
+        domain.getItems().forEach(item -> {
+            purchaseEntity.addItem(PurchaseItemMapper.toEntity(item));
+        });
+
+        return purchaseEntity;
     }
 
     public static Purchase toDomain(PurchaseEntity entity){

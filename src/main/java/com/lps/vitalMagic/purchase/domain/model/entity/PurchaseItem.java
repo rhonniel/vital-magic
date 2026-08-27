@@ -22,7 +22,7 @@ public class PurchaseItem {
 
     private BigDecimal subtotal;
 
-     PurchaseItem(Long purchaseId, ItemSnapshot item, int quantity) {
+     PurchaseItem(ItemSnapshot item, int quantity) {
 
         if(quantity<=0){
             throw new InvalidPurchaseException("Purchase item quantity should be more than zero");

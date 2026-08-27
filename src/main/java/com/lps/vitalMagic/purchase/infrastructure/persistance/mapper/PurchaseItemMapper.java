@@ -4,8 +4,8 @@ import com.lps.vitalMagic.purchase.domain.model.entity.PurchaseItem;
 import com.lps.vitalMagic.purchase.infrastructure.persistance.entity.PurchaseItemEntity;
 
 public class PurchaseItemMapper {
-    public static PurchaseItemEntity toEntity(Long purchaseId, PurchaseItem domain) {
-        return new PurchaseItemEntity(domain.getId(),purchaseId,domain.getItem().itemId(),
+    public static PurchaseItemEntity toEntity( PurchaseItem domain) {
+        return new PurchaseItemEntity(domain.getId(),domain.getItem().itemId(),
                 domain.getItem().itemName(),domain.getItem().unitCost(),
                 domain.getQuantity(),domain.getSubtotal());
     }

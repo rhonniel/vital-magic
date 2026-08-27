@@ -16,8 +16,7 @@ public class PurchaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
-    @JoinColumn(name = "purchase_id")
+    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true, mappedBy = "purchase")
     private List<PurchaseItemEntity> items= new ArrayList<>();
 
     @Column(name = "total_amount")
@@ -29,11 +28,13 @@ public class PurchaseEntity {
     protected PurchaseEntity() {
     }
 
-    public PurchaseEntity(Long id, List<PurchaseItemEntity> items, BigDecimal totalAmount,LocalDateTime createdAt) {
+    public PurchaseEntity(Long id, BigDecimal totalAmount,LocalDateTime createdAt) {
         this.id = id;
-        this.items = items;
         this.totalAmount = totalAmount;
         this.createdAt=createdAt;
     }
-
+    public void addItem(PurchaseItemEntity item) {
+        items.add(item);
+        item.assignTo(this);
+    }
 }
