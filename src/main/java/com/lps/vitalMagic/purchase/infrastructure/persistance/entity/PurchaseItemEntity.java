@@ -1,6 +1,7 @@
 package com.lps.vitalMagic.purchase.infrastructure.persistance.entity;
 
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -16,8 +17,9 @@ public class PurchaseItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "purchase_id")
-    private Long purchaseId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "purchase_id", nullable = false)
+    private PurchaseEntity purchase;
 
     @Column(name = "item_id")
     private Long itemId;
@@ -38,13 +40,16 @@ public class PurchaseItemEntity {
     protected PurchaseItemEntity(){}
 
 
-    public PurchaseItemEntity(Long id, Long purchaseId, Long itemId, String itemName, BigDecimal unitCost, int quantity, BigDecimal subtotal) {
+    public PurchaseItemEntity(Long id, Long itemId, String itemName, BigDecimal unitCost, int quantity, BigDecimal subtotal) {
         this.id = id;
-        this.purchaseId = purchaseId;
         this.itemId = itemId;
         this.itemName = itemName;
         this.unitCost = unitCost;
         this.quantity = quantity;
         this.subtotal = subtotal;
+    }
+
+    public void assignTo(PurchaseEntity purchaseEntity) {
+        this.purchase = purchaseEntity;
     }
 }

@@ -15,8 +15,8 @@ public interface InventoryTransactionJpaRepository extends JpaRepository<Invento
     select coalesce(
         sum(
             case
-                when i.type = 'SALE' then i.quantity
-                when i.type = 'PURCHASE' then -i.quantity
+                when i.type = 'SALE' then -i.quantity
+                when i.type = 'PURCHASE' then i.quantity
             end
         ),
         0

@@ -17,9 +17,8 @@ public class SaleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
-    @JoinColumn(name = "sale_id")
-    private List<SaleItemEntity> items =new ArrayList<>();
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SaleItemEntity> items = new ArrayList<>();
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;

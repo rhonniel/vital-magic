@@ -40,7 +40,7 @@ public class Purchase {
 
         for(PurchaseItemInput input:items){
             Objects.requireNonNull(input);
-            purchase.items.add(new PurchaseItem(purchase.id,input.itemSnapshot(),input.quantity()));
+            purchase.items.add(new PurchaseItem(input.itemSnapshot(),input.quantity()));
         }
 
         purchase.calculateTotal();

@@ -35,11 +35,10 @@ public class PurchaseSpecifications {
                 Root<PurchaseItemEntity> purchaseItem =
                         subquery.from(PurchaseItemEntity.class);
 
-                subquery.select(purchaseItem.get("purchaseId"));
-
-                subquery.where(
+                subquery.select(cb.literal(1L))
+                        .where(
                         cb.equal(purchaseItem.get("itemId"), itemId),
-                        cb.equal(purchaseItem.get("purchaseId"), root.get("id"))
+                        cb.equal(purchaseItem.get("purchase"), root)
                 );
 
                 return cb.exists(subquery);

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
-//TODO nada testea el mapeo ni la infra en general
+
 public class SaleMapper {
 
 

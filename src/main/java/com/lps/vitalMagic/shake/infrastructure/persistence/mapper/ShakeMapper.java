@@ -43,7 +43,7 @@ public class ShakeMapper {
                             entity.getShakeCategory(),
                             attributes.stream().map(projection ->
                                     new ShakeAttributeView(projection.attributeId(), projection.attributeName(),
-                                            projection.total())).toList(),
+                                            projection.total().intValueExact())).toList(),
                             ingredients.stream().map(projection ->
                                     new ShakeIngredientView(projection.itemId(), projection.itemName(),
                                             projection.quantity())).toList()
