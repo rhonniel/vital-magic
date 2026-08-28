@@ -21,9 +21,7 @@ public interface ShakeEntityJpaRepository extends JpaRepository<ShakeEntity,Long
     join ItemEntity i on i.id = si.id.itemId
     where si.id.shakeId in :shakeIds
     """)
-    List<ShakeIngredientProjection> findIngredientsByShakeIds(
-            Collection<Long> shakeIds
-    );
+    List<ShakeIngredientProjection> findIngredientsByShakeIds(Collection<Long> shakeIds);
 
     @NativeQuery("""
           select
@@ -37,8 +35,6 @@ public interface ShakeEntityJpaRepository extends JpaRepository<ShakeEntity,Long
           where si.shake_id in (:shakeIds)
           group by si.shake_id, a.id, a.name
     """)
-    List<ShakeAttributeProjection> findAttributeByShakeIds(
-            Collection<Long> shakeIds
-    );
+    List<ShakeAttributeProjection> findAttributeByShakeIds(Collection<Long> shakeIds);
 
 }
