@@ -17,20 +17,20 @@ public class ShakeSpecifications {
         if (query.type() != null) {
             spec = spec.and(shakeTypeContains(query.type()));
         }
-        spec.and(isActive());
-        return spec;
+
+        return spec.and(isActive());
     }
 
 
     private static Specification<ShakeEntity> categoryContains(ShakeCategory category) {
         return (root, q, cb) ->
-                        cb.equal(root.get("category"),category);
+                        cb.equal(root.get("shakeCategory"),category);
     }
 
 
     private static Specification<ShakeEntity> shakeTypeContains(ShakeType type) {
         return (root, q, cb) ->
-                cb.equal(root.get("category"),type);
+                cb.equal(root.get("shakeType"),type);
     }
 
     private static Specification<ShakeEntity> isActive() {
