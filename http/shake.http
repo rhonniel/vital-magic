@@ -42,5 +42,5 @@ GET {{baseUrl}}/shake?shakeCategory=RARE&page=0&size=10
 Accept: application/json
 
 ### Buscar batidas por tipo y categoría
-GET {{baseUrl}}/shake?shakeType=STANDARD&shakeCategory=RARE&page=0&size=10
+GET {{baseUrl}}/shake?shakeType=STANDARD&shakeCategory=DEFENSIVE&page=0&size=10
 Accept: application/json
