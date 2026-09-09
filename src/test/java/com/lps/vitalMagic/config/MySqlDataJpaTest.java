@@ -4,18 +4,21 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
-@Testcontainers
 @AutoConfigureTestDatabase(
         replace = AutoConfigureTestDatabase.Replace.NONE
 )
 public abstract class MySqlDataJpaTest {
 
-    @Container
     protected static final MySQLContainer<?> MYSQL =
-            new MySQLContainer<>("mysql:8.4");
+            new MySQLContainer<>(
+                    DockerImageName.parse("mysql:8.4")
+            );
+
+    static {
+        MYSQL.start();
+    }
 
     @DynamicPropertySource
     static void configureDatabase(

@@ -12,6 +12,7 @@ import com.lps.vitalMagic.shake.infrastructure.persistence.projection.ShakeIngre
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ShakeMapper {
 
@@ -41,10 +42,14 @@ public class ShakeMapper {
                             entity.getDescription(),
                             entity.getShakeType(),
                             entity.getShakeCategory(),
-                            attributes.stream().map(projection ->
+                            attributes.stream().filter(shakeAttributeProjection ->
+                                    Objects.equals(shakeAttributeProjection.shakeId(), entity.getId()))
+                                    .map(projection ->
                                     new ShakeAttributeView(projection.attributeId(), projection.attributeName(),
                                             projection.total().intValueExact())).toList(),
-                            ingredients.stream().map(projection ->
+                            ingredients.stream().filter(shakeAttributeProjection ->
+                                    Objects.equals(shakeAttributeProjection.shakeId(), entity.getId()))
+                                    .map(projection ->
                                     new ShakeIngredientView(projection.itemId(), projection.itemName(),
                                             projection.quantity())).toList()
                     );
