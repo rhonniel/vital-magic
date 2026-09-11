@@ -19,6 +19,35 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 public class InventoryTransactionJpaRepositoryTest  extends MySqlDataJpaTest {
 
+    @Test
+    void shouldExcludeProcessedTransactionsFromPendingStock() {
+        var item = itemJpaRepository.saveAndFlush(new ItemEntity("Potion", "Description", true));
+        repository.saveAllAndFlush(List.of(
+                new InventoryTransactionEntity(null, item.getId(), 101L,
+                        InventoryTransactionType.PURCHASE, 5, new BigDecimal("2.00"), null),
+                new InventoryTransactionEntity(null, item.getId(), 102L,
+                        InventoryTransactionType.PURCHASE, 20, new BigDecimal("2.00"),
+                        LocalDateTime.of(2026, 8, 1, 12, 0)),
+                new InventoryTransactionEntity(null, item.getId(), 103L,
+                        InventoryTransactionType.SALE, 3, null,
+                        LocalDateTime.of(2026, 8, 1, 12, 0))));
+
+        assertEquals(5, repository.findTotalUnprocessedStocksByItemId(item.getId()));
+    }
+
+    @Test
+    void shouldExcludeOtherItemFromPendingStock() {
+        var item = itemJpaRepository.saveAndFlush(new ItemEntity("Potion", "Description", true));
+        var other = itemJpaRepository.saveAndFlush(new ItemEntity("Other", "Description", true));
+        repository.saveAllAndFlush(List.of(
+                new InventoryTransactionEntity(null, item.getId(), 101L,
+                        InventoryTransactionType.PURCHASE, 5, new BigDecimal("2.00"), null),
+                new InventoryTransactionEntity(null, other.getId(), 102L,
+                        InventoryTransactionType.PURCHASE, 20, new BigDecimal("2.00"), null)));
+
+        assertEquals(5, repository.findTotalUnprocessedStocksByItemId(item.getId()));
+    }
+
     @Autowired
     private InventoryTransactionJpaRepository repository;
 

@@ -14,8 +14,7 @@ public class ItemSpecifications {
             spec = spec.and(nameContains(query.name()));
         }
 
-        spec.and(isActive());
-        return spec;
+        return  spec.and(isActive());
     }
 
 

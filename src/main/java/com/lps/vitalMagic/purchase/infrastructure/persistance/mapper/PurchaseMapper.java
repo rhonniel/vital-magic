@@ -45,8 +45,9 @@ public class PurchaseMapper {
 
     private static PurchaseView toView(PurchaseEntity entity) {
         List<PurchaseItemView> itemViewList=  new ArrayList<>();
-        for(PurchaseItemEntity item: entity.getItems()){
-            itemViewList.add(new PurchaseItemView(item.getId(), item.getItemName(), item.getQuantity(),item.getUnitCost(),item.getSubtotal()));
+        for(PurchaseItemEntity purchaseItem: entity.getItems()){
+            itemViewList.add(new PurchaseItemView(purchaseItem.getItemId(), purchaseItem.getItemName(),
+                    purchaseItem.getQuantity(),purchaseItem.getUnitCost(),purchaseItem.getSubtotal()));
         }
 
         return new PurchaseView(entity.getId(),entity.getCreatedAt(),entity.getTotalAmount(),itemViewList);

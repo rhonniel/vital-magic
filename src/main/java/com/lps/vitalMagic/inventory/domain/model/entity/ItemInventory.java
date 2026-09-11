@@ -54,7 +54,7 @@ public class ItemInventory {
 
     }
 
-    public static ItemInventory from(Long id,Long itemId,int minStock,int currentStock,BigDecimal unitCost){
+    public static ItemInventory from(Long id,Long itemId,int minStock,int currentStock,BigDecimal unitCost,Boolean active){
        ItemInventory itemInventory= new ItemInventory();
 
        itemInventory.id=id;
@@ -62,6 +62,7 @@ public class ItemInventory {
        itemInventory.minStock=minStock;
        itemInventory.currentStock=currentStock;
        itemInventory.unitCost=unitCost;
+       itemInventory.active=active;
 
        return itemInventory;
 

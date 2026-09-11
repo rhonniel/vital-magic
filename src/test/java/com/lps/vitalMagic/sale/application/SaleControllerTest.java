@@ -63,7 +63,8 @@ public class SaleControllerTest {
         mockMvc.perform(post("/sale")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidJson))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.title").value("Invalid request"));
 
         verifyNoInteractions(registerSaleUseCase);
     }
@@ -82,29 +83,33 @@ public void searchSaleWithQueryIsSuccessfully() throws Exception {
 
 @ParameterizedTest
 @MethodSource("invalidSearchParameters")
-public void shouldRejectInvalidRequestForSearchShake(
-        String shakeCategory,
-        String shakeType,
+public void shouldRejectInvalidRequestForSearchSale(
+        String from,
+        String to,
+        String productId,
         String page,
-        String size
+        String size,
+        String invalidField
 ) throws Exception {
 
     mockMvc.perform(get("/sale")
-                    .param("shakeCategory", shakeCategory)
-                    .param("shakeType", shakeType)
+                    .param("from", from)
+                    .param("to", to)
+                    .param("productId", productId)
                     .param("page", page)
                     .param("size", size)
                     .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.errors." + invalidField).exists());
 
     verifyNoInteractions(searchSaleUseCase);
 }
 
     private static Stream<Arguments> invalidSearchParameters() {
         return Stream.of(
-                Arguments.of("2026-08-01","2026-08-01","1","-4", "10"), // page: @PositiveOrZero
-                Arguments.of("2026-08-01","2026-08-01","1","0", "0"), // size: @min 1
-                Arguments.of("2026-08-01","2026-08-01","1", "101")// size: @max 100
+                Arguments.of("2026-08-01","2026-08-01","1","-4", "10", "page"),
+                Arguments.of("2026-08-01","2026-08-01","1","0", "0", "size"),
+                Arguments.of("2026-08-01","2026-08-01","1","0", "101", "size")
 
         );
     }
@@ -128,7 +133,6 @@ public void shouldRejectInvalidRequestForSearchShake(
                                      { "quantity": 2}
                              ]
                   }
-        }
         """,
 
                 // productId: @Positive

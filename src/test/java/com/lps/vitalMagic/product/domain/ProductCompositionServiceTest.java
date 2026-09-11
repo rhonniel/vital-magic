@@ -1,5 +1,6 @@
 package com.lps.vitalMagic.product.domain;
 
+import com.lps.vitalMagic.product.domain.repository.ProductRepository;
 import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
@@ -21,12 +22,45 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductCompositionServiceTest {
+
+    @Mock
+    private ProductRepository productRepository;
+
+    @Test
+    void shouldGetProductCompositionUsingReferenceAndIngredientIds() {
+        Product product = Product.from(101L, 202L, ProductType.SHAKE,
+                "Shake", new BigDecimal("30.00"), true);
+        Shake shake = Shake.from(202L, "Shake", "Description", ShakeType.STANDARD,
+                ShakeCategory.RARE, List.of(ShakeIngredient.from(303L, 2),
+                        ShakeIngredient.from(404L, 5)), true);
+        when(productRepository.findById(101L)).thenReturn(Optional.of(product));
+        when(shakeRepository.findById(202L)).thenReturn(Optional.of(shake));
+
+        var result = productCompositionService.getProductComposition(101L, 3);
+
+        assertSame(product, result.product());
+        assertEquals(Map.of(303L, 6, 404L, 15), result.composition().items().stream()
+                .collect(Collectors.toMap(
+                        IngredientComposition::itemId, IngredientComposition::quantity)));
+        verify(shakeRepository).findById(202L);
+    }
+
+    @Test
+    void shouldRejectMissingProductComposition() {
+        when(productRepository.findById(101L)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalStateException.class,
+                () -> productCompositionService.getProductComposition(101L, 3));
+        verifyNoInteractions(shakeRepository);
+    }
 
     @InjectMocks
     private ProductCompositionService productCompositionService;

@@ -79,3 +79,8 @@ Thumbs.db
 # Docker
 # =========================
 docker-data/
+
+# Codex project skills
+/.agent/*
+!/.agent/skills/
+!/.agent/skills/**
