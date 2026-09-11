@@ -13,6 +13,7 @@ public class ItemInventoryMapper {
 
 
     public static ItemInventory toDomain(ItemInventoryEntity entity) {
-        return ItemInventory.from(entity.getId(), entity.getItemId(),entity.getMinStock(),entity.getCurrentStock(),entity.getUnitCost());
+        return ItemInventory.from(entity.getId(), entity.getItemId(),entity.getMinStock(),
+                entity.getCurrentStock(),entity.getUnitCost(),entity.isActive());
     }
 }

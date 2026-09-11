@@ -72,6 +72,7 @@ public class ShakeControllerTest {
         verifyNoInteractions(createStandardShakeUseCase);
     }
 
+    @Test
     public void searchShakeWithQueryIsSuccessfully() throws Exception {
         mockMvc.perform(get("/shake")
                         .param("shakeCategory", "DEFENSIVE")

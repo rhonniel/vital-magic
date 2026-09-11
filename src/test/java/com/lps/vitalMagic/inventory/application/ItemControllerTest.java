@@ -1,5 +1,9 @@
 package com.lps.vitalMagic.inventory.application;
 
+import com.lps.vitalMagic.common.pagination.PageResult;
+import com.lps.vitalMagic.common.pagination.Pagination;
+import com.lps.vitalMagic.inventory.application.query.SearchItemsQuery;
+import com.lps.vitalMagic.inventory.application.view.ItemView;
 import com.lps.vitalMagic.common.exception.ResourceNotFoundException;
 import com.lps.vitalMagic.inventory.application.controller.ItemController;
 import com.lps.vitalMagic.inventory.application.usecase.CreateItemUseCase;
@@ -14,9 +18,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,6 +32,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ItemController.class)
 public class ItemControllerTest {
+
+    @Test
+    void shouldSearchItemsWithQueryAndPagination() throws Exception {
+        var query = new SearchItemsQuery(
+                "Dragon", new Pagination(1, 2));
+        var item = new ItemView(
+                77L, "Dragon tail", "Rare ingredient", List.of());
+        when(searchAvailableItemsUseCase.execute(query)).thenReturn(
+                new PageResult<>(List.of(item), 1, 2, 3, 2));
+
+        mockMvc.perform(get("/item").param("name", "Dragon")
+                        .param("page", "1").param("size", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.content[0].id").value(77))
+                .andExpect(jsonPath("$.content[0].name").value("Dragon tail"))
+                .andExpect(jsonPath("$.page").value(1))
+                .andExpect(jsonPath("$.size").value(2))
+                .andExpect(jsonPath("$.totalElements").value(3))
+                .andExpect(jsonPath("$.totalPages").value(2));
+
+        verify(searchAvailableItemsUseCase).execute(query);
+    }
 
     @Autowired
     private MockMvc mockMvc;

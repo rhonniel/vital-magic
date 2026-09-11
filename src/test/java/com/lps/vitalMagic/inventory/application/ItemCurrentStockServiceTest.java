@@ -37,7 +37,7 @@ public class ItemCurrentStockServiceTest {
         Integer currentStock=150;
         Integer totalUnprocessedStocks=55;
         Integer totalStock=currentStock+totalUnprocessedStocks;
-        ItemInventory itemInventory= ItemInventory.from(55L,itemId,0,150, BigDecimal.valueOf(700.50));
+        ItemInventory itemInventory= ItemInventory.from(55L,itemId,0,150, BigDecimal.valueOf(700.50),true);
 
         when(itemInventoryRepository.findByActiveTrueAndItemId(itemId)).thenReturn(Optional.of(itemInventory));
 

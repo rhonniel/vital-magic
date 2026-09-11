@@ -1,6 +1,7 @@
 package com.lps.vitalMagic.product.domain;
 
-
+import com.lps.vitalMagic.product.domain.model.data.IngredientComposition;
+import com.lps.vitalMagic.product.domain.model.data.Composition;
 import com.lps.vitalMagic.inventory.application.service.ItemCurrentStockService;
 import com.lps.vitalMagic.product.domain.model.entity.Product;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
@@ -27,6 +28,31 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductAvailabilityServiceTest {
+
+    @Test
+    void shouldAcceptCompositionWithExactStock() {
+        var composition = new Composition(List.of(
+                new IngredientComposition(11L, 4),
+                new IngredientComposition(22L, 6)));
+        when(itemCurrentStockService.getCurrentStock(11L)).thenReturn(4);
+        when(itemCurrentStockService.getCurrentStock(22L)).thenReturn(6);
+
+        assertTrue(productAvailabilityService.checkAvailability(composition));
+        verify(itemCurrentStockService).getCurrentStock(22L);
+    }
+
+    @Test
+    void shouldRejectCompositionWhenLaterIngredientIsShortByOne() {
+        var composition = new Composition(List.of(
+                new IngredientComposition(11L, 4),
+                new IngredientComposition(22L, 6)));
+        when(itemCurrentStockService.getCurrentStock(11L)).thenReturn(4);
+        when(itemCurrentStockService.getCurrentStock(22L)).thenReturn(5);
+
+        assertFalse(productAvailabilityService.checkAvailability(composition));
+        verify(itemCurrentStockService).getCurrentStock(11L);
+        verify(itemCurrentStockService).getCurrentStock(22L);
+    }
 
     @InjectMocks
     private ProductAvailabilityService productAvailabilityService;
