@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.integration;
 
-import com.lps.vitalMagic.config.MySqlDataJpaTest;
+import com.lps.vitalMagic.config.MySqlIntegrationTest;
 import com.lps.vitalMagic.inventory.application.service.FindItemService;
 import com.lps.vitalMagic.inventory.application.service.ItemCostProvider;
 import com.lps.vitalMagic.inventory.application.service.ItemCurrentStockService;
@@ -62,7 +62,7 @@ import static org.junit.jupiter.api.Assertions.*;
         JpaInventoryTransactionRepository.class})
 // The service proxy must own the transaction: an ambient test transaction would hide missing boundaries.
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
-class TransactionalRegistrationTest extends MySqlDataJpaTest {
+class TransactionalRegistrationTest extends MySqlIntegrationTest {
     @Autowired private RegisterSaleService sales;
     @Autowired private RegisterPurchaseService purchases;
     @Autowired private CreateStandardShakeService shakes;

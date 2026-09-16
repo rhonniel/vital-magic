@@ -9,7 +9,7 @@ import org.testcontainers.utility.DockerImageName;
 @AutoConfigureTestDatabase(
         replace = AutoConfigureTestDatabase.Replace.NONE
 )
-public abstract class MySqlDataJpaTest {
+public abstract class MySqlIntegrationTest {
 
     protected static final MySQLContainer<?> MYSQL =
             new MySQLContainer<>(

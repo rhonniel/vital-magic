@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.inventory.infrastructure;
 
-import com.lps.vitalMagic.config.MySqlDataJpaTest;
+import com.lps.vitalMagic.config.MySqlIntegrationTest;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemInventoryEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.repository.ItemInventoryJpaRepository;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-class ItemInventoryJpaRepositoryTest extends MySqlDataJpaTest {
+class ItemInventoryJpaRepositoryTest extends MySqlIntegrationTest {
 
     @Autowired
     private ItemJpaRepository itemRepository;
