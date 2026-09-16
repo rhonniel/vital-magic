@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.inventory.infrastructure;
 
-import com.lps.vitalMagic.config.MySqlDataJpaTest;
+import com.lps.vitalMagic.config.MySqlIntegrationTest;
 import com.lps.vitalMagic.common.pagination.Pagination;
 import com.lps.vitalMagic.inventory.application.query.SearchItemsQuery;
 import com.lps.vitalMagic.inventory.application.view.ItemView;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Import({JpaItemRepository.class, JpaAttributeRepository.class})
-class JpaItemRepositoryTest extends MySqlDataJpaTest {
+class JpaItemRepositoryTest extends MySqlIntegrationTest {
     @Autowired private JpaItemRepository repository;
     @Autowired private ItemJpaRepository items;
 

@@ -2,7 +2,7 @@ package com.lps.vitalMagic.sale.infrastructure;
 
 import com.lps.vitalMagic.common.pagination.PageResult;
 import com.lps.vitalMagic.common.pagination.Pagination;
-import com.lps.vitalMagic.config.MySqlDataJpaTest;
+import com.lps.vitalMagic.config.MySqlIntegrationTest;
 import com.lps.vitalMagic.product.domain.model.enums.ProductType;
 import com.lps.vitalMagic.product.infrastructure.persistance.entity.ProductEntity;
 import com.lps.vitalMagic.product.infrastructure.persistance.repository.ProductEntityJpaRepository;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Import(JpaSaleRepository.class)
-public class SaleJpaRepositoryTest extends MySqlDataJpaTest {
+public class SaleJpaRepositoryTest extends MySqlIntegrationTest {
 
 
     @Autowired

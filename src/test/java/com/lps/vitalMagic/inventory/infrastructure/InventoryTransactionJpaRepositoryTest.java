@@ -1,6 +1,6 @@
 package com.lps.vitalMagic.inventory.infrastructure;
 
-import com.lps.vitalMagic.config.MySqlDataJpaTest;
+import com.lps.vitalMagic.config.MySqlIntegrationTest;
 import com.lps.vitalMagic.inventory.domain.model.enums.InventoryTransactionType;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.InventoryTransactionEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity;
@@ -17,7 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-public class InventoryTransactionJpaRepositoryTest  extends MySqlDataJpaTest {
+public class InventoryTransactionJpaRepositoryTest  extends MySqlIntegrationTest {
 
     @Test
     void shouldExcludeProcessedTransactionsFromPendingStock() {

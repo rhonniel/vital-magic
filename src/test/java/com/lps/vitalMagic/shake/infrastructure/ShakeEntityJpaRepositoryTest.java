@@ -1,7 +1,7 @@
 package com.lps.vitalMagic.shake.infrastructure;
 
 
-import com.lps.vitalMagic.config.MySqlDataJpaTest;
+import com.lps.vitalMagic.config.MySqlIntegrationTest;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.AttributeEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemAttributeEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity;
@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-class ShakeEntityJpaRepositoryTest extends MySqlDataJpaTest {
+class ShakeEntityJpaRepositoryTest extends MySqlIntegrationTest {
 
     private static final Long STRENGTH_ATTRIBUTE_ID = 2L;
     private static final Long MAGIC_ATTRIBUTE_ID = 3L;

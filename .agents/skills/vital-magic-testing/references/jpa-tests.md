@@ -20,7 +20,7 @@ Adaptada de `ItemInventoryJpaRepositoryTest`; los imports y constructores corres
 ```java
 package com.lps.vitalMagic.inventory.infrastructure;
 
-import com.lps.vitalMagic.config.MySqlDataJpaTest;
+import com.lps.vitalMagic.config.MySqlIntegrationTest;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemInventoryEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.repository.ItemJpaRepository;

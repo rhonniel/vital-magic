@@ -2,7 +2,7 @@ package com.lps.vitalMagic.shake.infrastructure;
 
 import com.lps.vitalMagic.common.pagination.PageResult;
 import com.lps.vitalMagic.common.pagination.Pagination;
-import com.lps.vitalMagic.config.MySqlDataJpaTest;
+import com.lps.vitalMagic.config.MySqlIntegrationTest;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.AttributeEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemAttributeEntity;
 import com.lps.vitalMagic.inventory.infrastructure.persistence.entity.ItemEntity;
@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Import(JpaShakeRepository.class)
-class JpaShakeRepositoryTest extends MySqlDataJpaTest {
+class JpaShakeRepositoryTest extends MySqlIntegrationTest {
 
     private static final Long STRENGTH_ATTRIBUTE_ID = 2L;
     private static final Long MAGIC_ATTRIBUTE_ID = 3L;
