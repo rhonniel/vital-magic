@@ -1,17 +1,12 @@
 # DataJpaTest con MySQL y Testcontainers
 
-## Configuración observada
+## Checkout actual
 
-Los cinco tests JPA heredan de `com.lps.vitalMagic.config.MySqlDataJpaTest`. Cada clase concreta declara `@DataJpaTest`; la base no incluye esa anotación.
+La base vigente es `MySqlIntegrationTest`: arranca MySQL manualmente en un bloque estático y publica propiedades mediante `@DynamicPropertySource`, sin `@Container` ni `@Testcontainers`. Reutilizarla tanto en JPA como en E2E; no reemplazar su ciclo de vida. El resto de observaciones históricas de esta referencia deben contrastarse con el checkout.
 
-La base contiene:
+Cada clase JPA concreta declara `@DataJpaTest`; la base no incluye esa anotación. La base conserva `@AutoConfigureTestDatabase(replace = Replace.NONE)`.
 
-- `@Testcontainers`.
-- `@AutoConfigureTestDatabase(replace = Replace.NONE)`.
-- `@Container protected static final MySQLContainer<?> MYSQL = new MySQLContainer<>("mysql:8.4")`.
-- `@DynamicPropertySource` que publica URL JDBC, usuario y contraseña del contenedor.
-
-Reutiliza esta base en el checkout. No dupliques contenedores ni uses localhost/3306, credenciales de QA o H2 como sustituto para probar SQL de MySQL. No introduzcas `@ServiceConnection` como si fuera la convención actual: el repo usa propiedades dinámicas.
+No dupliques contenedores ni uses localhost/3306, credenciales de QA o H2 como sustituto para probar SQL de MySQL. No introduzcas `@ServiceConnection` como convención: el repo usa propiedades dinámicas.
 
 ## Plantilla para una consulta Spring Data
 
@@ -35,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @DataJpaTest
-class ItemInventoryJpaRepositoryTest extends MySqlDataJpaTest {
+class ItemInventoryJpaRepositoryTest extends MySqlIntegrationTest {
     @Autowired
     private ItemJpaRepository itemRepository;
     @Autowired
@@ -69,7 +64,7 @@ import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(JpaPurchaseRepository.class)
-class PurchaseJpaRepositoryTest extends MySqlDataJpaTest {
+class PurchaseJpaRepositoryTest extends MySqlIntegrationTest {
     @Autowired
     private JpaPurchaseRepository repository;
 }
@@ -92,15 +87,10 @@ Ese test **no existe en el snapshot**: aplícale el patrón de compras/ventas cu
 - Usa fechas fijas para filtros y paginación. Comprueba orden solo si lo define la implementación. Compras/ventas tienen ejemplos de páginas ordenadas y totales.
 - Para agregaciones de shake prueba multiplicación cantidad × atributo, IDs incluidos/excluidos y pertenencia a cada shake. Una consulta correcta no garantiza un mapper correcto.
 
-## Ciclo de vida: base actual frente a singleton
+## Ciclo de vida compartido
 
-La base del snapshot **no es un singleton manual por JVM**. La extensión JUnit administra el campo `@Container static` por clase de test; la herencia no lo convierte en un arranque único de toda la suite. Si una clase funciona sola y varias fallan juntas, inspecciona el ciclo del contenedor y los contextos/datasources cacheados antes de culpar a las consultas.
+El checkout usa un singleton manual por JVM. Mantener el arranque estático único sin gestión JUnit `@Container`/`@Testcontainers` sobre el mismo recurso; no detenerlo en `@AfterAll` de una clase hija. Si varias clases fallan juntas, revisar primero aislamiento de datos y contextos/datasources cacheados.
 
-Si el checkout ya adoptó un singleton manual, conserva ese patrón: arranque único en inicialización estática y sin gestión `@Container`/`@Testcontainers` sobre ese mismo recurso. No combines ambos propietarios del ciclo de vida ni lo detengas en `@AfterAll` de una clase hija.
+Compartir servidor no equivale a aislamiento de datos ni a `withReuse(true)` entre ejecuciones. Cada JVM de Maven tiene su propio contenedor. No añadir `@DirtiesContext`, esperas o reintentos globales como arreglo automático.
 
-El patrón singleton oficial permite compartir el arranque entre clases; normalmente Ryuk limpia el recurso al terminar. Reduce arranques, pero comparte servidor/estado y no equivale a aislamiento completo. Varias JVM de Maven siguen teniendo sus propios contenedores. No equivale a `withReuse(true)` entre ejecuciones.
-
-Cambiar de la base actual al singleton es una propuesta de infraestructura, no parte implícita de escribir un test. Si la tarea lo incluye y está autorizado, modifica la base una sola vez y valida todas las clases JPA juntas. Respeta las decisiones y permisos del `AGENTS.md` vigente. No añadas `@DirtiesContext`, esperas o reintentos globales como arreglo automático.
-
-Fuentes oficiales de este apartado: [JUnit 5 de Testcontainers](https://java.testcontainers.org/test_framework_integration/junit_5/), [singleton manual](https://java.testcontainers.org/test_framework_integration/manual_lifecycle_control/) y [transacciones de Spring Test](https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/tx.html). Los imports y versiones del checkout prevalecen sobre ejemplos de versiones nuevas.
-
+Cambiar la infraestructura se rige por `AGENTS.md`. Si se modifica la base, validar varias clases JPA juntas y los E2E relevantes; los E2E requieren [limpieza explícita](e2e-tests.md).

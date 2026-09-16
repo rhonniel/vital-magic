@@ -57,3 +57,16 @@ No actives el perfil QA para conectar a una base externa al resolver Docker. No 
 
 Al entregar, distingue: tests pasados; fallos reproducidos; bloqueos del entorno; comprobaciones no ejecutadas. No ocultes fallos mediante skips ni afirmes haber ejecutado ejemplos Markdown por haber validado la skill.
 
+
+## E2E: ejecución individual y conjunta
+
+Ejecutar primero cada clase nueva o modificada individualmente y después el conjunto, para detectar contaminación de datos o problemas del contenedor compartido:
+
+```powershell
+.\mvnw.cmd "-Dtest=RegisterSaleE2ETest" test
+.\mvnw.cmd "-Dtest=RegisterPurchaseE2ETest" test
+.\mvnw.cmd "-Dtest=CreateStandardShakeE2ETest" test
+.\mvnw.cmd "-Dtest=*E2ETest" test
+```
+
+No reiniciar el contenedor entre clases ni habilitar paralelismo para esta selección.
