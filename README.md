@@ -20,7 +20,7 @@ However, the system grows according to real needs.
   - Clear separation between main domain entities
   - Focus on business correctness
 
-- **Stage 2 – Growing E-commerce**
+- **Stage 2 – Growing E-commerce** ( 🟡 In Progress )
   - Modular monolith
   - Strong module boundaries
   - Explicit domain ownership
