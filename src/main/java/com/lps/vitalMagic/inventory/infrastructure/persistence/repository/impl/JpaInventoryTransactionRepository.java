@@ -7,6 +7,7 @@ import com.lps.vitalMagic.inventory.infrastructure.persistence.mapper.InventoryT
 import com.lps.vitalMagic.inventory.infrastructure.persistence.repository.InventoryTransactionJpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,5 +46,10 @@ public class JpaInventoryTransactionRepository implements InventoryTransactionRe
     @Override
     public Integer findTotalUnprocessedStocksByItemId(Long id) {
         return jpaRepository.findTotalUnprocessedStocksByItemId(id);
+    }
+
+    @Override
+    public int markAsProcessed(List<Long> transactionIds, LocalDateTime processedAt) {
+        return jpaRepository.markAsProcessed(transactionIds, processedAt);
     }
 }

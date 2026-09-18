@@ -61,6 +61,11 @@ public class JpaItemInventoryRepository implements ItemInventoryRepository {
     }
 
     @Override
+    public int addToCurrentStock(Long itemId, int quantity) {
+        return jpaRepository.addToCurrentStock(itemId, quantity);
+    }
+
+    @Override
     public  Optional<ItemInventory> findByActiveTrueAndItemId(Long itemId) {
 
         return  jpaRepository.findByActiveTrueAndItemId(itemId)
