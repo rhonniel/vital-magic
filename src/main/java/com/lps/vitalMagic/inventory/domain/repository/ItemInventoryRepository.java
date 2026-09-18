@@ -14,4 +14,7 @@ public interface ItemInventoryRepository {
     ItemInventory save(ItemInventory itemInventory);
 
     Optional<ItemInventory> findByActiveTrueAndItemId(Long itemId);
+
+    // Returns the number of active inventories matched; caller owns the transaction.
+    int addToCurrentStock(Long itemId, int quantity);
 }

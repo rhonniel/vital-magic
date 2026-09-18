@@ -1,0 +1,4 @@
+jobs:
+  inventory:
+    process-pending:
+      cron: ${INVENTORY_PROCESS_PENDING_CRON:0 0 2 * * *}
